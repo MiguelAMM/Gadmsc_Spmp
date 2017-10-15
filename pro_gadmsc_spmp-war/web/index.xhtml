@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+
+        <META NAME="DESCRIPTION" CONTENT="GOBIERNO AUTÓNOMO DESCENTRALIZADO MUNICIPAL DE SANTA CRUZ" />
+        <title>GADMSC - SPMP 2017</title>
+        <link href="${facesContext.externalContext.requestContextPath}/css/spmp_css.css" rel="stylesheet" type="text/css"/>        
+
+    </h:head>
+    <h:body style="background-image: url(imagenes/fondo_ippi6.png) ; " styleClass="fondo">
+
+        <h:form id="loginForm" styleClass="clearfix">
+            <p:focus context="loginForm"/>
+            <p:growl id="msg" showDetail="true"/>  
+
+            <center>
+                <h:panelGrid>
+                    <br/>
+                    <br/>
+                    <br/>   
+                    <p:graphicImage value="/imagenes/logoSipro5.png" style="width: 400px; padding-left: 100px;"/> 
+                    <h:outputLabel styleClass="estiloTextoCandaraXG" value="#{etq.tit_inicio_sistema}"/>
+                    <f:verbatim/>
+                    <f:verbatim/>
+                    <f:verbatim/>
+                    <f:verbatim/>
+                    <f:verbatim/>
+                    <f:verbatim/>  
+                    <br/> 
+                    <br/> 
+                </h:panelGrid>
+
+                <f:verbatim/>
+                <f:verbatim/>                            
+                <h:panelGrid id="panelLogin" columns="3" styleClass="estiloLogin">
+                    <p:panel header="#{etq.tit_ingreso}">
+                        <p:panelGrid >
+                            <p:row>
+
+                                <p:column >
+
+                                    <h:panelGrid columns="2"  cellpadding="5">
+
+                                        <h:outputLabel value="Usuario:" for="user"/>
+                                        <p:inputText value="#{navegacionControlador.user.usuNombre}" 
+                                                     requiredMessage="#{etq.msg_seg_nombre}" 
+                                                     size="12"
+                                                     id="user"/> 
+                                        <h:outputLabel value="Clave:" for="password"/>
+
+                                        <p:password id="password" value="#{navegacionControlador.user.usuPass}" 
+                                                    size="12"
+                                                    promptLabel="Ingrese su clave" 
+                                                    requiredMessage="#{etq.msgPrplbl_ClaveUsuario}"
+                                                    maxlength="12"
+                                                    weakLabel="Seguridad baja" 
+                                                    goodLabel="Seguridad buena" 
+                                                    strongLabel="Seguridad fuerte"/>
+                                        <f:facet name="footer">
+                                            <p:commandButton id="btnIngresar"                                                                  
+                                                             value="Ingresar" 
+                                                             icon="ui-icon-power"
+                                                             update="panelLogin msg" 
+                                                             action="#{navegacionControlador.validarAccesoUsuario()}"
+                                                             />
+                                        </f:facet>
+                                    </h:panelGrid>
+
+
+
+                                </p:column>
+                                <p:column>
+                                    <p:graphicImage  value="/imagenes/user4.jpg"/>    
+                                </p:column>
+
+                            </p:row>
+                        </p:panelGrid>
+
+                    </p:panel>
+                </h:panelGrid>
+
+            </center>
+        </h:form>
+        <f:verbatim/>
+        <f:verbatim/>
+
+    </h:body>
+</html>

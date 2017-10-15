@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <ui:composition template="/plantillas/spmp_plantilla.xhtml">
+        <ui:define name="page-content">
+            <h:form>
+                <div class="container"  style="height: 900px;">                       
+                    <p:growl id="msg" showDetail="true"/> 
+                <p:panel id="pnlFrm"  styleClass="estiloTextoCandaraMed" style="background-image: url(../imagenes/fondo_ippi4_2.png) ; background-size: cover; height: 98%;">
+              
+            
+                
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>  
+                    
+                    <center>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="PERIODO ACTUAL DE INVESTIGACION:"/>  
+                            <p:outputLabel value="10-OCTUBRE-2017"/>                            
+                        </p:panelGrid>
+                        <br/>
+                        <br/>
+                        <br/>
+                            
+                        <h:outputText value="Actualización 23102015" style="color:#0066CC"/>
+                    <p:panelGrid columns="1" >
+                                <h:outputText value="Revisar el reporte de cobertura"/>
+                                <h:outputText value="Revisar el modulo de IRH, el color verde para la Zonal significa que PC ya valido ese registro"/>
+                                <h:outputText value="En los reportes de los índices se añadio la columna validación. "/>                                
+                                <h:outputText value="Se modifico el módulo de validación para el indicador IRH.. Por favor revisar.."/>
+                                <h:outputText value="Se activo el módulo de validación para pruebas"/>
+                                
+                                                    
+                    </p:panelGrid>              
+                   </center>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/> 
+            </p:panel>
+                   
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

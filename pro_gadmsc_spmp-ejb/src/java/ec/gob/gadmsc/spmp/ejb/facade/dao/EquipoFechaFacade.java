@@ -1,0 +1,66 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.gob.gadmsc.spmp.ejb.facade.dao;
+
+import ec.gob.gadmsc.spmp.ejb.entidades.EquipoFecha;
+import ec.gob.gadmsc.spmp.ejb.entidades.FechaTransporte;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import ec.gob.gadmsc.spmp.servicios.EquipoFechaServicio;
+import java.util.List;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author MiguelAngel
+ */
+@Stateless
+public class EquipoFechaFacade extends AbstractFacade<EquipoFecha> implements EquipoFechaServicio {
+
+    @PersistenceContext(unitName = "pro_gadmsc_spmp-ejbPU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    public EquipoFechaFacade() {
+        super(EquipoFecha.class);
+    }
+
+    @Override
+    public List<EquipoFecha> findAll() {
+        Query query = em.createQuery("Select eq from EquipoFecha eq");
+        List<EquipoFecha> listaEquiFecha = query.getResultList();
+        return listaEquiFecha;
+    }
+
+    @Override
+    public List<Object[]> listarEquipoTransporte(Integer dia, Integer mes, Integer anio, Integer dia2, Integer mes2, Integer anio2) {
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("select q.eq_tipo, b.eq_fecha_combustible, b.eq_fecha_observacion, CONCAT(a.fecha_tr_dia, '/', a.fecha_tr_mes, '/', a.fecha_tr_anio)  ");
+        consulta.append("from (select * from fecha_transporte ");
+        consulta.append("where fecha_tr_codigo between (select fecha_tr_codigo from fecha_transporte ");
+        consulta.append("where fecha_tr_dia = :rangoDia1 ");
+        consulta.append("and fecha_tr_mes = :rangoMes1 ");
+        consulta.append("and fecha_tr_anio = :rangoAnio1) and (select fecha_tr_codigo from fecha_transporte ");
+        consulta.append("where fecha_tr_dia = :rangoDia2 ");
+        consulta.append("and fecha_tr_mes = :rangoMes2 ");
+        consulta.append("and fecha_tr_anio = :rangoAnio2)) a, equipo_fecha b, equipo q ");
+        consulta.append("where a.fecha_tr_codigo = b.fk_fecha_tr_codigo and q.eq_codigo = b.fk_eq_codigo ");
+
+        Query query = em.createNativeQuery(consulta.toString());
+        query.setParameter("rangoDia1", dia);
+        query.setParameter("rangoMes1", mes);
+        query.setParameter("rangoAnio1", anio);
+        query.setParameter("rangoDia2", dia2);
+        query.setParameter("rangoMes2", mes2);
+        query.setParameter("rangoAnio2", anio2);
+        return query.getResultList();
+    }
+}

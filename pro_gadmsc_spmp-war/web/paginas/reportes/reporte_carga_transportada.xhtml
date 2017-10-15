@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"> 
+
+    <ui:composition template="./../../plantillas/spmp_plantilla.xhtml">
+        <ui:define name="page-content">
+            <h:form id="frmCargaT" styleClass="estilo-pagina">
+                <p:growl id="msg" showDetail="true"/>
+                <p:outputPanel >
+                    <p:panel id="pnlCargaT">
+                        <center>
+                            <h:outputText value="#{etq.tit_reporte_cargaT}" styleClass="estiloTextoCandaraGranColor"/>
+                        </center>
+                        <br/>
+                        <h:panelGrid columns="2">                            
+                            <p:outputLabel value="#{etq.lbl_fecha_desde}: "/>
+                            <p:calendar value="#{reporteControlador.fechaDesde}" pattern="dd-MM-yyyy" mask="true"
+                                        locale="es" navigator="true"/>
+                            <p:outputLabel value="#{etq.lbl_fecha_hasta}: "/>
+                            <p:calendar value="#{reporteControlador.fechaHasta}" pattern="dd-MM-yyyy" mask="true"
+                                        locale="es" navigator="true"/>
+                            <p:outputLabel value=""/>
+                            <p:selectOneRadio id="radioCargaT"
+                                              value="#{reporteControlador.maquinaria}"
+                                              columns="2">
+                                <f:selectItem itemLabel="#{etq.lbl_volqueta}" itemValue="#{etq.lbl_volqueta}"/>
+                                <f:selectItem itemLabel="#{etq.lbl_equipo_caminero}" itemValue="#{etq.lbl_equipo_caminero}"/>
+                            </p:selectOneRadio>
+                            <p:spacer width="80" height="10"/>
+                            <p:spacer width="80" height="10"/>
+                            <p:commandButton id="btnBuscarCargaT" 
+                                             value="Buscar"
+                                             icon="ui-icon-search"
+                                             process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
+                                             action="#{reporteControlador.obtenerCargaTransportada()}"                                         
+                                             update="tableCargaT tableEquipo"
+                                             global="false"
+                                             async="true"
+                                             ajax="false">
+
+                            </p:commandButton>
+                        </h:panelGrid>
+
+                    </p:panel>
+                    <center>
+                        <p:panel rendered="#{reporteControlador.maquinaria == 'Volqueta'}">
+                            <p:dataTable id="tableCargaT" value="#{reporteControlador.listaCargaTransportada}" 
+                                         var="carga" 
+                                         paginator="true" 
+                                         rows="25"  
+                                         scrollable="true"
+                                         scrollHeight="450" 
+                                         scrollWidth="98%"    
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="15,20,25"                                                                          
+                                         styleClass="estiloListaCalibriPeq"
+                                         widgetVar="tablaCarga">
+                                <p:column headerText="#{etq.lbl_volqueta}" filterStyle="width: 80px;" filterBy="#{carga[0]}"  
+                                          filterMatchMode="exact"   width="40"  >
+                                    <h:outputText value="#{carga[0]}" />
+                                </p:column>                            
+                                <p:column headerText="#{etq.lbl_combustible}"  width="160"  >
+                                    <h:outputText value="#{carga[1]}" />
+                                </p:column>                               
+                                <p:column headerText="#{etq.lbl_kilometraje}"   width="100"  >
+                                    <h:outputText value="#{carga[2]}" />
+                                </p:column>                                                      
+                                <p:column headerText="#{etq.lbl_material}" filterStyle="width: 80px;" filterBy="#{carga[3]}"  
+                                          filterMatchMode="exact"   width="120"  >
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('tablaCarga').filter()">
+                                            <f:selectItem itemLabel="Seleccione material" itemValue="#{null}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{reporteControlador.listaMateriales}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                    <h:outputText value="#{carga[3]}" />
+                                </p:column>                                                      
+                                <p:column headerText="#{etq.lbl_cantidad_t}" width="80"  >
+                                    <h:outputText value="#{carga[4]}" />
+                                </p:column>
+                                <p:column headerText="#{etq.lbl_comprobante}"   width="80"  >
+                                    <h:outputText value="#{carga[5]}" />
+                                </p:column>
+                                <p:column headerText="#{etq.lbl_observacion}"   width="80"  >
+                                    <h:outputText value="#{carga[6]}" />
+                                </p:column>
+                                <p:column headerText="#{etq.lbl_fecha}"   width="80" filterBy="#{carga[7]}"  
+                                          filterMatchMode="contains" >
+                                    <f:facet name="filter">
+                                        <f:facet name="filter">
+                                            <p:selectOneMenu onchange="PF('tablaCarga').filter()">
+                                                <f:selectItem itemLabel="Seleccione fecha" itemValue="#{null}" noSelectionOption="true"/>
+                                                <f:selectItems value="#{reporteControlador.listaFechasRango}"/>
+                                            </p:selectOneMenu>
+                                        </f:facet>
+                                    </f:facet>
+                                    <h:outputText value="#{carga[7]}" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:spacer width="80" height="20"/>
+                            <h:panelGrid columns="2">                        
+                                <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
+                                <h:commandLink>  
+                                    <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                    <p:dataExporter type="xls" target="tableCargaT" fileName="reporte_volqueta_#{reporteControlador.horaActual}" />
+                                </h:commandLink>
+                            </h:panelGrid>
+                        </p:panel>
+                    </center>
+                    <center>
+                        <p:panel rendered="#{reporteControlador.maquinaria == 'Equipo Caminero'}">
+                            <p:dataTable id="tableEquipo" value="#{reporteControlador.listaEquipoFecha}" var="varEquipo" 
+                                         paginator="true" 
+                                         rows="25"  
+                                         scrollable="true"
+                                         scrollHeight="450" 
+                                         scrollWidth="98%"    
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="15,20,25"                                                                          
+                                         styleClass="estiloListaCalibriPeq"
+                                         widgetVar="tablaEquipo">
+                                <p:column headerText="#{etq.lbl_equipo_tipo}" filterStyle="width: 80px;" filterBy="#{varEquipo[0]}"  
+                                          filterMatchMode="exact"   width="40"  >
+                                    <h:outputText value="#{varEquipo[0]}" />
+                                </p:column>
+                                <p:column headerText="#{etq.lbl_equipo_combustible}" filterStyle="width: 80px;" filterBy="#{varEquipo[1]}"  
+                                          filterMatchMode="exact"   width="40"  >
+                                    <h:outputText value="#{varEquipo[1]}" />
+                                </p:column>
+                                <p:column headerText="#{etq.lbl_equipo_observacion}" filterStyle="width: 80px;" filterBy="#{varEquipo[2]}"  
+                                          filterMatchMode="exact"   width="40"  >
+                                    <h:outputText value="#{varEquipo[2]}" />
+                                </p:column>
+                                <p:column headerText="#{etq.lbl_fecha}" filterStyle="width: 80px;" filterBy="#{varEquipo[3]}"  
+                                          filterMatchMode="exact"   width="40"  >
+                                    <h:outputText value="#{varEquipo[3]}" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:spacer width="80" height="20"/>
+                            <h:panelGrid columns="2">
+                                <h:outputLabel value="#{etq.lbl_descarga_excel}"/>
+                                <h:commandLink>  
+                                    <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                    <p:dataExporter type="xls" target="tableCargaT" fileName="reporte_equipo_#{reporteControlador.horaActual}" />
+                                </h:commandLink>
+                            </h:panelGrid>
+                        </p:panel>
+                    </center>
+                </p:outputPanel>
+            </h:form>
+        </ui:define>        
+    </ui:composition>
+</html>

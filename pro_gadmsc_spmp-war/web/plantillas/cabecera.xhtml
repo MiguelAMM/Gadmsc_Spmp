@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition  >
+        <div id="header" >
+            <header>    
+                <img class="logo_left" src="#{request.contextPath}/imagenes/logogal.png" style="margin-left: 2%; width: 90px; height: 120px;"/>
+                <div class="hidden_logo">
+                    <nav style="margin-left: 5%;">
+                        <h:panelGrid style="margin-left: 30px;">                      
+                            <center><a class="estiloTextoCandaraGran" style="line-height: 1.3em;">#{etq.tit_sistema}-#{etq.tit_inicio_sistema}</a></center> 
+                            <!--<a class="estiloListaCalibriPeq" style="color: #0080b7;">#{etq.tit_inicio_sistema}</a> -->
+                        </h:panelGrid>
+                    </nav>
+                </div>
+                <div class="hidden_user">
+                    <nav style="margin-left: 10%;">
+                        <p:spacer style="margin-left: 40px;" width="1" height="40" styleClass="separador"/>
+                        <a ><img style="width: 20px; padding: 10px;" src="#{request.contextPath}/imagenes/user1.png"/></a>
+                        <a class="estiloTextoCandaraMed" style="font-weight: bold;">Usuario: #{navegacionControlador.usuarioActual.usuNombre}</a>                                               
+                    </nav>  
+                </div>
+            </header>
+            
+        </div>
+    </ui:composition>
+</html>
+
