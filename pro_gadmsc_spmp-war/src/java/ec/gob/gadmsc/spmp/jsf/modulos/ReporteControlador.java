@@ -267,11 +267,20 @@ public class ReporteControlador {
     public void setListaAgrupacionVolq(List<AgrupaVolquetas> listaAgrupacionVolq) {
         this.listaAgrupacionVolq = listaAgrupacionVolq;
     }
+
     public String getHoraActual() throws ParseException {
-        char c = 58;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        horaActual = formatter.format(java.util.Calendar.getInstance().getTime()).replace(":", "-");
-        return horaActual.replace(" ", "_");
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        horaActual = formatter.format(java.util.Calendar.getInstance().getTime());
+//        return horaActual;
+        Calendar cal = Calendar.getInstance();
+        int dia = cal.get(Calendar.DAY_OF_MONTH);
+        int mes = cal.get(Calendar.MONTH) + 1;
+        int anio = cal.get(Calendar.YEAR);
+        int hora = cal.get(Calendar.HOUR_OF_DAY);
+        int minuto = cal.get(Calendar.MINUTE);
+        horaActual = dia + "-" + mes + "-" + anio + "_" + hora + "-" + minuto;
+        return horaActual;
     }
 
     public void setHoraActual(String horaActual) {
