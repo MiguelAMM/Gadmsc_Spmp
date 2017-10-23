@@ -389,6 +389,12 @@ header nav {
 .panel .ui-selectonemenu-list { 
     background: blue;
 }
+.iconRcarga span {
+  width: 90px;
+}
+.iconRanual span {
+  width: 100px;
+}
 /* .ui-selectonemenu label.ui-selectonemenu-label {
         padding-right: 28px;
     }

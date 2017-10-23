@@ -14,37 +14,40 @@
                     <p:panel id="pnlCargaT">
                         <center>
                             <h:outputText value="#{etq.tit_reporte_cargaT}" styleClass="estiloTextoCandaraGranColor"/>
+
+                            <p:spacer width="200" height="20"/>
+                            <p:panel>
+                                <h:panelGrid columns="6">                            
+                                    <p:outputLabel value="#{etq.lbl_fecha_desde}: "/>
+                                    <p:calendar value="#{reporteControlador.fechaDesde}" pattern="dd-MM-yyyy" mask="true"
+                                                locale="es" navigator="true"/>
+                                    <p:outputLabel value="#{etq.lbl_fecha_hasta}: "/>
+                                    <p:calendar value="#{reporteControlador.fechaHasta}" pattern="dd-MM-yyyy" mask="true"
+                                                locale="es" navigator="true"/>
+                                    <p:outputLabel value=""/>
+                                    <p:selectOneRadio id="radioCargaT"
+                                                      value="#{reporteControlador.maquinaria}"
+                                                      columns="2">
+                                        <f:selectItem itemLabel="#{etq.lbl_volqueta}" itemValue="#{etq.lbl_volqueta}"/>
+                                        <f:selectItem itemLabel="#{etq.lbl_equipo_caminero}" itemValue="#{etq.lbl_equipo_caminero}"/>
+                                    </p:selectOneRadio>
+                                    <p:spacer width="80" height="20"/>
+                                    <p:spacer width="80" height="20"/>
+                                    <p:commandButton id="btnBuscarCargaT" 
+                                                     value="Buscar"
+                                                     icon="ui-icon-search"
+                                                     process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
+                                                     action="#{reporteControlador.obtenerCargaTransportada()}"                                         
+                                                     update="tableCargaT tableEquipo"
+                                                     global="false"
+                                                     async="true"
+                                                     ajax="false"
+                                                     style="width: 80px; height: 50px">
+
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </p:panel>
                         </center>
-                        <br/>
-                        <h:panelGrid columns="6">                            
-                            <p:outputLabel value="#{etq.lbl_fecha_desde}: "/>
-                            <p:calendar value="#{reporteControlador.fechaDesde}" pattern="dd-MM-yyyy" mask="true"
-                                        locale="es" navigator="true"/>
-                            <p:outputLabel value="#{etq.lbl_fecha_hasta}: "/>
-                            <p:calendar value="#{reporteControlador.fechaHasta}" pattern="dd-MM-yyyy" mask="true"
-                                        locale="es" navigator="true"/>
-                            <p:outputLabel value=""/>
-                            <p:selectOneRadio id="radioCargaT"
-                                              value="#{reporteControlador.maquinaria}"
-                                              columns="2">
-                                <f:selectItem itemLabel="#{etq.lbl_volqueta}" itemValue="#{etq.lbl_volqueta}"/>
-                                <f:selectItem itemLabel="#{etq.lbl_equipo_caminero}" itemValue="#{etq.lbl_equipo_caminero}"/>
-                            </p:selectOneRadio>
-                            <p:spacer width="80" height="10"/>
-                            <p:spacer width="80" height="10"/>
-                            <p:commandButton id="btnBuscarCargaT" 
-                                             value="Buscar"
-                                             icon="ui-icon-search"
-                                             process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
-                                             action="#{reporteControlador.obtenerCargaTransportada()}"                                         
-                                             update="tableCargaT tableEquipo"
-                                             global="false"
-                                             async="true"
-                                             ajax="false">
-
-                            </p:commandButton>
-                        </h:panelGrid>
-
                     </p:panel>
                     <center>
                         <p:panel rendered="#{reporteControlador.maquinaria == 'Volqueta'}">
