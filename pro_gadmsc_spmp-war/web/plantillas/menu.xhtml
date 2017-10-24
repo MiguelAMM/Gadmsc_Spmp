@@ -8,11 +8,7 @@
             <h:form id="frmMenu">
                 <center>
                     <h:panelGrid  columns="1" style="font-size: 12px">
-                        <!--<h:panelGroup>
-                            <p:menubar autoDisplay="true" model="#{navegacionControlador.model}" >                                    
-                            </p:menubar>
-                        </h:panelGroup>                             -->
-                        <p:stack icon="/imagenes/menu/stack.png" expanded="true">
+                        <p:stack icon="/imagenes/menu/stack.png">
                             <p:menuitem value="Salir" icon="/imagenes/menu/logout.png" url="#" actionListener="#{navegacionControlador.cerrarSesion()}"/>
                             <p:menuitem value="Ayuda" icon="/imagenes/menu/ayuda.png" url="#"/>
                             <p:menuitem value="Reporte Carga" icon="/imagenes/menu/rcarga.png" url="/paginas/reportes/reporte_carga_transportada.xhtml" styleClass="iconRcarga"/>

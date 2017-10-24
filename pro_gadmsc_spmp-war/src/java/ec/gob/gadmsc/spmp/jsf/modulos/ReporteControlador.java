@@ -18,6 +18,7 @@ import ec.gob.gadmsc.spmp.tools.ManejoFechas;
 import ec.gob.gadmsc.spmp.tools.Meses;
 import ec.gob.gadmsc.spmp.tools.ReporteException;
 import ec.gob.gadmsc.spmp.tools.TablaCarga;
+import ec.gob.gadmsc.spmp.tools.TotalesCarga;
 import static ec.gob.gadmsc.spmp.tools.Validaciones.*;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -77,7 +78,8 @@ public class ReporteControlador {
     private Date fechaDesde;
     private Date fechaHasta;
     private final ManejoFechas fechaCadena;
-    TablaCarga cargaResumen;
+    private TablaCarga cargaResumen;
+    private TotalesCarga totales;
     private String maquinaria;
     private String horaActual;
     private int anioResumen;
@@ -104,6 +106,7 @@ public class ReporteControlador {
     public ReporteControlador() {
         fechaCadena = new ManejoFechas();
         cargaResumen = new TablaCarga();
+        totales = new TotalesCarga();
         listaFechasString = new LinkedList<>();
         listaTablaCargaResumen = new ArrayList<>();
         System.out.println("Inicio Reporte controlador");
@@ -193,23 +196,23 @@ public class ReporteControlador {
             switch ((String) ob[1]) {
                 case "Arena fina":
                     cargaResumen.setArenaFina((int) ob[2]);
-                    cargaResumen.setTotalVolquetadasArena((int) ob[3]);
+                    totales.setTotalVolquetadasArena((int) ob[3]);
                     break;
                 case "Material para bloque":
                     cargaResumen.setMaterialBloque((int) ob[2]);
-                    cargaResumen.setTotalVolquetadasBloque((int) ob[3]);
+                    totales.setTotalVolquetadasBloque((int) ob[3]);
                     break;
                 case "Polvo de piedra":
                     cargaResumen.setPolvoPiedra((int) ob[2]);
-                    cargaResumen.setTotalVolquetadasPolvo((int) ob[3]);
+                    totales.setTotalVolquetadasPolvo((int) ob[3]);
                     break;
                 case "Relleno":
                     cargaResumen.setRelleno((int) ob[2]);
-                    cargaResumen.setTotalVolquetadasRelleno((int) ob[3]);
+                    totales.setTotalVolquetadasRelleno((int) ob[3]);
                     break;
                 case "Ripio":
                     cargaResumen.setRipio((int) ob[2]);
-                    cargaResumen.setTotalVolquetadasRipio((int) ob[3]);
+                    totales.setTotalVolquetadasRipio((int) ob[3]);
                     break;
             }
             if (contador == 5) {
@@ -220,6 +223,7 @@ public class ReporteControlador {
                 contador++;
             }
         }
+        totales.calcularTotalesM3();
     }
 
     public void listarFechas() {
@@ -408,5 +412,21 @@ public class ReporteControlador {
     public void setListaAnios(List<Integer> listaAnios) {
         this.listaAnios = listaAnios;
     }
-    //</editor-fold>    
+
+    public TablaCarga getCargaResumen() {
+        return cargaResumen;
+    }
+
+    public void setCargaResumen(TablaCarga cargaResumen) {
+        this.cargaResumen = cargaResumen;
+    }
+
+    public TotalesCarga getTotales() {
+        return totales;
+    }
+
+    public void setTotales(TotalesCarga totales) {
+        this.totales = totales;
+    }
+    //</editor-fold>
 }
