@@ -14,8 +14,10 @@ import ec.gob.gadmsc.spmp.servicios.EquipoFechaServicio;
 import ec.gob.gadmsc.spmp.servicios.FechaTransporteServicio;
 import ec.gob.gadmsc.spmp.servicios.MaterialServicio;
 import ec.gob.gadmsc.spmp.tools.AgrupaVolquetas;
-import ec.gob.gadmsc.spmp.tools.FechaString;
+import ec.gob.gadmsc.spmp.tools.ManejoFechas;
+import ec.gob.gadmsc.spmp.tools.Meses;
 import ec.gob.gadmsc.spmp.tools.ReporteException;
+import ec.gob.gadmsc.spmp.tools.TablaCarga;
 import static ec.gob.gadmsc.spmp.tools.Validaciones.*;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -64,16 +66,21 @@ public class ReporteControlador {
     private static final Logger LOGGER = Logger.getLogger(ReporteControlador.class.getName());
     private List<Object[]> listaCargaTransportada;
     private List<Object[]> listaEquipoFecha;
+    private List<Object[]> listaCarga;
     private List<FechaTransporte> listaFechasTransporte;
     private LinkedList<String> listaFechasString;
     private List<String> listaFechasRango;
+    private List<Integer> listaAnios;
     private List<AgrupaVolquetas> listaAgrupacionVolq;
     private List<Material> listaMateriales;
+    private List<TablaCarga> listaTablaCargaResumen;
     private Date fechaDesde;
     private Date fechaHasta;
+    private final ManejoFechas fechaCadena;
+    TablaCarga cargaResumen;
     private String maquinaria;
     private String horaActual;
-    private final FechaString fechaCadena;
+    private int anioResumen;
     //</editor-fold>
 
     //<editor-fold desc="Servicios" defaultstate="collapsed">
@@ -95,8 +102,10 @@ public class ReporteControlador {
 
     //<editor-fold desc="Constructor" defaultstate="collapsed">
     public ReporteControlador() {
-        fechaCadena = new FechaString();
+        fechaCadena = new ManejoFechas();
+        cargaResumen = new TablaCarga();
         listaFechasString = new LinkedList<>();
+        listaTablaCargaResumen = new ArrayList<>();
         System.out.println("Inicio Reporte controlador");
     }
     //</editor-fold>
@@ -107,6 +116,7 @@ public class ReporteControlador {
         listaFechasTransporte = fechaTransporteServicio.findAll();
         listaMateriales = materialServicio.findAll();
         listarFechas();
+        listaAnios = fechaTransporteServicio.listarAnios();
         System.out.println("PostInicio Reporte controlador");
     }
     //</editor-fold>
@@ -114,8 +124,6 @@ public class ReporteControlador {
     //<editor-fold desc="Metodos" defaultstate="collapsed">
     public void obtenerCargaTransportada() {
         try {
-//            Date fechaInicio = fechaCadena.convertToDate(fechaDesde);
-//            Date fechaFin = fechaCadena.convertToDate(fechaHasta);
             fechaCadena.separarFecha(fechaDesde, fechaHasta);
             fechaCadena.comprobarFechas(fechaDesde, fechaHasta);
             listaFechasRango = fechaTransporteServicio.listarFechasRango(fechaCadena.getDiaInicio(), fechaCadena.getMesInicio(),
@@ -125,7 +133,6 @@ public class ReporteControlador {
                 listaEquipoFecha = new ArrayList<>();
                 listaCargaTransportada = cargaTransportadaServicio.listarCargaTransportada(fechaCadena.getDiaInicio(), fechaCadena.getMesInicio(),
                         fechaCadena.getAnioInicio(), fechaCadena.getDiaFin(), fechaCadena.getMesFin(), fechaCadena.getAnioFin());
-//                listarAgrupacionVolq();
             } else {
                 listaEquipoFecha = equiFechaServicio.listarEquipoTransporte(fechaCadena.getDiaInicio(), fechaCadena.getMesInicio(),
                         fechaCadena.getAnioInicio(), fechaCadena.getDiaFin(), fechaCadena.getMesFin(), fechaCadena.getAnioFin());
@@ -137,7 +144,82 @@ public class ReporteControlador {
         } catch (NullPointerException np) {
             baseControlador.addWarningMessage("Seleccione un rango de fechas para iniciar la búsqueda");
         }
+    }
 
+    public void obtenerTablaResumenCarga() {
+        int contador = 1;
+        System.out.println("Año resumen " + anioResumen);
+        listaCarga = cargaTransportadaServicio.listarResumenCarga(anioResumen);
+        listaTablaCargaResumen = new ArrayList<>();
+        for (Object[] ob : listaCarga) {
+            switch ((int) ob[0]) {
+                case 1:
+                    cargaResumen.setMes(Meses.ENERO);
+                    break;
+                case 2:
+                    cargaResumen.setMes(Meses.FEBRERO);
+                    break;
+                case 3:
+                    cargaResumen.setMes(Meses.MARZO);
+                    break;
+                case 4:
+                    cargaResumen.setMes(Meses.ABRIL);
+                    break;
+                case 5:
+                    cargaResumen.setMes(Meses.MAYO);
+                    break;
+                case 6:
+                    cargaResumen.setMes(Meses.JUNIO);
+                    break;
+                case 7:
+                    cargaResumen.setMes(Meses.JULIO);
+                    break;
+                case 8:
+                    cargaResumen.setMes(Meses.AGOSTO);
+                    break;
+                case 9:
+                    cargaResumen.setMes(Meses.SEPTIEMBRE);
+                    break;
+                case 10:
+                    cargaResumen.setMes(Meses.OCTUBRE);
+                    break;
+                case 11:
+                    cargaResumen.setMes(Meses.NOVIEMBRE);
+                    break;
+                case 12:
+                    cargaResumen.setMes(Meses.DICIEMBRE);
+                    break;
+            }
+            switch ((String) ob[1]) {
+                case "Arena fina":
+                    cargaResumen.setArenaFina((int) ob[2]);
+                    cargaResumen.setTotalVolquetadasArena((int) ob[3]);
+                    break;
+                case "Material para bloque":
+                    cargaResumen.setMaterialBloque((int) ob[2]);
+                    cargaResumen.setTotalVolquetadasBloque((int) ob[3]);
+                    break;
+                case "Polvo de piedra":
+                    cargaResumen.setPolvoPiedra((int) ob[2]);
+                    cargaResumen.setTotalVolquetadasPolvo((int) ob[3]);
+                    break;
+                case "Relleno":
+                    cargaResumen.setRelleno((int) ob[2]);
+                    cargaResumen.setTotalVolquetadasRelleno((int) ob[3]);
+                    break;
+                case "Ripio":
+                    cargaResumen.setRipio((int) ob[2]);
+                    cargaResumen.setTotalVolquetadasRipio((int) ob[3]);
+                    break;
+            }
+            if (contador == 5) {
+                listaTablaCargaResumen.add(cargaResumen);
+                contador = 1;
+                cargaResumen = new TablaCarga();
+            } else {
+                contador++;
+            }
+        }
     }
 
     public void listarFechas() {
@@ -286,5 +368,45 @@ public class ReporteControlador {
     public void setHoraActual(String horaActual) {
         this.horaActual = horaActual;
     }
-    //</editor-fold>
+
+    public List<Object[]> getListaCarga() {
+        return listaCarga;
+    }
+
+    public void setListaCarga(List<Object[]> listaCarga) {
+        this.listaCarga = listaCarga;
+    }
+
+    public List<FechaTransporte> getListaFechasTransporte() {
+        return listaFechasTransporte;
+    }
+
+    public void setListaFechasTransporte(List<FechaTransporte> listaFechasTransporte) {
+        this.listaFechasTransporte = listaFechasTransporte;
+    }
+
+    public List<TablaCarga> getListaTablaCargaResumen() {
+        return listaTablaCargaResumen;
+    }
+
+    public void setListaTablaCargaResumen(List<TablaCarga> listaTablaCargaResumen) {
+        this.listaTablaCargaResumen = listaTablaCargaResumen;
+    }
+
+    public int getAnioResumen() {
+        return anioResumen;
+    }
+
+    public void setAnioResumen(int anioResumen) {
+        this.anioResumen = anioResumen;
+    }
+
+    public List<Integer> getListaAnios() {
+        return listaAnios;
+    }
+
+    public void setListaAnios(List<Integer> listaAnios) {
+        this.listaAnios = listaAnios;
+    }
+    //</editor-fold>    
 }

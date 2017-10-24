@@ -107,11 +107,11 @@ public class NavegacionControlador {
                 baseControlador.setUsuarioActual(user);
                 baseControlador.addWarningMessage("Usuario logueado correctamente");
                 //Menu que se mostrara en la pagina principal
-                        //cargarMenuDinamico(baseControlador.usuarioActual);
-                 //Ir a pagina principal
-                        //baseControlador.redirect(baseControlador.getContextName() + "/paginas/pagina_principal.xhtml");
-                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_carga_transportada.xhtml");
-                       
+                //cargarMenuDinamico(baseControlador.usuarioActual);
+                //Ir a pagina principal
+                //baseControlador.redirect(baseControlador.getContextName() + "/paginas/pagina_principal.xhtml");
+//                baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_carga_transportada.xhtml");
+                baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_resumen.xhtml");
 
                 //List<Usuario> listaUsuarios = usuarioServicio.listarPersonaPorUsuarioPassword(usuario, password);
 
@@ -209,7 +209,7 @@ public class NavegacionControlador {
         int cont2 = 0;
         int cont3 = 0;
         try {
-             setModel(new DefaultMenuModel());
+            setModel(new DefaultMenuModel());
             /*List<SegFuncionalidad> listaFuncionalidades = segFuncionalidadServicio.listarFuncionalidadesPorUsuarioyTipo(vusuario.getUsuNombreUsuario(), 4);
             List<SegFuncionalidad> listaFuncionalidadesInternas = segFuncionalidadServicio.listarFuncionalidadesPorUsuario(vusuario.getUsuNombreUsuario());
 
@@ -300,6 +300,7 @@ public class NavegacionControlador {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
+
     public void navegacionReportes(FacesContext context) {
         //context = FacesContext.getCurrentInstance();           
         Map<String, String> map = context.getExternalContext().getRequestParameterMap();

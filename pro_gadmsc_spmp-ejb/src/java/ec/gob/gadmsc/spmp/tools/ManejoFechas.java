@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author desoeco
  */
-public class FechaString {
+public class ManejoFechas {
 
     //<editor-fold desc="Atributos-propiedades" defaultstate="collapsed">
     private static List<SimpleDateFormat> dateFormats;
@@ -30,7 +30,7 @@ public class FechaString {
     //</editor-fold>
 
     //<editor-fold desc="constructor" defaultstate="collapsed">
-    public FechaString() {
+    public ManejoFechas() {
         dateFormats = new ArrayList<SimpleDateFormat>();/* {
             {
                 add(new SimpleDateFormat("M/dd/yyyy"));

@@ -33,4 +33,6 @@ public interface FechaTransporteServicio {
 
     int count();
     
+    List<Integer> listarAnios();
+    
 }

@@ -61,4 +61,31 @@ public class CargaTransportadaFacade extends AbstractFacade<CargaTransportada> i
         return query.getResultList();
     }
 
+    @Override
+    public List<Object[]> listarResumenCarga(int anio) {
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("select x.*, y.tt from ");
+        consulta.append("(select a.fecha_tr_mes, d.mat_nombre, CAST(sum(c.carga_tr_viaje) AS INTEGER) from fecha_transporte a, volqueta_fecha b, carga_transportada c, material d ");
+        consulta.append("where a.fecha_tr_codigo = b.fk_fecha_tr_codigo ");
+        consulta.append("and b.volq_fecha_codigo = c.fk_volq_fecha_codigo ");
+        consulta.append("and c.fk_mat_codigo = d.mat_codigo ");
+        consulta.append("and a.fecha_tr_anio = :anio ");
+        consulta.append("group by a.fecha_tr_mes, d.mat_nombre ");
+        consulta.append("order by a.fecha_tr_mes, d.mat_nombre) x, ");
+        consulta.append("(select r.material, CAST(sum(r.nvolq) AS INTEGER) tt from (select a.fecha_tr_mes mes, d.mat_nombre material, sum(c.carga_tr_viaje) nvolq from fecha_transporte a, volqueta_fecha b, carga_transportada c, material d ");
+        consulta.append("where a.fecha_tr_codigo = b.fk_fecha_tr_codigo ");
+        consulta.append("and b.volq_fecha_codigo = c.fk_volq_fecha_codigo ");
+        consulta.append("and c.fk_mat_codigo = d.mat_codigo ");
+        consulta.append("and a.fecha_tr_anio = :anio ");
+        consulta.append("group by a.fecha_tr_mes, d.mat_nombre ");
+        consulta.append("order by a.fecha_tr_mes, d.mat_nombre) r ");
+        consulta.append("group by r.material) y ");
+        consulta.append("where x.mat_nombre = y.material ");
+        consulta.append("order by x.fecha_tr_mes, x.mat_nombre");
+
+        Query query = em.createNativeQuery(consulta.toString());
+        query.setParameter("anio", anio);
+        return query.getResultList();
+    }
+
 }

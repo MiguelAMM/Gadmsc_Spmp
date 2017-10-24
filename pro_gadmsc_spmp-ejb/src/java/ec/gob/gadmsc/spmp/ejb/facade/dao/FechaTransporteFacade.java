@@ -56,4 +56,13 @@ public class FechaTransporteFacade extends AbstractFacade<FechaTransporte> imple
         return query.getResultList();
     }
 
+    @Override
+    public List<Integer> listarAnios() {
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("SELECT DISTINCT fecha_tr_anio FROM fecha_transporte ");
+        consulta.append("ORDER BY fecha_tr_anio");
+        Query query = em.createNativeQuery(consulta.toString());
+        return query.getResultList();
+    }
+
 }
