@@ -31,7 +31,7 @@
                                                      icon="ui-icon-search"
                                                      process=":pnlCargaT:cmbAnios"
                                                      action="#{reporteControlador.obtenerTablaResumenCarga()}"                                         
-                                                     update="tableCargaR"
+                                                     update="tableCargaR tableCombustibleR"
                                                      global="false"
                                                      async="true"
                                                      ajax="false"
@@ -77,7 +77,7 @@
                             <p:panel>
                                 <p:panelGrid columns="6">
                                     <p:outputLabel value="Total volqueta"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasRelleno}" styleClass="lblTotalRelleno"/>
+                                    <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasRelleno}"/>
                                     <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasArena}"/>
                                     <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasBloque}"/>
                                     <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasRipio}"/>
@@ -92,7 +92,29 @@
                             </p:panel>
                         </p:tab>
                         <p:tab title="Resumen combustible">
-
+                            <center>
+                                <p:panel>
+                                    <p:dataTable id="tableCombustibleR" value="#{reporteControlador.listaResumenCombustible}" 
+                                                 var="combustibleResumen"
+                                                 scrollable="true"
+                                                 scrollHeight="310" 
+                                                 scrollWidth="98%"
+                                                 styleClass="estiloListaCalibriPeq" >
+                                        <p:column headerText="#{etq.lbl_mes}" width="40" >
+                                            <h:outputText value="#{combustibleResumen[0]}" />
+                                        </p:column>                            
+                                        <p:column headerText="#{etq.lbl_volquetas_resumen}"  width="160" >
+                                            <h:outputText value="#{combustibleResumen[1]}" />
+                                        </p:column>                               
+                                        <p:column headerText="#{etq.lbl_equipo_resumen}"   width="100"  >
+                                            <h:outputText value="#{combustibleResumen[2]}" />
+                                        </p:column>                                                      
+                                        <p:column headerText="#{etq.lbl_total}" width="120"  >
+                                            <h:outputText value="#{combustibleResumen[3]}" />
+                                        </p:column>                                                      
+                                    </p:dataTable>
+                                </p:panel>
+                            </center>
                         </p:tab>
                     </p:accordionPanel>
                 </p:outputPanel>

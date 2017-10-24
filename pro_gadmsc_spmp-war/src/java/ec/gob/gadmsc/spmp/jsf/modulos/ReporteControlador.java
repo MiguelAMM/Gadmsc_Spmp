@@ -68,6 +68,7 @@ public class ReporteControlador {
     private List<Object[]> listaCargaTransportada;
     private List<Object[]> listaEquipoFecha;
     private List<Object[]> listaCarga;
+    private List<Object[]> listaResumenCombustible;
     private List<FechaTransporte> listaFechasTransporte;
     private LinkedList<String> listaFechasString;
     private List<String> listaFechasRango;
@@ -149,6 +150,54 @@ public class ReporteControlador {
         }
     }
 
+    public void obtenerResumenCombustible() {
+        listaResumenCombustible = cargaTransportadaServicio.listarResumenCombustible(anioResumen);
+        for (Object[] ob : listaResumenCombustible) {
+            switch ((int) ob[0]) {
+                case 1:
+                    ob[0] = Meses.ENERO;
+                    break;
+                case 2:
+                    ob[0] = Meses.FEBRERO;
+                    break;
+                case 3:
+                    ob[0] = Meses.MARZO;
+                    ;
+                    break;
+                case 4:
+                    ob[0] = Meses.ABRIL;
+                    break;
+                case 5:
+                    ob[0] = Meses.MAYO;
+                    break;
+                case 6:
+                    ob[0] = Meses.JUNIO;
+                    break;
+                case 7:
+                    ob[0] = Meses.JULIO;
+                    break;
+                case 8:
+                    ob[0] = Meses.AGOSTO;
+                    break;
+                case 9:
+                    ob[0] = Meses.SEPTIEMBRE;
+                    break;
+                case 10:
+                    ob[0] = Meses.OCTUBRE;
+                    break;
+                case 11:
+                    ob[0] = Meses.NOVIEMBRE;
+                    break;
+                case 12:
+                    ob[0] = Meses.DICIEMBRE;
+                    break;
+                default:
+                    ob[0] = "TOTAL";
+                    break;
+            }
+        }
+    }
+
     public void obtenerTablaResumenCarga() {
         int contador = 1;
         System.out.println("Año resumen " + anioResumen);
@@ -224,6 +273,7 @@ public class ReporteControlador {
             }
         }
         totales.calcularTotalesM3();
+        obtenerResumenCombustible();
     }
 
     public void listarFechas() {
@@ -427,6 +477,14 @@ public class ReporteControlador {
 
     public void setTotales(TotalesCarga totales) {
         this.totales = totales;
+    }
+
+    public List<Object[]> getListaResumenCombustible() {
+        return listaResumenCombustible;
+    }
+
+    public void setListaResumenCombustible(List<Object[]> listaResumenCombustible) {
+        this.listaResumenCombustible = listaResumenCombustible;
     }
     //</editor-fold>
 }

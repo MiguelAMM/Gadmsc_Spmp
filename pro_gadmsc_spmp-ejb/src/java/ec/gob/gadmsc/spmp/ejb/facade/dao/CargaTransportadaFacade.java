@@ -88,4 +88,43 @@ public class CargaTransportadaFacade extends AbstractFacade<CargaTransportada> i
         return query.getResultList();
     }
 
+    @Override
+    public List<Object[]> listarResumenCombustible(int anio) {
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("select * from\n"
+                + "(select vq.mes, vq.volq, eq.equipo, sum(vq.volq+eq.equipo) total from \n"
+                + "(select a.fecha_tr_mes mes, sum(b.volq_fecha_combustible) volq\n"
+                + "from fecha_transporte a, volqueta_fecha b\n"
+                + "where a.fecha_tr_codigo = b.fk_fecha_tr_codigo\n"
+                + "and a.fecha_tr_anio = :anio\n"
+                + "group by a.fecha_tr_mes) vq, \n"
+                + "(select a.fecha_tr_mes mes, sum(c.eq_fecha_combustible) equipo\n"
+                + "from fecha_transporte a, equipo_fecha c\n"
+                + "where a.fecha_tr_codigo = c.fk_fecha_tr_codigo\n"
+                + "and a.fecha_tr_anio = :anio\n"
+                + "group by a.fecha_tr_mes) eq\n"
+                + "where vq.mes = eq.mes\n"
+                + "group by vq.mes, vq.volq, eq.equipo\n"
+                + "UNION select 13,sum(tt.volq)ttVolq, sum(tt.equipo)ttEquipo, sum(tt.total) ttTotal \n"
+                + "from (select vq.mes, vq.volq, eq.equipo, sum(vq.volq+eq.equipo) total \n"
+                + "from (select a.fecha_tr_mes mes, sum(b.volq_fecha_combustible) volq\n"
+                + "from fecha_transporte a, volqueta_fecha b\n"
+                + "where a.fecha_tr_codigo = b.fk_fecha_tr_codigo\n"
+                + "and a.fecha_tr_anio = :anio\n"
+                + "group by a.fecha_tr_mes) vq, \n"
+                + "(select a.fecha_tr_mes mes, sum(c.eq_fecha_combustible) equipo\n"
+                + "from fecha_transporte a, equipo_fecha c\n"
+                + "where a.fecha_tr_codigo = c.fk_fecha_tr_codigo\n"
+                + "and a.fecha_tr_anio = :anio\n"
+                + "group by a.fecha_tr_mes) eq\n"
+                + "where vq.mes = eq.mes\n"
+                + "group by vq.mes, vq.volq, eq.equipo\n"
+                + ") tt) resumen\n"
+                + "order by resumen.mes");
+
+        Query query = em.createNativeQuery(consulta.toString());
+        query.setParameter("anio", anio);
+        return query.getResultList();
+    }
+
 }
