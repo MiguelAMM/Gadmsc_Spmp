@@ -8,7 +8,7 @@
 
     <ui:composition template="./../../plantillas/spmp_plantilla.xhtml">
         <ui:define name="page-content">
-            <h:form id="frmCargaR" styleClass="estilo-pagina">
+            <h:form id="frmCargaR" styleClass="estilo-pagina">                
                 <p:growl id="msg" showDetail="true"/>
                 <p:outputPanel >
                     <p:panel id="pnlCargaR">
@@ -42,74 +42,77 @@
                         </center>
                     </p:panel>
 
-                    <p:accordionPanel multiple="true">
-                        <p:tab title="Resumen carga">
+                    <p:accordionPanel id="accPnl" multiple="true" >
+                        <p:tab id="tabR" title="Resumen carga" >
                             <center>
-                                <p:panel>
+                                <p:panel id="pnlR">
                                     <p:dataTable id="tableCargaR" value="#{reporteControlador.listaTablaCargaResumen}" 
                                                  var="cargaResumen"
                                                  scrollable="true"
-                                                 scrollHeight="300" 
-                                                 scrollWidth="98%"
-                                                 styleClass="estiloListaCalibriPeq" >
-                                        <p:column headerText="#{etq.lbl_mes}" width="40" >
+                                                 scrollWidth="96%"
+                                                 styleClass="estiloListaCalibriPeq" 
+                                                 emptyMessage="#{etq.msg_seg_sinRegistros}">
+                                        <p:column headerText="#{etq.lbl_mes}" width="20" style="background-color: #cfeaff">
                                             <h:outputText value="#{cargaResumen.mes}" />
                                         </p:column>                            
-                                        <p:column headerText="#{etq.lbl_relleno}"  width="160" >
+                                        <p:column headerText="#{etq.lbl_relleno}" width="20" >
                                             <h:outputText value="#{cargaResumen.relleno}" />
                                         </p:column>                               
-                                        <p:column headerText="#{etq.lbl_arena}"   width="100"  >
+                                        <p:column headerText="#{etq.lbl_arena}"  width="20"  >
                                             <h:outputText value="#{cargaResumen.arenaFina}" />
                                         </p:column>                                                      
-                                        <p:column headerText="#{etq.lbl_bloque}" width="120"  >
+                                        <p:column headerText="#{etq.lbl_bloque}" width="20"  >
                                             <h:outputText value="#{cargaResumen.materialBloque}" />
                                         </p:column>                                                      
-                                        <p:column headerText="#{etq.lbl_ripio}" width="80"  >
+                                        <p:column headerText="#{etq.lbl_ripio}" width="20"  >
                                             <h:outputText value="#{cargaResumen.ripio}" />
                                         </p:column>
-                                        <p:column headerText="#{etq.lbl_polvo_piedra}"   width="80"  >
+                                        <p:column headerText="#{etq.lbl_polvo_piedra}"  width="20"  >
                                             <h:outputText value="#{cargaResumen.polvoPiedra}" />
                                         </p:column>
+                                        <p:columnGroup type="footer">
+                                            <p:row>
+                                                <p:column style="text-align:right" footerText="Total volqueta:" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalVolquetadasRelleno}" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalVolquetadasArena}" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalVolquetadasBloque}" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalVolquetadasRipio}" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalVolquetadasPolvo}" />
+                                            </p:row>
+                                            <p:row>
+                                                <p:column style="text-align:right" footerText="Total en m3:" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalM3Relleno}" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalM3Arena}" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalM3Bloque}" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalM3Ripio}" />
+                                                <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalM3Polvo}" />
+                                            </p:row>
+                                        </p:columnGroup> 
                                     </p:dataTable>
                                 </p:panel>
                             </center>
-
-                            <p:panel>
-                                <p:panelGrid columns="6">
-                                    <p:outputLabel value="Total volqueta"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasRelleno}"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasArena}"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasBloque}"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasRipio}"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalVolquetadasPolvo}"/>
-                                    <p:outputLabel value="Total en m3"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalM3Relleno}"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalM3Arena}"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalM3Bloque}"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalM3Ripio}"/>
-                                    <p:outputLabel value="#{reporteControlador.totales.totalM3Polvo}"/>
-                                </p:panelGrid>
-                            </p:panel>
                         </p:tab>
-                        <p:tab title="Resumen combustible">
+                        <p:tab id="tabRC" title="Resumen combustible">
                             <center>
-                                <p:panel>
+                                <p:panel id="pnlRC">
                                     <p:dataTable id="tableCombustibleR" value="#{reporteControlador.listaResumenCombustible}" 
                                                  var="combustibleResumen"
                                                  scrollable="true"
-                                                 scrollHeight="310" 
-                                                 scrollWidth="98%"
-                                                 styleClass="estiloListaCalibriPeq" >
-                                        <p:column headerText="#{etq.lbl_mes}" width="40" >
+                                                 scrollWidth="96%"
+                                                 styleClass="estiloListaCalibriPeq" 
+                                                 emptyMessage="#{etq.msg_seg_sinRegistros}"
+                                                 rowStyleClass="#{combustibleResumen[0] eq 'TOTAL' ? 'colorTotal' : null}"
+                                                 >
+                                        <p:column headerText="#{etq.lbl_mes}" width="40px" style="#{combustibleResumen[0] ne 'TOTAL' ? 'background-color: #cfeaff' : null}" styleClass="#{combustibleResumen[0] eq 'TOTAL' ? 'rightColumn' : null}">
                                             <h:outputText value="#{combustibleResumen[0]}" />
                                         </p:column>                            
-                                        <p:column headerText="#{etq.lbl_volquetas_resumen}"  width="160" >
+                                        <p:column headerText="#{etq.lbl_volquetas_resumen}" width="40px">
                                             <h:outputText value="#{combustibleResumen[1]}" />
                                         </p:column>                               
-                                        <p:column headerText="#{etq.lbl_equipo_resumen}"   width="100"  >
+                                        <p:column headerText="#{etq.lbl_equipo_resumen}"  width="40px" >
                                             <h:outputText value="#{combustibleResumen[2]}" />
                                         </p:column>                                                      
-                                        <p:column headerText="#{etq.lbl_total}" width="120"  >
+                                        <p:column headerText="#{etq.lbl_total}" width="40px"  >
                                             <h:outputText value="#{combustibleResumen[3]}" />
                                         </p:column>                                                      
                                     </p:dataTable>
@@ -117,6 +120,12 @@
                             </center>
                         </p:tab>
                     </p:accordionPanel>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('.ui-accordion-content').css("position", "inherit");
+                            $('.ui-widget-header').css("position", "inherit");
+                        });
+                    </script>
                 </p:outputPanel>
             </h:form>
         </ui:define>        

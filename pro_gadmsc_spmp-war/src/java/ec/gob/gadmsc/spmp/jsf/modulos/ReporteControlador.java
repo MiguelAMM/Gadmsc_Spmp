@@ -191,8 +191,10 @@ public class ReporteControlador {
                 case 12:
                     ob[0] = Meses.DICIEMBRE;
                     break;
-                default:
-                    ob[0] = "TOTAL";
+                case 13:
+                    ob[0] = Meses.TOTAL;
+                    break;
+                default:                    
                     break;
             }
         }

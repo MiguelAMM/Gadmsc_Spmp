@@ -61,18 +61,19 @@
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          rowsPerPageTemplate="15,20,25"                                                                          
                                          styleClass="estiloListaCalibriPeq"
-                                         widgetVar="tablaCarga">
-                                <p:column headerText="#{etq.lbl_volqueta}" filterStyle="width: 80px;" filterBy="#{carga[0]}"  
+                                         widgetVar="tablaCarga"
+                                         emptyMessage="#{etq.msg_seg_sinRegistros}">
+                                <p:column headerText="#{etq.lbl_volqueta}" footerText="#{etq.lbl_volqueta}" filterStyle="width: 80px;" filterBy="#{carga[0]}"  
                                           filterMatchMode="exact"   width="40"  >
                                     <h:outputText value="#{carga[0]}" />
                                 </p:column>                            
-                                <p:column headerText="#{etq.lbl_combustible}"  width="160"  >
+                                <p:column headerText="#{etq.lbl_combustible}" footerText="#{etq.lbl_combustible}" width="160"  >
                                     <h:outputText value="#{carga[1]}" />
                                 </p:column>                               
-                                <p:column headerText="#{etq.lbl_kilometraje}"   width="100"  >
+                                <p:column headerText="#{etq.lbl_kilometraje}" footerText="#{etq.lbl_kilometraje}"  width="100"  >
                                     <h:outputText value="#{carga[2]}" />
                                 </p:column>                                                      
-                                <p:column headerText="#{etq.lbl_material}" filterStyle="width: 80px;" filterBy="#{carga[3]}"  
+                                <p:column headerText="#{etq.lbl_material}" footerText="#{etq.lbl_material}" filterStyle="width: 80px;" filterBy="#{carga[3]}"  
                                           filterMatchMode="exact"   width="120"  >
                                     <f:facet name="filter">
                                         <p:selectOneMenu onchange="PF('tablaCarga').filter()">
@@ -82,16 +83,16 @@
                                     </f:facet>
                                     <h:outputText value="#{carga[3]}" />
                                 </p:column>                                                      
-                                <p:column headerText="#{etq.lbl_cantidad_t}" width="80"  >
+                                <p:column headerText="#{etq.lbl_cantidad_t}" footerText="#{etq.lbl_cantidad_t}" width="80"  >
                                     <h:outputText value="#{carga[4]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_comprobante}"   width="80"  >
+                                <p:column headerText="#{etq.lbl_comprobante}" footerText="#{etq.lbl_comprobante}"  width="80"  >
                                     <h:outputText value="#{carga[5]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_observacion}"   width="80"  >
+                                <p:column headerText="#{etq.lbl_observacion}" footerText="#{etq.lbl_observacion}"  width="80"  >
                                     <h:outputText value="#{carga[6]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_fecha}"   width="80" filterBy="#{carga[7]}"  
+                                <p:column headerText="#{etq.lbl_fecha}" footerText="#{etq.lbl_fecha}"  width="80" filterBy="#{carga[7]}"  
                                           filterMatchMode="contains" >
                                     <f:facet name="filter">
                                         <f:facet name="filter">
