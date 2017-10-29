@@ -4,8 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html">
     <ui:composition>
         <p:dialog header="Usuario sin Logear" widgetVar="sessionTimeOutDialog"
-                  modal="true"  closable="false" width="400" visible="#{navegacionControlador.usuarioActual.usuNombre==null}" 
-                  rendered="#{navegacionControlador.usuarioActual.usuNombre == null}">
+                  modal="true"  closable="false" width="400" visible="#{navegacionControlador.usuarioActual.usuario==null}" 
+                  rendered="#{navegacionControlador.usuarioActual.usuario == null}">
             <h:form>
                 <p:panelGrid columns="1" style="font-size: 10px">
                     <h:outputText value="Usted no se ha logueado favor pulse sobre el botón para volver a acceder a la aplicación" />

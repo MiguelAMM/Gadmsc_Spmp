@@ -7,6 +7,7 @@ package ec.gob.gadmsc.spmp.jsf.base;
 //import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import ec.gob.gadmsc.spmp.ejb.entidades.Usuario;
 import ec.gob.gadmsc.spmp.servicios.UsuarioServicio;
+import ec.gob.gadmsc.spmp.tools.Login;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -47,7 +48,7 @@ public class BaseControlador implements Serializable {
     public HttpSession session;
     public String codigoUsuario;
 
-    public Usuario usuarioActual;
+    public Login usuarioActual;
     //Servicios  
 
     @EJB
@@ -61,7 +62,7 @@ public class BaseControlador implements Serializable {
     public void init() {
         System.out.println("Inicio Base post controlador");
         usuarioActual = obtenerUsuarioAutenticado();
-        System.out.println("usuarioActual: "+ usuarioActual);
+        System.out.println("usuarioActual: " + usuarioActual);
 
     }
 
@@ -164,9 +165,9 @@ public class BaseControlador implements Serializable {
      *
      * @return Usuario
      */
-    public Usuario obtenerUsuarioAutenticado() {
+    public Login obtenerUsuarioAutenticado() {
         try {
-            return (Usuario) this.getSession().getAttribute("usuario");
+            return (Login) this.getSession().getAttribute("usuario");
         } catch (Exception e) {
             return null;
         }
@@ -207,11 +208,11 @@ public class BaseControlador implements Serializable {
         this.codigoUsuario = codigoUsuario;
     }
 
-    public Usuario getUsuarioActual() {
+    public Login getUsuarioActual() {
         return usuarioActual;
     }
 
-    public void setUsuarioActual(Usuario usuarioActual) {
+    public void setUsuarioActual(Login usuarioActual) {
         this.usuarioActual = usuarioActual;
     }
 

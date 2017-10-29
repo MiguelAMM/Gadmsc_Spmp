@@ -47,13 +47,13 @@
                                     <h:panelGrid columns="2"  cellpadding="5">
 
                                         <h:outputLabel value="Usuario:" for="user"/>
-                                        <p:inputText value="#{navegacionControlador.user.usuNombre}" 
+                                        <p:inputText value="#{navegacionControlador.loginUsuario.usuario}" 
                                                      requiredMessage="#{etq.msg_seg_nombre}" 
                                                      size="12"
                                                      id="user"/> 
                                         <h:outputLabel value="Clave:" for="password"/>
 
-                                        <p:password id="password" value="#{navegacionControlador.user.usuPass}" 
+                                        <p:password id="password" value="#{navegacionControlador.loginUsuario.password}" 
                                                     size="12"
                                                     promptLabel="Ingrese su clave" 
                                                     requiredMessage="#{etq.msgPrplbl_ClaveUsuario}"

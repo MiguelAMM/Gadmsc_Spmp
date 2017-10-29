@@ -4,8 +4,13 @@
  */
 package ec.gob.gadmsc.spmp.jsf.base;
 
+import ec.gob.gadmsc.spmp.ejb.entidades.Equipo;
+import ec.gob.gadmsc.spmp.ejb.entidades.FechaTransporte;
 import ec.gob.gadmsc.spmp.ejb.entidades.Usuario;
+import ec.gob.gadmsc.spmp.servicios.EquipoServicio;
+import ec.gob.gadmsc.spmp.servicios.FechaTransporteServicio;
 import ec.gob.gadmsc.spmp.servicios.UsuarioServicio;
+import ec.gob.gadmsc.spmp.tools.Login;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,10 +57,16 @@ public class NavegacionControlador {
     private boolean paginaPrincipal;
     private Date date1;
     private BarChartModel barModel;
-    private Usuario user;
+//    private Usuario user;
+    private Login loginUsuario;
+    private FechaTransporte transFecha;
 
     @EJB
     private UsuarioServicio usuarioServicio;
+    @EJB
+    private EquipoServicio equipoServicio;
+    @EJB
+    private FechaTransporteServicio fechaTransorteServicio;
 
     @ManagedProperty("#{baseControlador}")
     private BaseControlador baseControlador;
@@ -65,7 +76,9 @@ public class NavegacionControlador {
      */
     public NavegacionControlador() {
         System.out.println("Inicio Navegacion controlador");
-        user = new Usuario();
+//        user = new Usuario();
+        loginUsuario = new Login();
+
         paginaPrincipal = true;
     }
 
@@ -97,21 +110,35 @@ public class NavegacionControlador {
     public void validarAccesoUsuario() throws IOException, Exception {
         try {
             obtenerFechaActual();
-
-            /*System.err.println("usu:" + usuario);
-            System.err.println("pass:" + password);*/
-            boolean login = usuarioServicio.validarUsuario(user);
+            List<Usuario> listaUsuarios = usuarioServicio.findAll();
+            List<Equipo> listaEquipos = equipoServicio.findAll();
+            transFecha = fechaTransorteServicio.buscarFecha(Integer.parseInt(diaActual), Integer.parseInt(mesActual), Integer.parseInt(anioActual));
+            if (transFecha == null) {
+                transFecha = new FechaTransporte(Integer.parseInt(diaActual), Integer.parseInt(mesActual), Integer.parseInt(anioActual));
+                fechaTransorteServicio.create(transFecha);
+            }
+            boolean login = loginUsuario.validarUsuario(listaUsuarios, listaEquipos);
             //System.err.println("loginec:" + login);
             if (login) {
 
-                baseControlador.setUsuarioActual(user);
+                baseControlador.setUsuarioActual(loginUsuario);
                 baseControlador.addWarningMessage("Usuario logueado correctamente");
                 //Menu que se mostrara en la pagina principal
                 //cargarMenuDinamico(baseControlador.usuarioActual);
                 //Ir a pagina principal
                 //baseControlador.redirect(baseControlador.getContextName() + "/paginas/pagina_principal.xhtml");
 //                baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_carga_transportada.xhtml");
-                baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_resumen.xhtml");
+                switch (loginUsuario.getTipoUsuario()) {
+                    case "sec":
+                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_resumen.xhtml");
+                        break;
+                    case "volq":
+                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_resumen.xhtml");
+                        break;
+                    case "eq":
+                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/ingreso_equipo.xhtml");
+                        break;
+                }
 
                 //List<Usuario> listaUsuarios = usuarioServicio.listarPersonaPorUsuarioPassword(usuario, password);
 
@@ -187,7 +214,7 @@ public class NavegacionControlador {
                 //baseControlador.cargarAuditoriaUsuario(baseControlador.usuarioActual, "S", baseControlador.codigoUsuario);
                 //usuarioActual.setUsuCodigo(0);
                 //usuarioServicio.edit(usuarioActual);
-                baseControlador.usuarioActual.setUsuNombre(null);
+                baseControlador.usuarioActual.setUsuario(null);
                 baseControlador.getSession().invalidate();
                 limpiarAtributosSesion();
                 baseControlador.redirect(baseControlador.getContextName() + "/index.xhtml");
@@ -453,11 +480,11 @@ public class NavegacionControlador {
         this.password = password;
     }
 
-    public Usuario getUsuarioActual() {
+    public Login getUsuarioActual() {
         return baseControlador.usuarioActual;
     }
 
-    public void setUsuarioActual(Usuario usuarioActual) {
+    public void setUsuarioActual(Login usuarioActual) {
         baseControlador.usuarioActual = usuarioActual;
     }
 
@@ -517,12 +544,20 @@ public class NavegacionControlador {
         this.baseControlador = baseControlador;
     }
 
-    public Usuario getUser() {
-        return user;
+    public Login getLoginUsuario() {
+        return loginUsuario;
     }
 
-    public void setUser(Usuario user) {
-        this.user = user;
+    public void setLoginUsuario(Login loginUsuario) {
+        this.loginUsuario = loginUsuario;
+    }
+
+    public FechaTransporte getTransFecha() {
+        return transFecha;
+    }
+
+    public void setTransFecha(FechaTransporte transFecha) {
+        this.transFecha = transFecha;
     }
 
 }

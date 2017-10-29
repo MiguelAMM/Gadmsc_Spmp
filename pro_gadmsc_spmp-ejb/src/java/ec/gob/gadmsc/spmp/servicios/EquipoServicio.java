@@ -29,5 +29,6 @@ public interface EquipoServicio {
     List<Equipo> findRange(int[] range);
 
     int count();
-    
+
+    Equipo buscarPorTipo(String tipoEquipo);
 }

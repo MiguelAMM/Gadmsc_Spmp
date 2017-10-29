@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import ec.gob.gadmsc.spmp.servicios.FechaTransporteServicio;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -63,6 +64,30 @@ public class FechaTransporteFacade extends AbstractFacade<FechaTransporte> imple
         consulta.append("ORDER BY fecha_tr_anio");
         Query query = em.createNativeQuery(consulta.toString());
         return query.getResultList();
+    }
+
+    @Override
+    public void create(FechaTransporte fechaTransporte) {
+        em.persist(fechaTransporte);
+    }
+
+    @Override
+    public FechaTransporte buscarFecha(Integer dia, Integer mes, Integer anio) {
+        FechaTransporte fecha;
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("SELECT f FROM FechaTransporte f ");
+        consulta.append("WHERE fechaTrDia = :dia AND fechaTrMes = :mes AND fechaTrAnio = :anio");
+        Query query = em.createQuery(consulta.toString());
+        query.setParameter("dia", dia);
+        query.setParameter("mes", mes);
+        query.setParameter("anio", anio);
+        try {
+            fecha = (FechaTransporte) query.getSingleResult();
+        } catch (NoResultException e) {
+            fecha = null;
+        }
+
+        return fecha;
     }
 
 }

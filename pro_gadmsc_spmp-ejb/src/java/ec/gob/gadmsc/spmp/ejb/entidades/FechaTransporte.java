@@ -63,6 +63,12 @@ public class FechaTransporte implements Serializable {
     public FechaTransporte() {
     }
 
+    public FechaTransporte(int dia, int mes, int anio) {
+        this.fechaTrDia = dia;
+        this.fechaTrMes = mes;
+        this.fechaTrAnio = anio;
+    }
+
     public FechaTransporte(Integer fechaTrCodigo) {
         this.fechaTrCodigo = fechaTrCodigo;
     }
@@ -148,5 +154,5 @@ public class FechaTransporte implements Serializable {
     public String toString() {
         return "ec.gob.gadmsc.spmp.ejb.entidades.FechaTransporte[ fechaTrCodigo=" + fechaTrCodigo + " ]";
     }
-    
+
 }

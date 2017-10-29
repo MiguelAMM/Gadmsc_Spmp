@@ -34,6 +34,11 @@ public class EquipoFechaFacade extends AbstractFacade<EquipoFecha> implements Eq
     }
 
     @Override
+    public void create(EquipoFecha equipoFecha) {
+        em.persist(equipoFecha);
+    }
+
+    @Override
     public List<EquipoFecha> findAll() {
         Query query = em.createQuery("Select eq from EquipoFecha eq");
         List<EquipoFecha> listaEquiFecha = query.getResultList();
@@ -62,5 +67,10 @@ public class EquipoFechaFacade extends AbstractFacade<EquipoFecha> implements Eq
         query.setParameter("rangoMes2", mes2);
         query.setParameter("rangoAnio2", anio2);
         return query.getResultList();
+    }
+
+    @Override
+    public void remove(EquipoFecha equipoFecha) {
+        em.remove(em.merge(equipoFecha));
     }
 }

@@ -27,12 +27,14 @@ public interface FechaTransporteServicio {
     List<FechaTransporte> findAll();
 
     List<FechaTransporte> findRange(int[] range);
-    
+
     List<String> listarFechasRango(Integer rangoDia1, Integer rangoMes1, Integer rangoAnio1,
             Integer rangoDia2, Integer rangoMes2, Integer rangoAnio2);
 
     int count();
-    
+
     List<Integer> listarAnios();
-    
+
+    FechaTransporte buscarFecha(Integer dia, Integer mes, Integer anio);
+
 }
