@@ -18,11 +18,20 @@ public class Login {
     private String usuario;
     private String password;
     private String tipoUsuario;
+    private Usuario u;
+    private Equipo equipo;
+
+    public Login() {
+        u = new Usuario();
+        equipo = new Equipo();
+    }
 
     public boolean validarUsuario(List<Usuario> usuarios, List<Equipo> equipos) {
         for (Usuario u : usuarios) {
             if (u.getUsuNombre().equals(usuario) && u.getUsuPass().equals(password)) {
                 tipoUsuario = u.getUsuTipo();
+                this.u = u;
+                equipo = null;
                 return true;
             }
         }
@@ -30,6 +39,8 @@ public class Login {
         for (Equipo eq : equipos) {
             if (eq.getEqTipo().equals(usuario) && eq.getEqPass().equals(password)) {
                 tipoUsuario = eq.getEqTipoUs();
+                this.u = null;
+                equipo = eq;
                 return true;
             }
         }
@@ -58,6 +69,22 @@ public class Login {
 
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
+    }
+
+    public Usuario getU() {
+        return u;
+    }
+
+    public void setU(Usuario u) {
+        this.u = u;
+    }
+
+    public Equipo getEquipo() {
+        return equipo;
+    }
+
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
     }
 
 }

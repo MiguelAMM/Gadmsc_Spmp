@@ -13,6 +13,7 @@ import ec.gob.gadmsc.spmp.jsf.base.NavegacionControlador;
 import ec.gob.gadmsc.spmp.servicios.EquipoFechaServicio;
 import ec.gob.gadmsc.spmp.servicios.EquipoServicio;
 import ec.gob.gadmsc.spmp.servicios.FechaTransporteServicio;
+import ec.gob.gadmsc.spmp.tools.Login;
 import ec.gob.gadmsc.spmp.tools.ManejoFechas;
 import java.util.Calendar;
 import java.util.List;
@@ -35,6 +36,7 @@ public class FrmSpmpControlador {
     private FechaTransporte fechaTrans;
     private EquipoFecha equipoFecha;
     private Equipo equipo;
+    private Login login;
     private final ManejoFechas manejoFechas;
     private String fechaFormateada;
     private String tipoEquipo;
@@ -62,7 +64,7 @@ public class FrmSpmpControlador {
         Calendar cal = Calendar.getInstance();
         manejoFechas = new ManejoFechas();
         equipoFecha = new EquipoFecha();
-        equipo = new Equipo();
+//        equipo = new Equipo();
 //        fechaTrans = new FechaTransporte(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
 //        fechaFormateada = manejoFechas.formatearFecha(fechaTrans);
 
@@ -72,16 +74,13 @@ public class FrmSpmpControlador {
     public void init() {
         fechaTrans = navega.getTransFecha();
         fechaFormateada = manejoFechas.formatearFecha(fechaTrans);
-        tipoEquipo = navega.getLoginUsuario().getUsuario();
+        equipo = navega.getLoginUsuario().getEquipo();
         listaEquiposIngreso = eqFechaServicio.listarEquipoTransporte(fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
     }
 
     public void guardar() {
-//        fechaTransServicio.create(fechaTrans);
-//        fechaTrans = fechaTransServicio.buscarFecha(fechaTrans.getFechaTrDia(), fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
-        equipo = equipoServicio.buscarPorTipo(tipoEquipo);
         equipoFecha.setFkFechaTrCodigo(fechaTrans);
         equipoFecha.setFkEqCodigo(equipo);
         eqFechaServicio.create(equipoFecha);
@@ -93,7 +92,7 @@ public class FrmSpmpControlador {
     }
 
     public void eliminar() {
-        equipo = equipoServicio.buscarPorTipo(tipoEquipo);
+//        equipo = equipoServicio.buscarPorTipo(tipoEquipo);
         equipoFecha.setFkFechaTrCodigo(fechaTrans);
         equipoFecha.setFkEqCodigo(equipo);
         eqFechaServicio.remove(equipoFecha);
