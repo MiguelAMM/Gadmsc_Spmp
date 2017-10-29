@@ -73,4 +73,24 @@ public class EquipoFechaFacade extends AbstractFacade<EquipoFecha> implements Eq
     public void remove(EquipoFecha equipoFecha) {
         em.remove(em.merge(equipoFecha));
     }
+
+    @Override
+    public void edit(EquipoFecha equipoFecha) {
+        em.merge(equipoFecha);
+    }
+
+    @Override
+    public List<EquipoFecha> listarEqFecha(String tipoEq, Integer dia, Integer mes, Integer anio) {
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("SELECT ef FROM EquipoFecha ef, Equipo eq, FechaTransporte ft ");
+        consulta.append("WHERE ft.fechaTrDia = :dia AND ft.fechaTrMes = :mes AND ft.fechaTrAnio = :anio AND eq.eqTipo = :tipoEq ");
+        consulta.append("AND ef.fkEqCodigo = eq.eqCodigo AND ef.fkFechaTrCodigo = ft.fechaTrCodigo ORDER BY ef.eqFechaCodigo");
+
+        Query query = em.createQuery(consulta.toString());
+        query.setParameter("dia", dia);
+        query.setParameter("mes", mes);
+        query.setParameter("anio", anio);
+        query.setParameter("tipoEq", tipoEq);
+        return query.getResultList();
+    }
 }

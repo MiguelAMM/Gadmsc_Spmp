@@ -24,11 +24,12 @@
                                     <p:outputLabel value="#{etq.lbl_equipo_observacion}: "/>
                                     <p:inputTextarea rows="6" cols="33" value="#{frmSpmpControlador.equipoFecha.eqFechaObservacion}"/>
                                     <p:commandButton id="btnIngresarEq" value="Ingresar" disabled="#{frmSpmpControlador.ingreso}" action="#{frmSpmpControlador.guardar()}" update="@form"/>
-                                    <p:commandButton id="btnActualizarEq" value="Actualizar" disabled="#{frmSpmpControlador.actualiza}"/>
+                                    <p:commandButton id="btnActualizarEq" value="Actualizar" disabled="#{frmSpmpControlador.actualiza}"
+                                                     action="#{frmSpmpControlador.actualizar()}" update="@form"/>
                                 </h:panelGrid>
                             </p:panel>
                             <p:panel>
-                                <p:dataTable id="tableIngresoEq" value="#{frmSpmpControlador.listaEquiposIngreso}"
+                                <p:dataTable id="tableIngresoEq" value="#{frmSpmpControlador.listaEquiposFecha}"
                                              var="varEquipos"
                                              scrollable="true"
                                              scrollWidth="96%"
@@ -37,24 +38,24 @@
                                     <f:facet name="header">
                                         <h:outputText value="#{etq.lbl_equipo_caminero}"/>
                                     </f:facet>
-                                    <p:column headerText="#{etq.lbl_equipo_tipo}" width="20">
-                                        <h:outputText value="#{varEquipos[0]}"/>
+                                    <p:column headerText="#{etq.lbl_equipo_caminero}" width="20">
+                                        <h:outputText value="#{varEquipos.fkEqCodigo.eqTipo}"/>
                                     </p:column>
                                     <p:column headerText="#{etq.lbl_equipo_combustible}" width="20">
-                                        <h:outputText value="#{varEquipos[1]}"/>
+                                        <h:outputText value="#{varEquipos.eqFechaCombustible}"/>
                                     </p:column>
                                     <p:column headerText="#{etq.lbl_observacion}" width="20">
-                                        <h:outputText value="#{varEquipos[2]}"/>
+                                        <h:outputText value="#{varEquipos.eqFechaObservacion}"/>
                                     </p:column>
                                     <p:column width="20">
                                         <f:facet name="header">
                                             <h:outputText value="#{etq.lbl_opciones}"/>
                                         </f:facet>
                                         <p:commandButton value="Seleccionar" id="btnSeleccionEq" action="#{frmSpmpControlador.seleccionar()}" update="@form" process="@this">
-                                            <f:setPropertyActionListener target="#{frmSpmpControlador.equipo}" value="#{varEquipos}"/>
+                                            <f:setPropertyActionListener target="#{frmSpmpControlador.equipoFecha}" value="#{varEquipos}"/>
                                         </p:commandButton>
-                                        <p:commandButton id="btnEliminarEq" value="Eliminar" process="@this" onclick="PF('dialogo').show();" update="@form">
-                                            <f:setPropertyActionListener target="#{frmSpmpControlador.equipo}" value="#{varEquipos}"/>
+                                        <p:commandButton id="btnEliminarEq" value="Eliminar" process="@this" action="#{frmSpmpControlador.eliminar()}" update="@form">
+                                            <f:setPropertyActionListener target="#{frmSpmpControlador.equipoFecha}" value="#{varEquipos}"/>
                                         </p:commandButton>
                                     </p:column>
                                 </p:dataTable>

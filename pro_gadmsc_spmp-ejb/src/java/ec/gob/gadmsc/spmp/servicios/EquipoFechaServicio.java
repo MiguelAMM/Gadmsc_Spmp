@@ -29,7 +29,8 @@ public interface EquipoFechaServicio {
     List<EquipoFecha> findRange(int[] range);
 
     int count();
-    
+
     List<Object[]> listarEquipoTransporte(Integer dia, Integer mes, Integer anio, Integer dia2, Integer mes2, Integer anio2);
-    
+
+    List<EquipoFecha> listarEqFecha(String tipoEq, Integer dia, Integer mes, Integer anio);
 }

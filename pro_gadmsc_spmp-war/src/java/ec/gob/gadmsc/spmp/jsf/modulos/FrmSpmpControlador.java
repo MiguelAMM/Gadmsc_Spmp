@@ -33,6 +33,7 @@ import org.primefaces.context.RequestContext;
 public class FrmSpmpControlador {
 
     private List<Object[]> listaEquiposIngreso;
+    private List<EquipoFecha> listaEquiposFecha;
     private FechaTransporte fechaTrans;
     private EquipoFecha equipoFecha;
     private Equipo equipo;
@@ -64,10 +65,6 @@ public class FrmSpmpControlador {
         Calendar cal = Calendar.getInstance();
         manejoFechas = new ManejoFechas();
         equipoFecha = new EquipoFecha();
-//        equipo = new Equipo();
-//        fechaTrans = new FechaTransporte(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
-//        fechaFormateada = manejoFechas.formatearFecha(fechaTrans);
-
     }
 
     @PostConstruct
@@ -75,8 +72,7 @@ public class FrmSpmpControlador {
         fechaTrans = navega.getTransFecha();
         fechaFormateada = manejoFechas.formatearFecha(fechaTrans);
         equipo = navega.getLoginUsuario().getEquipo();
-        listaEquiposIngreso = eqFechaServicio.listarEquipoTransporte(fechaTrans.getFechaTrDia(),
-                fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio(), fechaTrans.getFechaTrDia(),
+        listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
     }
 
@@ -85,21 +81,24 @@ public class FrmSpmpControlador {
         equipoFecha.setFkEqCodigo(equipo);
         eqFechaServicio.create(equipoFecha);
         baseControlador.addSuccessMessage("Ingreso exitoso");
-        listaEquiposIngreso = eqFechaServicio.listarEquipoTransporte(fechaTrans.getFechaTrDia(),
-                fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio(), fechaTrans.getFechaTrDia(),
+        listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
         equipoFecha = new EquipoFecha();
     }
 
     public void eliminar() {
-//        equipo = equipoServicio.buscarPorTipo(tipoEquipo);
-        equipoFecha.setFkFechaTrCodigo(fechaTrans);
-        equipoFecha.setFkEqCodigo(equipo);
         eqFechaServicio.remove(equipoFecha);
-        RequestContext.getCurrentInstance().execute("PF('dialogo').hide()");
+//        RequestContext.getCurrentInstance().execute("PF('dialogo').hide()");
         baseControlador.addSuccessMessage("Equipo eliminado");
-        listaEquiposIngreso = eqFechaServicio.listarEquipoTransporte(fechaTrans.getFechaTrDia(),
-                fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio(), fechaTrans.getFechaTrDia(),
+        equipoFecha = new EquipoFecha();
+        listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
+                fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
+    }
+
+    public void actualizar() {
+        eqFechaServicio.edit(equipoFecha);
+        baseControlador.addSuccessMessage("Actualización exitosa");
+        listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
         equipoFecha = new EquipoFecha();
     }
@@ -179,6 +178,14 @@ public class FrmSpmpControlador {
 
     public void setListaEquiposIngreso(List<Object[]> listaEquiposIngreso) {
         this.listaEquiposIngreso = listaEquiposIngreso;
+    }
+
+    public List<EquipoFecha> getListaEquiposFecha() {
+        return listaEquiposFecha;
+    }
+
+    public void setListaEquiposFecha(List<EquipoFecha> listaEquiposFecha) {
+        this.listaEquiposFecha = listaEquiposFecha;
     }
 
 }
