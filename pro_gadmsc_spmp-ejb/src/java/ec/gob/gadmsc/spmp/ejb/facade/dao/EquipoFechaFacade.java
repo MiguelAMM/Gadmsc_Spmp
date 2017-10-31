@@ -34,18 +34,6 @@ public class EquipoFechaFacade extends AbstractFacade<EquipoFecha> implements Eq
     }
 
     @Override
-    public void create(EquipoFecha equipoFecha) {
-        em.persist(equipoFecha);
-    }
-
-    @Override
-    public List<EquipoFecha> findAll() {
-        Query query = em.createQuery("Select eq from EquipoFecha eq");
-        List<EquipoFecha> listaEquiFecha = query.getResultList();
-        return listaEquiFecha;
-    }
-
-    @Override
     public List<Object[]> listarEquipoTransporte(Integer dia, Integer mes, Integer anio, Integer dia2, Integer mes2, Integer anio2) {
         StringBuilder consulta = new StringBuilder();
         consulta.append("select q.eq_tipo, b.eq_fecha_combustible, b.eq_fecha_observacion, CONCAT(a.fecha_tr_dia, '/', a.fecha_tr_mes, '/', a.fecha_tr_anio)  ");
@@ -67,16 +55,6 @@ public class EquipoFechaFacade extends AbstractFacade<EquipoFecha> implements Eq
         query.setParameter("rangoMes2", mes2);
         query.setParameter("rangoAnio2", anio2);
         return query.getResultList();
-    }
-
-    @Override
-    public void remove(EquipoFecha equipoFecha) {
-        em.remove(em.merge(equipoFecha));
-    }
-
-    @Override
-    public void edit(EquipoFecha equipoFecha) {
-        em.merge(equipoFecha);
     }
 
     @Override

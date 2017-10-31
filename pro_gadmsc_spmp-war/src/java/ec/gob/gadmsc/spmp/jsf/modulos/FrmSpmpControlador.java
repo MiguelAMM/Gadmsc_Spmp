@@ -77,6 +77,8 @@ public class FrmSpmpControlador {
     }
 
     public void guardar() {
+        ingreso = true;
+        actualiza = false;
         equipoFecha.setFkFechaTrCodigo(fechaTrans);
         equipoFecha.setFkEqCodigo(equipo);
         eqFechaServicio.create(equipoFecha);
@@ -88,7 +90,7 @@ public class FrmSpmpControlador {
 
     public void eliminar() {
         eqFechaServicio.remove(equipoFecha);
-//        RequestContext.getCurrentInstance().execute("PF('dialogo').hide()");
+        RequestContext.getCurrentInstance().execute("PF('dialogo').hide()");
         baseControlador.addSuccessMessage("Equipo eliminado");
         equipoFecha = new EquipoFecha();
         listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
