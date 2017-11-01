@@ -4,15 +4,19 @@
  */
 package ec.gob.gadmsc.spmp.jsf.modulos;
 
+import ec.gob.gadmsc.spmp.ejb.entidades.Equipo;
 import ec.gob.gadmsc.spmp.ejb.entidades.EquipoFecha;
 import ec.gob.gadmsc.spmp.ejb.entidades.FechaTransporte;
 import ec.gob.gadmsc.spmp.ejb.entidades.Material;
+import ec.gob.gadmsc.spmp.ejb.entidades.Usuario;
 import ec.gob.gadmsc.spmp.jsf.base.BaseControlador;
 import ec.gob.gadmsc.spmp.jsf.base.NavegacionControlador;
 import ec.gob.gadmsc.spmp.servicios.CargaTransportadaServicio;
 import ec.gob.gadmsc.spmp.servicios.EquipoFechaServicio;
+import ec.gob.gadmsc.spmp.servicios.EquipoServicio;
 import ec.gob.gadmsc.spmp.servicios.FechaTransporteServicio;
 import ec.gob.gadmsc.spmp.servicios.MaterialServicio;
+import ec.gob.gadmsc.spmp.servicios.UsuarioServicio;
 import ec.gob.gadmsc.spmp.tools.AgrupaVolquetas;
 import ec.gob.gadmsc.spmp.tools.ManejoFechas;
 import ec.gob.gadmsc.spmp.tools.Meses;
@@ -69,6 +73,8 @@ public class ReporteControlador {
     private List<Object[]> listaEquipoFecha;
     private List<Object[]> listaCarga;
     private List<Object[]> listaResumenCombustible;
+    private List<Usuario> listaVolquetas;
+    private List<Equipo> listaEquipos;
     private List<FechaTransporte> listaFechasTransporte;
     private LinkedList<String> listaFechasString;
     private List<String> listaFechasRango;
@@ -95,6 +101,10 @@ public class ReporteControlador {
     private MaterialServicio materialServicio;
     @EJB
     private EquipoFechaServicio equiFechaServicio;
+    @EJB
+    private EquipoServicio equipoServicio;
+    @EJB
+    private UsuarioServicio usuarioServicio;
 
     @ManagedProperty("#{baseControlador}")
     private BaseControlador baseControlador;
@@ -119,6 +129,8 @@ public class ReporteControlador {
     public void inicializar() {
         listaFechasTransporte = fechaTransporteServicio.findAll();
         listaMateriales = materialServicio.findAll();
+        listaVolquetas = usuarioServicio.findAll();
+        listaEquipos = equipoServicio.findAll();
         listarFechas();
         listaAnios = fechaTransporteServicio.listarAnios();
         System.out.println("PostInicio Reporte controlador");
@@ -194,7 +206,7 @@ public class ReporteControlador {
                 case 13:
                     ob[0] = Meses.TOTAL;
                     break;
-                default:                    
+                default:
                     break;
             }
         }
@@ -487,6 +499,22 @@ public class ReporteControlador {
 
     public void setListaResumenCombustible(List<Object[]> listaResumenCombustible) {
         this.listaResumenCombustible = listaResumenCombustible;
+    }
+
+    public List<Usuario> getListaVolquetas() {
+        return listaVolquetas;
+    }
+
+    public void setListaVolquetas(List<Usuario> listaVolquetas) {
+        this.listaVolquetas = listaVolquetas;
+    }
+
+    public List<Equipo> getListaEquipos() {
+        return listaEquipos;
+    }
+
+    public void setListaEquipos(List<Equipo> listaEquipos) {
+        this.listaEquipos = listaEquipos;
     }
     //</editor-fold>
 }
