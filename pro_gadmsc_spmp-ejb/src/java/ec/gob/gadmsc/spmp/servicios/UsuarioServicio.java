@@ -32,4 +32,6 @@ public interface UsuarioServicio {
     
     boolean validarUsuario(Usuario user);
     
+    List<Usuario> buscarVolquetas();
+    
 }

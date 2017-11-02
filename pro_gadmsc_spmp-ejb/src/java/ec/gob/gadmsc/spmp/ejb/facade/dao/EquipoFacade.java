@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import ec.gob.gadmsc.spmp.servicios.EquipoServicio;
+import java.util.List;
 import javax.persistence.Query;
 
 /**
@@ -29,6 +30,15 @@ public class EquipoFacade extends AbstractFacade<Equipo> implements EquipoServic
 
     public EquipoFacade() {
         super(Equipo.class);
+    }
+
+    @Override
+    public List<Equipo> findAll() {
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("SELECT e FROM Equipo e ORDER BY eqCodigo");
+        Query query = em.createQuery(consulta.toString());
+        List<Equipo> listaEquipos = query.getResultList();
+        return listaEquipos;
     }
 
     @Override

@@ -54,7 +54,7 @@
                                         <p:commandButton value="Seleccionar" id="btnSeleccionEq" action="#{frmSpmpControlador.seleccionar()}" update="@form" process="@this">
                                             <f:setPropertyActionListener target="#{frmSpmpControlador.equipoFecha}" value="#{varEquipos}"/>
                                         </p:commandButton>
-                                        <p:commandButton id="btnEliminarEq" value="Eliminar" process="@this" action="#{frmSpmpControlador.eliminar()}" update="@form">
+                                        <p:commandButton id="btnEliminarEq" value="Eliminar" process="@this" onclick="PF('dialogo').show();">
                                             <f:setPropertyActionListener target="#{frmSpmpControlador.equipoFecha}" value="#{varEquipos}"/>
                                         </p:commandButton>
                                     </p:column>

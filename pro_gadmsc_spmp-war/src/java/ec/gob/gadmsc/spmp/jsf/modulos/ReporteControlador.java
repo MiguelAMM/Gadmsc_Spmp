@@ -74,6 +74,8 @@ public class ReporteControlador {
     private List<Object[]> listaCarga;
     private List<Object[]> listaResumenCombustible;
     private List<Usuario> listaVolquetas;
+    private Usuario volquetaSeleccionada;
+    private Equipo equipoSeleccionado;
     private List<Equipo> listaEquipos;
     private List<FechaTransporte> listaFechasTransporte;
     private LinkedList<String> listaFechasString;
@@ -129,7 +131,7 @@ public class ReporteControlador {
     public void inicializar() {
         listaFechasTransporte = fechaTransporteServicio.findAll();
         listaMateriales = materialServicio.findAll();
-        listaVolquetas = usuarioServicio.findAll();
+        listaVolquetas = usuarioServicio.buscarVolquetas();
         listaEquipos = equipoServicio.findAll();
         listarFechas();
         listaAnios = fechaTransporteServicio.listarAnios();
@@ -310,6 +312,22 @@ public class ReporteControlador {
             }
             listaAgrupacionVolq.add(agVolq);
         }
+    }
+
+    public void actualizarVolqueta() {
+        usuarioServicio.edit(volquetaSeleccionada);
+        RequestContext.getCurrentInstance().execute("PF('volqDialogo').hide()");
+        baseControlador.addSuccessMessage("Actualización exitosa");
+        volquetaSeleccionada = new Usuario();
+        listaVolquetas = usuarioServicio.buscarVolquetas();
+    }
+
+    public void actualizarEquipo() {
+        equipoServicio.edit(equipoSeleccionado);
+        RequestContext.getCurrentInstance().execute("PF('eqDialogo').hide()");
+        baseControlador.addSuccessMessage("Actualización exitosa");
+        equipoSeleccionado = new Equipo();
+        listaEquipos = equipoServicio.findAll();
     }
     //</editor-fold>
 
@@ -515,6 +533,22 @@ public class ReporteControlador {
 
     public void setListaEquipos(List<Equipo> listaEquipos) {
         this.listaEquipos = listaEquipos;
+    }
+
+    public Usuario getVolquetaSeleccionada() {
+        return volquetaSeleccionada;
+    }
+
+    public void setVolquetaSeleccionada(Usuario volquetaSeleccionada) {
+        this.volquetaSeleccionada = volquetaSeleccionada;
+    }
+
+    public Equipo getEquipoSeleccionado() {
+        return equipoSeleccionado;
+    }
+
+    public void setEquipoSeleccionado(Equipo equipoSeleccionado) {
+        this.equipoSeleccionado = equipoSeleccionado;
     }
     //</editor-fold>
 }

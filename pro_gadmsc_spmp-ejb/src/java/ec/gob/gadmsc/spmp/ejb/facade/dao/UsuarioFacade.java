@@ -50,4 +50,13 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioSer
         return false;
     }
 
+    @Override
+    public List<Usuario> buscarVolquetas() {
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("SELECT u FROM Usuario u WHERE usuCodigo NOT IN(14) ORDER BY usuCodigo");
+        Query query = em.createQuery(consulta.toString());
+        List<Usuario> listaUsuarios = query.getResultList();
+        return listaUsuarios;
+    }
+
 }
