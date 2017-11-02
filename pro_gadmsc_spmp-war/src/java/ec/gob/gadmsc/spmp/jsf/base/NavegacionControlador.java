@@ -130,7 +130,7 @@ public class NavegacionControlador {
 //                baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_carga_transportada.xhtml");
                 switch (loginUsuario.getTipoUsuario()) {
                     case "sec":
-                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_resumen.xhtml");
+                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_equipos_chofer.xhtml");
                         break;
                     case "volq":
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_resumen.xhtml");
