@@ -4,6 +4,7 @@
  */
 package ec.gob.gadmsc.spmp.jsf.modulos;
 
+import ec.gob.gadmsc.spmp.ejb.entidades.Chofer;
 import ec.gob.gadmsc.spmp.ejb.entidades.Equipo;
 import ec.gob.gadmsc.spmp.ejb.entidades.EquipoFecha;
 import ec.gob.gadmsc.spmp.ejb.entidades.FechaTransporte;
@@ -12,6 +13,7 @@ import ec.gob.gadmsc.spmp.ejb.entidades.Usuario;
 import ec.gob.gadmsc.spmp.jsf.base.BaseControlador;
 import ec.gob.gadmsc.spmp.jsf.base.NavegacionControlador;
 import ec.gob.gadmsc.spmp.servicios.CargaTransportadaServicio;
+import ec.gob.gadmsc.spmp.servicios.ChoferServicio;
 import ec.gob.gadmsc.spmp.servicios.EquipoFechaServicio;
 import ec.gob.gadmsc.spmp.servicios.EquipoServicio;
 import ec.gob.gadmsc.spmp.servicios.FechaTransporteServicio;
@@ -74,8 +76,7 @@ public class ReporteControlador {
     private List<Object[]> listaCarga;
     private List<Object[]> listaResumenCombustible;
     private List<Usuario> listaVolquetas;
-    private Usuario volquetaSeleccionada;
-    private Equipo equipoSeleccionado;
+    private List<Chofer> listaChoferes;
     private List<Equipo> listaEquipos;
     private List<FechaTransporte> listaFechasTransporte;
     private LinkedList<String> listaFechasString;
@@ -89,9 +90,16 @@ public class ReporteControlador {
     private final ManejoFechas fechaCadena;
     private TablaCarga cargaResumen;
     private TotalesCarga totales;
+    private Usuario volquetaSeleccionada;
+    private Equipo equipoSeleccionado;
+    private Chofer chofer;
     private String maquinaria;
     private String horaActual;
+    private boolean ingreso;
+    private boolean actualiza;
     private int anioResumen;
+    private int idChoferVolq;
+    private int idChoferEq;
     //</editor-fold>
 
     //<editor-fold desc="Servicios" defaultstate="collapsed">
@@ -107,6 +115,8 @@ public class ReporteControlador {
     private EquipoServicio equipoServicio;
     @EJB
     private UsuarioServicio usuarioServicio;
+    @EJB
+    private ChoferServicio choferServicio;
 
     @ManagedProperty("#{baseControlador}")
     private BaseControlador baseControlador;
@@ -119,9 +129,14 @@ public class ReporteControlador {
     public ReporteControlador() {
         fechaCadena = new ManejoFechas();
         cargaResumen = new TablaCarga();
+        chofer = new Chofer();
         totales = new TotalesCarga();
+        equipoSeleccionado = new Equipo();
+        volquetaSeleccionada = new Usuario();
         listaFechasString = new LinkedList<>();
         listaTablaCargaResumen = new ArrayList<>();
+        ingreso = false;
+        actualiza = true;
         System.out.println("Inicio Reporte controlador");
     }
     //</editor-fold>
@@ -133,6 +148,7 @@ public class ReporteControlador {
         listaMateriales = materialServicio.findAll();
         listaVolquetas = usuarioServicio.buscarVolquetas();
         listaEquipos = equipoServicio.findAll();
+        listaChoferes = choferServicio.findAll();
         listarFechas();
         listaAnios = fechaTransporteServicio.listarAnios();
         System.out.println("PostInicio Reporte controlador");
@@ -315,19 +331,47 @@ public class ReporteControlador {
     }
 
     public void actualizarVolqueta() {
-        usuarioServicio.edit(volquetaSeleccionada);
-        RequestContext.getCurrentInstance().execute("PF('volqDialogo').hide()");
-        baseControlador.addSuccessMessage("Actualización exitosa");
-        volquetaSeleccionada = new Usuario();
-        listaVolquetas = usuarioServicio.buscarVolquetas();
+        if (idChoferVolq != 0) {
+            chofer = choferServicio.find(idChoferVolq);
+            volquetaSeleccionada.setFkChoferCodigo(chofer);
+            usuarioServicio.edit(volquetaSeleccionada);
+            baseControlador.addSuccessMessage("Actualización exitosa");
+            volquetaSeleccionada = new Usuario();
+            listaVolquetas = usuarioServicio.buscarVolquetas();
+            actualiza = true;
+            ingreso = false;
+            idChoferVolq = 0;
+        } else {
+            baseControlador.addErrorMessage("Seleccione chofer");
+        }
     }
 
     public void actualizarEquipo() {
-        equipoServicio.edit(equipoSeleccionado);
-        RequestContext.getCurrentInstance().execute("PF('eqDialogo').hide()");
-        baseControlador.addSuccessMessage("Actualización exitosa");
-        equipoSeleccionado = new Equipo();
-        listaEquipos = equipoServicio.findAll();
+        if (idChoferEq != 0) {
+            chofer = choferServicio.find(idChoferEq);
+            equipoSeleccionado.setFkChoferCodigo(chofer);
+            equipoServicio.edit(equipoSeleccionado);
+            baseControlador.addSuccessMessage("Actualización exitosa");
+            equipoSeleccionado = new Equipo();
+            listaEquipos = equipoServicio.findAll();
+            actualiza = true;
+            ingreso = false;
+            idChoferEq = 0;
+        } else {
+            baseControlador.addErrorMessage("Seleccione chofer");
+        }
+    }
+
+    public void seleccionarEquipo() {
+        idChoferEq = equipoSeleccionado.getFkChoferCodigo().getChoferCodigo();
+        ingreso = true;
+        actualiza = false;
+    }
+
+    public void seleccionarVolq() {
+        idChoferVolq = volquetaSeleccionada.getFkChoferCodigo().getChoferCodigo();
+        ingreso = true;
+        actualiza = false;
     }
     //</editor-fold>
 
@@ -549,6 +593,54 @@ public class ReporteControlador {
 
     public void setEquipoSeleccionado(Equipo equipoSeleccionado) {
         this.equipoSeleccionado = equipoSeleccionado;
+    }
+
+    public List<Chofer> getListaChoferes() {
+        return listaChoferes;
+    }
+
+    public void setListaChoferes(List<Chofer> listaChoferes) {
+        this.listaChoferes = listaChoferes;
+    }
+
+    public boolean isIngreso() {
+        return ingreso;
+    }
+
+    public void setIngreso(boolean ingreso) {
+        this.ingreso = ingreso;
+    }
+
+    public boolean isActualiza() {
+        return actualiza;
+    }
+
+    public void setActualiza(boolean actualiza) {
+        this.actualiza = actualiza;
+    }
+
+    public int getIdChoferVolq() {
+        return idChoferVolq;
+    }
+
+    public void setIdChoferVolq(int idChoferVolq) {
+        this.idChoferVolq = idChoferVolq;
+    }
+
+    public int getIdChoferEq() {
+        return idChoferEq;
+    }
+
+    public void setIdChoferEq(int idChoferEq) {
+        this.idChoferEq = idChoferEq;
+    }
+
+    public Chofer getChofer() {
+        return chofer;
+    }
+
+    public void setChofer(Chofer chofer) {
+        this.chofer = chofer;
     }
     //</editor-fold>
 }

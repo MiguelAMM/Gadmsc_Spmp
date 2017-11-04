@@ -6,22 +6,20 @@
 package ec.gob.gadmsc.spmp.ejb.entidades;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -50,17 +48,24 @@ public class Equipo implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "eq_tipo")
     private String eqTipo;
-    @Size(max = 8)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 8)
     @Column(name = "eq_placa")
     private String eqPlaca;
-    @Size(max = 50)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "eq_pass")
     private String eqPass;
-    @Size(max = 50)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "eq_tipo_us")
     private String eqTipoUs;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkEqCodigo")
-    private List<EquipoFecha> equipoFechaList;
+    @JoinColumn(name = "fk_chofer_codigo", referencedColumnName = "chofer_codigo")
+    @ManyToOne(optional = false)
+    private Chofer fkChoferCodigo;
 
     public Equipo() {
     }
@@ -69,9 +74,12 @@ public class Equipo implements Serializable {
         this.eqCodigo = eqCodigo;
     }
 
-    public Equipo(Integer eqCodigo, String eqTipo) {
+    public Equipo(Integer eqCodigo, String eqTipo, String eqPlaca, String eqPass, String eqTipoUs) {
         this.eqCodigo = eqCodigo;
         this.eqTipo = eqTipo;
+        this.eqPlaca = eqPlaca;
+        this.eqPass = eqPass;
+        this.eqTipoUs = eqTipoUs;
     }
 
     public Integer getEqCodigo() {
@@ -114,13 +122,12 @@ public class Equipo implements Serializable {
         this.eqTipoUs = eqTipoUs;
     }
 
-    @XmlTransient
-    public List<EquipoFecha> getEquipoFechaList() {
-        return equipoFechaList;
+    public Chofer getFkChoferCodigo() {
+        return fkChoferCodigo;
     }
 
-    public void setEquipoFechaList(List<EquipoFecha> equipoFechaList) {
-        this.equipoFechaList = equipoFechaList;
+    public void setFkChoferCodigo(Chofer fkChoferCodigo) {
+        this.fkChoferCodigo = fkChoferCodigo;
     }
 
     @Override

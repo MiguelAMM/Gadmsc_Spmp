@@ -129,13 +129,13 @@ public class NavegacionControlador {
                 //baseControlador.redirect(baseControlador.getContextName() + "/paginas/pagina_principal.xhtml");
 //                baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_carga_transportada.xhtml");
                 switch (loginUsuario.getTipoUsuario()) {
-                    case "sec":
+                    case "secretaria":
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_equipos_chofer.xhtml");
                         break;
-                    case "volq":
+                    case "volqueta":
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_resumen.xhtml");
                         break;
-                    case "eq":
+                    case "equipo":
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/ingreso_equipo.xhtml");
                         break;
                 }

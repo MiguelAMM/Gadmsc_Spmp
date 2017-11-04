@@ -6,20 +6,18 @@
 package ec.gob.gadmsc.spmp.ejb.entidades;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -47,14 +45,19 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 8)
     @Column(name = "usu_nombre")
     private String usuNombre;
-    @Size(max = 50)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "usu_pass")
     private String usuPass;
-    @Size(max = 50)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "usu_tipo")
     private String usuTipo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUsuCodigo")
-    private List<VolquetaFecha> volquetaFechaList;
+    @JoinColumn(name = "fk_chofer_codigo", referencedColumnName = "chofer_codigo")
+    @ManyToOne(optional = false)
+    private Chofer fkChoferCodigo;
 
     public Usuario() {
     }
@@ -63,9 +66,11 @@ public class Usuario implements Serializable {
         this.usuCodigo = usuCodigo;
     }
 
-    public Usuario(Integer usuCodigo, String usuNombre) {
+    public Usuario(Integer usuCodigo, String usuNombre, String usuPass, String usuTipo) {
         this.usuCodigo = usuCodigo;
         this.usuNombre = usuNombre;
+        this.usuPass = usuPass;
+        this.usuTipo = usuTipo;
     }
 
     public Integer getUsuCodigo() {
@@ -100,13 +105,12 @@ public class Usuario implements Serializable {
         this.usuTipo = usuTipo;
     }
 
-    @XmlTransient
-    public List<VolquetaFecha> getVolquetaFechaList() {
-        return volquetaFechaList;
+    public Chofer getFkChoferCodigo() {
+        return fkChoferCodigo;
     }
 
-    public void setVolquetaFechaList(List<VolquetaFecha> volquetaFechaList) {
-        this.volquetaFechaList = volquetaFechaList;
+    public void setFkChoferCodigo(Chofer fkChoferCodigo) {
+        this.fkChoferCodigo = fkChoferCodigo;
     }
 
     @Override

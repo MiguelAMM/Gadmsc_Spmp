@@ -18,6 +18,25 @@
                             <p:panel>
                                 <p:tabView id="tabViewEquiChofer">
                                     <p:tab id="tabVolq" title="Volquetas">
+                                        <p:outputPanel>
+                                            <p:panelGrid id="panelVolq" columns="2">
+                                                <h:outputText value="Volqueta número"/>
+                                                <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuCodigo}"/>
+                                                <h:outputText value="Placa"/>
+                                                <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuNombre}"/>
+                                                <h:outputText value="Contraseña"/>
+                                                <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuPass}"/>
+                                                <h:outputText value="Chofer"/>
+                                                <p:selectOneMenu id="cmbChoferVolq" value="#{reporteControlador.idChoferVolq}">
+                                                    <f:selectItem itemLabel="Seleccione chofer" itemValue="0"/>
+                                                    <f:selectItems value="#{reporteControlador.listaChoferes}" var="varChoferes"
+                                                                   itemLabel="#{varChoferes}" itemValue="#{varChoferes.choferCodigo}"/>
+                                                </p:selectOneMenu>
+                                            </p:panelGrid>
+                                            <p:commandButton id="btnIngresoVolq" value="Ingresar" action="#{reporteControlador.actualizarVolqueta()}" update=":frmEquiChofer:tabViewEquiChofer:tableVolq"/>
+                                            <p:commandButton id="btnActualizaVolq" value="Actualizar" action="#{reporteControlador.actualizarVolqueta()}" update="@form"/>    
+                                        </p:outputPanel>
+
                                         <p:dataTable id="tableVolq" var="volquetas" value="#{reporteControlador.listaVolquetas}"
                                                      scrollable="true"
                                                      scrollWidth="96%"
@@ -32,16 +51,35 @@
                                             <p:column headerText="Contraseña" style="width:30px;text-align: center">
                                                 <h:outputText value="#{volquetas.usuPass}"/>
                                             </p:column>
+                                            <p:column headerText="Chofer" style="width:30px;text-align: center">
+                                                <h:outputText value="#{volquetas.fkChoferCodigo}"/>
+                                            </p:column>
                                             <p:column style="width:30px;text-align: center">
-                                                <p:commandButton id="btnSeleccion" update=":frmDialogoVolq"
-                                                                 onclick="PF('volqDialogo').show();" icon="ui-icon-search" process="@this" 
-                                                                 title="Ver">
+                                                <p:commandButton id="btnSeleccion" update=":frmEquiChofer:tabViewEquiChofer:panelVolq"
+                                                                 icon="ui-icon-search" process="@this" title="Ver" action="#{reporteControlador.seleccionarVolq()}">
                                                     <f:setPropertyActionListener value="#{volquetas}" target="#{reporteControlador.volquetaSeleccionada}"/>
                                                 </p:commandButton>                                                    
                                             </p:column>
                                         </p:dataTable>
                                     </p:tab>
                                     <p:tab id="tabEqui" title="Equipos">
+                                        <p:panelGrid id="panelEqui" columns="2">
+                                            <h:outputText value="Tipo"/>
+                                            <p:inputText value="#{reporteControlador.equipoSeleccionado.eqTipo}"/>
+                                            <h:outputText value="Placa"/>
+                                            <p:inputText value="#{reporteControlador.equipoSeleccionado.eqPlaca}"/>
+                                            <h:outputText value="Contraseña"/>
+                                            <p:inputText value="#{reporteControlador.equipoSeleccionado.eqPass}"/>
+                                            <h:outputText value="Chofer"/>
+                                            <p:selectOneMenu id="cmbChoferEq" value="#{reporteControlador.idChoferEq}">
+                                                <f:selectItem itemLabel="Seleccione chofer" itemValue="0"/>
+                                                <f:selectItems value="#{reporteControlador.listaChoferes}" var="varChoferesEq"
+                                                               itemLabel="#{varChoferesEq}" itemValue="#{varChoferesEq.choferCodigo}"/>
+                                            </p:selectOneMenu>
+                                        </p:panelGrid>
+                                        <p:commandButton id="btnIngresoEq" value="Ingresar" action="#{reporteControlador.actualizarVolqueta()}" update=":frmEquiChofer" />
+                                        <p:commandButton id="btnActualizaEq" value="Actualizar" action="#{reporteControlador.actualizarEquipo()}" update=":frmEquiChofer" />
+
                                         <p:dataTable id="tableEq" var="equipo" value="#{reporteControlador.listaEquipos}"
                                                      scrollable="true"
                                                      scrollWidth="96%"
@@ -56,11 +94,46 @@
                                             <p:column headerText="Contraseña" style="width:30px;text-align: center">
                                                 <h:outputText value="#{equipo.eqPass}"/>
                                             </p:column>
+                                            <p:column headerText="Chofer" style="width:30px;text-align: center">
+                                                <h:outputText value="#{equipo.fkChoferCodigo}"/>
+                                            </p:column>
                                             <p:column style="width:30px;text-align: center">
-                                                <p:commandButton id="btnSeleccionEqui" update=":frmDialogoEq" process="@this"
-                                                                 onclick="PF('eqDialogo').show();" icon="ui-icon-search" title="Ver">
+                                                <p:commandButton id="btnSeleccionEqui" update=":frmEquiChofer:tabViewEquiChofer:panelEqui" process="@this"
+                                                                 icon="ui-icon-search" title="Ver" action="#{reporteControlador.seleccionarEquipo()}">
                                                     <f:setPropertyActionListener value="#{equipo}" target="#{reporteControlador.equipoSeleccionado}"/>
                                                 </p:commandButton>                                                    
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:tab>
+                                    <p:tab id="tabChofer" title="Choferes">
+                                        <p:dataTable id="tableChoferes" var="choferes" value="#{reporteControlador.listaChoferes}"
+                                                     scrollable="true"
+                                                     scrollWidth="96%"
+                                                     styleClass="estiloListaCalibriPeq" 
+                                                     emptyMessage="#{etq.msg_seg_sinRegistros}">
+                                            <p:column headerText="Nombre" style="width:30px;text-align: center">
+                                                <h:outputText value="#{choferes.choferNombre}"/>
+                                            </p:column>
+                                            <p:column headerText="Apellido" style="width:30px;text-align: center">
+                                                <h:outputText value="#{choferes.choferApellido}"/>
+                                            </p:column>
+                                            <p:column headerText="Cédula de identidad" style="width:30px;text-align: center">
+                                                <h:outputText value="#{choferes.choferCi}"/>
+                                            </p:column>
+                                            <p:column headerText="Teléfono" style="width:30px;text-align: center">
+                                                <h:outputText value="#{choferes.choferTlf}"/>
+                                            </p:column>
+                                            <p:column headerText="Correo electrónico" style="width:30px;text-align: center">
+                                                <h:outputText value="#{choferes.choferEmail}"/>
+                                            </p:column>
+                                            <p:column headerText="Dirección domicilio" style="width:30px;text-align: center">
+                                                <h:outputText value="#{choferes.choferDireccion}"/>
+                                            </p:column>
+                                            <p:column headerText="Fecha nacimiento" style="width:30px;text-align: center">
+                                                <h:outputText value="#{choferes.choferFechaNac}"/>
+                                            </p:column>
+                                            <p:column headerText="Asignado" style="width:30px;text-align: center">
+                                                <h:outputText value="#{choferes.choferAsignado}"/>
                                             </p:column>
                                         </p:dataTable>
                                     </p:tab>
@@ -70,38 +143,6 @@
                     </p:panel>
                 </p:outputPanel>
             </h:form>
-            <p:dialog header="Actualizar volqueta" widgetVar="volqDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <h:form id="frmDialogoVolq">
-                    <p:outputPanel id="volqDetail" style="text-align: center;">
-                        <p:panelGrid columns="2" rendered="#{not empty reporteControlador.volquetaSeleccionada}">
-                            <h:outputText value="Volqueta número"/>
-                            <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuCodigo}"/>
-                            <h:outputText value="Placa"/>
-                            <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuNombre}"/>
-                            <h:outputText value="Contraseña"/>
-                            <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuPass}"/>
-                        </p:panelGrid>
-                        <p:commandButton id="btnActualiza" value="Actualizar" action="#{reporteControlador.actualizarVolqueta()}" update=":frmEquiChofer"/>
-                    </p:outputPanel>
-                </h:form>
-            </p:dialog>
-
-            <p:dialog header="Actualizar equipo" widgetVar="eqDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <h:form id="frmDialogoEq">
-                    <p:outputPanel id="eqDetail" style="text-align: center;">
-                        <p:panelGrid columns="2" rendered="#{not empty reporteControlador.equipoSeleccionado}">
-                            <h:outputText value="Equipo caminero"/>
-                            <p:inputText value="#{reporteControlador.equipoSeleccionado.eqTipo}"/>
-                            <h:outputText value="Placa"/>
-                            <p:inputText value="#{reporteControlador.equipoSeleccionado.eqPlaca}"/>
-                            <h:outputText value="Contraseña"/>
-                            <p:inputText value="#{reporteControlador.equipoSeleccionado.eqPass}"/>
-                        </p:panelGrid>
-                        <p:commandButton id="btnActualizaEq" value="Actualizar" action="#{reporteControlador.actualizarEquipo()}" update=":frmEquiChofer"/>
-                    </p:outputPanel>
-                </h:form>
-            </p:dialog>
-
         </ui:define>        
     </ui:composition>
 </html>
