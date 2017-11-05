@@ -131,8 +131,8 @@ public class ReporteControlador {
         cargaResumen = new TablaCarga();
         chofer = new Chofer();
         totales = new TotalesCarga();
-        equipoSeleccionado = new Equipo();
-        volquetaSeleccionada = new Usuario();
+//        equipoSeleccionado = new Equipo();
+//        volquetaSeleccionada = new Usuario();
         listaFechasString = new LinkedList<>();
         listaTablaCargaResumen = new ArrayList<>();
         ingreso = false;
