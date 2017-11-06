@@ -33,24 +33,6 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioSer
     }
 
     @Override
-    public List<Usuario> findAll() {
-        Query query = em.createQuery("Select u FROM Usuario u");
-        List<Usuario> listaUsuarios = query.getResultList();
-        return listaUsuarios;
-    }
-
-    @Override
-    public boolean validarUsuario(Usuario user) {
-        List<Usuario> usuarios = findAll();
-        for (Usuario u : usuarios) {
-            if (u.getUsuPass().equals(user.getUsuPass()) && u.getUsuNombre().equals(user.getUsuNombre())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public List<Usuario> buscarVolquetas() {
         StringBuilder consulta = new StringBuilder();
         consulta.append("SELECT u FROM Usuario u WHERE usuCodigo NOT IN(14) ORDER BY usuCodigo");
@@ -59,4 +41,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioSer
         return listaUsuarios;
     }
 
+    @Override
+    public List<Usuario> findAll() {
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("SELECT u FROM Usuario u ORDER BY usuCodigo");
+        Query query = em.createQuery(consulta.toString());
+        List<Usuario> listaUsuarios = query.getResultList();
+        return listaUsuarios;
+    }
 }

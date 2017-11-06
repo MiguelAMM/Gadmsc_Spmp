@@ -10,6 +10,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import ec.gob.gadmsc.spmp.servicios.ChoferServicio;
+import java.util.List;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,6 +30,15 @@ public class ChoferFacade extends AbstractFacade<Chofer> implements ChoferServic
 
     public ChoferFacade() {
         super(Chofer.class);
+    }
+
+    @Override
+    public List<Chofer> findAll() {
+        StringBuilder consulta = new StringBuilder();
+        consulta.append("SELECT c FROM Chofer c ORDER BY choferNombre, choferApellido");
+        Query query = em.createQuery(consulta.toString());
+        List<Chofer> listaChoferes = query.getResultList();
+        return listaChoferes;
     }
 
 }

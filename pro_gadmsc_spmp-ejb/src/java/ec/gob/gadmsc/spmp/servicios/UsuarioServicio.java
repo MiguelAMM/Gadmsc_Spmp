@@ -29,9 +29,7 @@ public interface UsuarioServicio {
     List<Usuario> findRange(int[] range);
 
     int count();
-    
-    boolean validarUsuario(Usuario user);
-    
+
     List<Usuario> buscarVolquetas();
-    
+
 }

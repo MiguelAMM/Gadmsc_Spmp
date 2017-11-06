@@ -6,7 +6,6 @@ package ec.gob.gadmsc.spmp.jsf.modulos;
 
 import ec.gob.gadmsc.spmp.ejb.entidades.Chofer;
 import ec.gob.gadmsc.spmp.ejb.entidades.Equipo;
-import ec.gob.gadmsc.spmp.ejb.entidades.EquipoFecha;
 import ec.gob.gadmsc.spmp.ejb.entidades.FechaTransporte;
 import ec.gob.gadmsc.spmp.ejb.entidades.Material;
 import ec.gob.gadmsc.spmp.ejb.entidades.Usuario;
@@ -26,40 +25,15 @@ import ec.gob.gadmsc.spmp.tools.ReporteException;
 import ec.gob.gadmsc.spmp.tools.TablaCarga;
 import ec.gob.gadmsc.spmp.tools.TotalesCarga;
 import static ec.gob.gadmsc.spmp.tools.Validaciones.*;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import org.primefaces.context.RequestContext;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartSeries;
-import org.primefaces.model.chart.CategoryAxis;
-import org.primefaces.model.chart.LineChartModel;
-import java.io.*;
-import java.sql.*;
 import java.text.ParseException;
 import java.util.*;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -96,11 +70,14 @@ public class ReporteControlador {
     private Chofer choferSeleccionado;
     private String maquinaria;
     private String horaActual;
+    private String choferAsignado;
     private boolean ingreso;
     private boolean actualiza;
+    private boolean textoIngreso;
     private int anioResumen;
     private int idChoferVolq;
     private int idChoferEq;
+    private int idChoferAsignado;
     //</editor-fold>
 
     //<editor-fold desc="Servicios" defaultstate="collapsed">
@@ -331,6 +308,17 @@ public class ReporteControlador {
         }
     }
 
+    public void ingresarVolqueta() {
+        chofer = choferServicio.find(idChoferVolq);
+        volquetaSeleccionada.setFkChoferCodigo(chofer);
+        volquetaSeleccionada.setUsuTipo("volqueta");
+        usuarioServicio.create(volquetaSeleccionada);
+        baseControlador.addSuccessMessage("Ingreso exitoso");
+        volquetaSeleccionada = new Usuario();
+        listaVolquetas = usuarioServicio.buscarVolquetas();
+        idChoferVolq = 0;
+    }
+
     public void actualizarVolqueta() {
         if (idChoferVolq != 0) {
             chofer = choferServicio.find(idChoferVolq);
@@ -339,8 +327,6 @@ public class ReporteControlador {
             baseControlador.addSuccessMessage("Actualización exitosa");
             volquetaSeleccionada = new Usuario();
             listaVolquetas = usuarioServicio.buscarVolquetas();
-            actualiza = true;
-            ingreso = false;
             idChoferVolq = 0;
         } else {
             baseControlador.addErrorMessage("Seleccione chofer");
@@ -355,24 +341,20 @@ public class ReporteControlador {
             baseControlador.addSuccessMessage("Actualización exitosa");
             equipoSeleccionado = new Equipo();
             listaEquipos = equipoServicio.findAll();
-            actualiza = true;
-            ingreso = false;
             idChoferEq = 0;
         } else {
             baseControlador.addErrorMessage("Seleccione chofer");
         }
     }
 
-    public void seleccionarEquipo() {
-        idChoferEq = equipoSeleccionado.getFkChoferCodigo().getChoferCodigo();
-        ingreso = true;
-        actualiza = false;
-    }
-
-    public void seleccionarVolq() {
-        idChoferVolq = volquetaSeleccionada.getFkChoferCodigo().getChoferCodigo();
-        ingreso = true;
-        actualiza = false;
+    public void ingresarEquipo() {
+        chofer = choferServicio.find(idChoferEq);
+        equipoSeleccionado.setFkChoferCodigo(chofer);
+        equipoSeleccionado.setEqTipo("equipo");
+        equipoServicio.create(equipoSeleccionado);
+        baseControlador.addSuccessMessage("Ingreso exitoso");
+        listaEquipos = equipoServicio.findAll();
+        equipoSeleccionado = new Equipo();
     }
 
     public void ingresarChofer() {
@@ -387,6 +369,38 @@ public class ReporteControlador {
         baseControlador.addSuccessMessage("Actualización exitosa");
         chofer = new Chofer();
         listaChoferes = choferServicio.findAll();
+    }
+
+    public void seleccionarEquipo() {
+        idChoferEq = equipoSeleccionado.getFkChoferCodigo().getChoferCodigo();
+        textoIngreso = true;
+        ingreso = true;
+        actualiza = false;
+    }
+
+    public void seleccionarVolq() {
+        idChoferVolq = volquetaSeleccionada.getFkChoferCodigo().getChoferCodigo();
+        textoIngreso = true;
+        ingreso = true;
+        actualiza = false;
+    }
+
+    public void seleccionarChofer() {
+        choferAsignado = chofer.getChoferAsignado();
+        textoIngreso = true;
+        ingreso = true;
+        actualiza = false;
+    }
+
+    public void ingresarNuevo() {
+        idChoferEq = 0;
+        idChoferVolq = 0;
+        chofer = new Chofer();
+        volquetaSeleccionada = new Usuario();
+        equipoSeleccionado = new Equipo();
+        textoIngreso = false;
+        ingreso = false;
+        actualiza = true;
     }
     //</editor-fold>
 
@@ -664,6 +678,22 @@ public class ReporteControlador {
 
     public void setChoferSeleccionado(Chofer choferSeleccionado) {
         this.choferSeleccionado = choferSeleccionado;
+    }
+
+    public boolean isTextoIngreso() {
+        return textoIngreso;
+    }
+
+    public void setTextoIngreso(boolean textoIngreso) {
+        this.textoIngreso = textoIngreso;
+    }
+
+    public String getChoferAsignado() {
+        return choferAsignado;
+    }
+
+    public void setChoferAsignado(String choferAsignado) {
+        this.choferAsignado = choferAsignado;
     }
     //</editor-fold>
 }
