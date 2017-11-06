@@ -93,6 +93,7 @@ public class ReporteControlador {
     private Usuario volquetaSeleccionada;
     private Equipo equipoSeleccionado;
     private Chofer chofer;
+    private Chofer choferSeleccionado;
     private String maquinaria;
     private String horaActual;
     private boolean ingreso;
@@ -373,6 +374,20 @@ public class ReporteControlador {
         ingreso = true;
         actualiza = false;
     }
+
+    public void ingresarChofer() {
+        choferServicio.create(chofer);
+        baseControlador.addSuccessMessage("Ingreso exitoso");
+        listaChoferes = choferServicio.findAll();
+        chofer = new Chofer();
+    }
+
+    public void actualizarChofer() {
+        choferServicio.edit(chofer);
+        baseControlador.addSuccessMessage("Actualización exitosa");
+        chofer = new Chofer();
+        listaChoferes = choferServicio.findAll();
+    }
     //</editor-fold>
 
     //<editor-fold desc="Get and Set" defaultstate="collapsed">
@@ -641,6 +656,14 @@ public class ReporteControlador {
 
     public void setChofer(Chofer chofer) {
         this.chofer = chofer;
+    }
+
+    public Chofer getChoferSeleccionado() {
+        return choferSeleccionado;
+    }
+
+    public void setChoferSeleccionado(Chofer choferSeleccionado) {
+        this.choferSeleccionado = choferSeleccionado;
     }
     //</editor-fold>
 }

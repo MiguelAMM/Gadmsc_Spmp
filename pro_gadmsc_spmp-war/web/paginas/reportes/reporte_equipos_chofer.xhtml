@@ -33,8 +33,8 @@
                                                                    itemLabel="#{varChoferes}" itemValue="#{varChoferes.choferCodigo}"/>
                                                 </p:selectOneMenu>
                                             </p:panelGrid>
-                                            <p:commandButton id="btnIngresoVolq" value="Ingresar" action="#{reporteControlador.actualizarVolqueta()}" update=":frmEquiChofer:tabViewEquiChofer:tableVolq"/>
-                                            <p:commandButton id="btnActualizaVolq" value="Actualizar" action="#{reporteControlador.actualizarVolqueta()}" update="@form"/>    
+                                            <p:commandButton id="btnIngresoVolq" value="Ingresar" action="#{reporteControlador.actualizarVolqueta()}" update=":frmEquiChofer:tabViewEquiChofer:tabVolq"/>
+                                            <p:commandButton id="btnActualizaVolq" value="Actualizar" action="#{reporteControlador.actualizarVolqueta()}" update=":frmEquiChofer:tabViewEquiChofer:tabVolq"/>    
                                         </p:outputPanel>
 
                                         <p:dataTable id="tableVolq" var="volquetas" value="#{reporteControlador.listaVolquetas}"
@@ -55,7 +55,7 @@
                                                 <h:outputText value="#{volquetas.fkChoferCodigo}"/>
                                             </p:column>
                                             <p:column style="width:30px;text-align: center">
-                                                <p:commandButton id="btnSeleccion" update=":frmEquiChofer:tabViewEquiChofer:panelVolq"
+                                                <p:commandButton id="btnSeleccion" update=":frmEquiChofer"
                                                                  icon="ui-icon-search" process="@this" title="Ver" action="#{reporteControlador.seleccionarVolq()}">
                                                     <f:setPropertyActionListener value="#{volquetas}" target="#{reporteControlador.volquetaSeleccionada}"/>
                                                 </p:commandButton>                                                    
@@ -78,8 +78,8 @@
                                                                    itemLabel="#{varChoferesEq}" itemValue="#{varChoferesEq.choferCodigo}"/>
                                                 </p:selectOneMenu>
                                             </p:panelGrid>
-                                            <p:commandButton id="btnIngresoEq" value="Ingresar" action="#{reporteControlador.actualizarVolqueta()}" update=":frmEquiChofer" />
-                                            <p:commandButton id="btnActualizaEq" value="Actualizar" action="#{reporteControlador.actualizarEquipo()}" update=":frmEquiChofer" />
+                                            <p:commandButton id="btnIngresoEq" value="Ingresar" action="#{reporteControlador.actualizarVolqueta()}" update=":frmEquiChofer:tabViewEquiChofer:tableEq" />
+                                            <p:commandButton id="btnActualizaEq" value="Actualizar" action="#{reporteControlador.actualizarEquipo()}" update=":frmEquiChofer:tabViewEquiChofer:tableEq" />
                                         </p:outputPanel>
                                         <p:dataTable id="tableEq" var="equipo" value="#{reporteControlador.listaEquipos}"
                                                      scrollable="true"
@@ -107,6 +107,30 @@
                                         </p:dataTable>
                                     </p:tab>
                                     <p:tab id="tabChofer" title="Choferes">
+                                        <p:growl id="msg" showDetail="true"/>
+                                        <p:outputPanel>
+                                            <p:panelGrid id="panelChofer" columns="2">
+                                                <h:outputText value="Nombre"/>
+                                                <p:inputText value="#{reporteControlador.chofer.choferNombre}"/>
+                                                <h:outputText value="Apellido"/>
+                                                <p:inputText value="#{reporteControlador.chofer.choferApellido}"/>
+                                                <h:outputText value="Cédula"/>
+                                                <p:inputText value="#{reporteControlador.chofer.choferCi}"/>
+                                                <h:outputText value="Teléfono"/>
+                                                <p:inputText value="#{reporteControlador.chofer.choferTlf}"/>
+                                                <h:outputText value="Dirección"/>
+                                                <p:inputText value="#{reporteControlador.chofer.choferDireccion}"/>
+                                                <h:outputText value="Fecha de nacimiento"/>
+                                                <p:calendar value="#{reporteControlador.chofer.choferFechaNac}" pattern="dd-MM-yyyy" mask="true"
+                                                            locale="es" navigator="true"/>
+                                                <h:outputText value="Asignado"/>
+                                                <p:inputText value="#{reporteControlador.chofer.choferAsignado}"/>
+                                                <h:outputText value="Correo electrónico"/>
+                                                <p:inputText value="#{reporteControlador.chofer.choferEmail}"/>
+                                            </p:panelGrid>
+                                            <p:commandButton id="btnIngresoChofer" value="Ingresar" action="#{reporteControlador.ingresarChofer()}" update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:tabViewEquiChofer:panelChofer"/>
+                                            <p:commandButton id="btnActualizaChofer" value="Actualizar" action="#{reporteControlador.actualizarChofer()}" update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:tabViewEquiChofer:panelChofer"/>    
+                                        </p:outputPanel>
                                         <p:dataTable id="tableChoferes" var="choferes" value="#{reporteControlador.listaChoferes}"
                                                      scrollable="true"
                                                      scrollWidth="96%"
@@ -135,6 +159,12 @@
                                             </p:column>
                                             <p:column headerText="Asignado" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferAsignado}"/>
+                                            </p:column>
+                                            <p:column style="width:30px;text-align: center">
+                                                <p:commandButton id="btnSeleccionChofer" update=":frmEquiChofer:tabViewEquiChofer:panelChofer" process="@this"
+                                                                 icon="ui-icon-search" title="Ver">
+                                                    <f:setPropertyActionListener value="#{choferes}" target="#{reporteControlador.chofer}"/>
+                                                </p:commandButton>                                                    
                                             </p:column>
                                         </p:dataTable>
                                     </p:tab>
