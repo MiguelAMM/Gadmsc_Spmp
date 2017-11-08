@@ -49,8 +49,11 @@ public class BaseControlador implements Serializable {
     public String codigoUsuario;
 
     public Login usuarioActual;
-    //Servicios  
+    public int contadorIngresos;
+    public boolean disableIngresoVolq;
+    public boolean ingresarVolq;
 
+    //Servicios
     @EJB
     private UsuarioServicio usuarioServicio;
 
@@ -216,4 +219,27 @@ public class BaseControlador implements Serializable {
         this.usuarioActual = usuarioActual;
     }
 
+    public int getContadorIngresos() {
+        return contadorIngresos;
+    }
+
+    public void setContadorIngresos(int contadorIngresos) {
+        this.contadorIngresos = contadorIngresos;
+    }
+
+    public boolean isDisableIngresoVolq() {
+        return disableIngresoVolq;
+    }
+
+    public void setDisableIngresoVolq(boolean disableIngresoVolq) {
+        this.disableIngresoVolq = disableIngresoVolq;
+    }
+
+    public boolean isIngresarVolq() {
+        return ingresarVolq;
+    }
+
+    public void setIngresarVolq(boolean ingresarVolq) {
+        this.ingresarVolq = ingresarVolq;
+    }
 }

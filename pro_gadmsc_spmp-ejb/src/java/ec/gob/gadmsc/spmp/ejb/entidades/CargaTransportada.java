@@ -48,7 +48,7 @@ public class CargaTransportada implements Serializable {
     private int cargaTrViaje;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
+//    @Size(min = 1, max = 500)
     @Column(name = "carga_tr_observacion")
     private String cargaTrObservacion;
     @Basic(optional = false)
@@ -148,5 +148,5 @@ public class CargaTransportada implements Serializable {
     public String toString() {
         return "ec.gob.gadmsc.spmp.ejb.entidades.CargaTransportada[ cargaTrCodigo=" + cargaTrCodigo + " ]";
     }
-    
+
 }

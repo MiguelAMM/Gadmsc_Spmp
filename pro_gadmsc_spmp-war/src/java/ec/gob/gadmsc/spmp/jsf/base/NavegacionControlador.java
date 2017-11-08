@@ -60,6 +60,7 @@ public class NavegacionControlador {
 //    private Usuario user;
     private Login loginUsuario;
     private FechaTransporte transFecha;
+    private boolean logueado;
 
     @EJB
     private UsuarioServicio usuarioServicio;
@@ -123,6 +124,7 @@ public class NavegacionControlador {
 
                 baseControlador.setUsuarioActual(loginUsuario);
                 baseControlador.addWarningMessage("Usuario logueado correctamente");
+                logueado = true;
                 //Menu que se mostrara en la pagina principal
                 //cargarMenuDinamico(baseControlador.usuarioActual);
                 //Ir a pagina principal
@@ -133,7 +135,7 @@ public class NavegacionControlador {
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_equipos_chofer.xhtml");
                         break;
                     case "volqueta":
-                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_resumen.xhtml");
+                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");
                         break;
                     case "equipo":
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/ingreso_equipo.xhtml");
@@ -217,7 +219,7 @@ public class NavegacionControlador {
                 baseControlador.usuarioActual.setUsuario(null);
                 baseControlador.getSession().invalidate();
                 limpiarAtributosSesion();
-                baseControlador.redirect(baseControlador.getContextName() + "/index.xhtml");
+                //baseControlador.redirect(baseControlador.getContextName() + "/index.xhtml");
                 //  Borrar los datos de la sesion
 
             }
@@ -560,4 +562,11 @@ public class NavegacionControlador {
         this.transFecha = transFecha;
     }
 
+    public boolean isLogueado() {
+        return logueado;
+    }
+
+    public void setLogueado(boolean logueado) {
+        this.logueado = logueado;
+    }
 }

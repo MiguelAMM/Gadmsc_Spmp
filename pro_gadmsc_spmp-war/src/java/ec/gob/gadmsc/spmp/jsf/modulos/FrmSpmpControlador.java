@@ -8,12 +8,17 @@ package ec.gob.gadmsc.spmp.jsf.modulos;
 import ec.gob.gadmsc.spmp.ejb.entidades.Equipo;
 import ec.gob.gadmsc.spmp.ejb.entidades.EquipoFecha;
 import ec.gob.gadmsc.spmp.ejb.entidades.FechaTransporte;
+import ec.gob.gadmsc.spmp.ejb.entidades.VolquetaFecha;
+import ec.gob.gadmsc.spmp.ejb.entidades.CargaTransportada;
+import ec.gob.gadmsc.spmp.ejb.entidades.Material;
 import ec.gob.gadmsc.spmp.jsf.base.BaseControlador;
 import ec.gob.gadmsc.spmp.jsf.base.NavegacionControlador;
 import ec.gob.gadmsc.spmp.servicios.EquipoFechaServicio;
 import ec.gob.gadmsc.spmp.servicios.EquipoServicio;
 import ec.gob.gadmsc.spmp.servicios.FechaTransporteServicio;
-import ec.gob.gadmsc.spmp.tools.Login;
+import ec.gob.gadmsc.spmp.servicios.VolquetaFechaServicio;
+import ec.gob.gadmsc.spmp.servicios.CargaTransportadaServicio;
+import ec.gob.gadmsc.spmp.servicios.MaterialServicio;
 import ec.gob.gadmsc.spmp.tools.ManejoFechas;
 import java.util.Calendar;
 import java.util.List;
@@ -22,6 +27,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -37,12 +45,15 @@ public class FrmSpmpControlador {
     private FechaTransporte fechaTrans;
     private EquipoFecha equipoFecha;
     private Equipo equipo;
-    private Login login;
     private final ManejoFechas manejoFechas;
     private String fechaFormateada;
     private String tipoEquipo;
     private boolean ingreso;
     private boolean actualiza;
+    private VolquetaFecha volquetaFecha;
+    private CargaTransportada cargaTransportada;
+    private List<Material> listaMaterial;
+    private List<Object[]> listaVolquetaCargaIngreso;
 
     @EJB
     private FechaTransporteServicio fechaTransServicio;
@@ -53,11 +64,19 @@ public class FrmSpmpControlador {
     @EJB
     private EquipoFechaServicio eqFechaServicio;
 
+    @EJB
+    private VolquetaFechaServicio volquetaFechaServicio;
+
+    @EJB
+    private CargaTransportadaServicio cargaTransportadaServicio;
+    @EJB
+    private MaterialServicio materialServicio;
+
     @ManagedProperty("#{baseControlador}")
     private BaseControlador baseControlador;
 
     @ManagedProperty("#{navegacionControlador}")
-    private NavegacionControlador navega;
+    private NavegacionControlador navegacionControlador;
 
     public FrmSpmpControlador() {
         ingreso = false;
@@ -65,15 +84,23 @@ public class FrmSpmpControlador {
         Calendar cal = Calendar.getInstance();
         manejoFechas = new ManejoFechas();
         equipoFecha = new EquipoFecha();
+        equipo = new Equipo();
+        volquetaFecha = new VolquetaFecha();
+        cargaTransportada = new CargaTransportada();
     }
 
     @PostConstruct
     public void init() {
-        fechaTrans = navega.getTransFecha();
+        fechaTrans = navegacionControlador.getTransFecha();
         fechaFormateada = manejoFechas.formatearFecha(fechaTrans);
-        equipo = navega.getLoginUsuario().getEquipo();
+        equipo = navegacionControlador.getLoginUsuario().getEquipo();
         listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
+        tipoEquipo = navegacionControlador.getLoginUsuario().getUsuario();
+        listaEquiposIngreso = eqFechaServicio.listarEquipoTransporte(fechaTrans.getFechaTrDia(),
+                fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio(), fechaTrans.getFechaTrDia(),
+                fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
+        listaMaterial = materialServicio.findAll();
         if (!listaEquiposFecha.isEmpty()) {
             ingreso = true;
         }
@@ -89,6 +116,31 @@ public class FrmSpmpControlador {
         listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
         equipoFecha = new EquipoFecha();
+    }
+
+    public void guardarVolq() {
+        int contadorIngresosVolq = 0;
+        baseControlador.contadorIngresos++;
+        if (contadorIngresosVolq == 0) {
+            baseControlador.disableIngresoVolq = true;
+        }
+        if (baseControlador.contadorIngresos == 5) {
+            baseControlador.ingresarVolq = true;
+        }
+        volquetaFecha.setFkFechaTrCodigo(fechaTrans);
+        volquetaFecha.setFkUsuCodigo(navegacionControlador.getLoginUsuario().getU());
+        //volquetaFechaServicio.create(volquetaFecha);
+
+        cargaTransportada.setFkVolqFechaCodigo(volquetaFecha);
+        //cargaTransportadaServicio.create(cargaTransportada);
+
+        //listaVolquetaCargaIngreso = volquetaFechaServicio.listarVolquetaCargaIngreso(fechaTrans.getFechaTrCodigo(), navegacionControlador.getLoginUsuario().getU().getUsuCodigo());
+        listaVolquetaCargaIngreso = volquetaFechaServicio.listarVolquetaCargaIngreso(1738, 1);
+
+        baseControlador.addSuccessMessage("Ingreso exitoso");
+        volquetaFecha = new VolquetaFecha();
+        cargaTransportada = new CargaTransportada();
+
     }
 
     public void eliminar() {
@@ -163,12 +215,12 @@ public class FrmSpmpControlador {
         this.actualiza = actualiza;
     }
 
-    public NavegacionControlador getNavega() {
-        return navega;
+    public NavegacionControlador getNavegacionControlador() {
+        return navegacionControlador;
     }
 
-    public void setNavega(NavegacionControlador navega) {
-        this.navega = navega;
+    public void setNavegacionControlador(NavegacionControlador navegacionControlador) {
+        this.navegacionControlador = navegacionControlador;
     }
 
     public BaseControlador getBaseControlador() {
@@ -195,4 +247,35 @@ public class FrmSpmpControlador {
         this.listaEquiposFecha = listaEquiposFecha;
     }
 
+    public VolquetaFecha getVolquetaFecha() {
+        return volquetaFecha;
+    }
+
+    public void setVolquetaFecha(VolquetaFecha volquetaFecha) {
+        this.volquetaFecha = volquetaFecha;
+    }
+
+    public CargaTransportada getCargaTransportada() {
+        return cargaTransportada;
+    }
+
+    public void setCargaTransportada(CargaTransportada cargaTransportada) {
+        this.cargaTransportada = cargaTransportada;
+    }
+
+    public List<Material> getListaMaterial() {
+        return listaMaterial;
+    }
+
+    public void setListaMaterial(List<Material> listaMaterial) {
+        this.listaMaterial = listaMaterial;
+    }
+
+    public List<Object[]> getListaVolquetaCargaIngreso() {
+        return listaVolquetaCargaIngreso;
+    }
+
+    public void setListaVolquetaCargaIngreso(List<Object[]> listaVolquetaCargaIngreso) {
+        this.listaVolquetaCargaIngreso = listaVolquetaCargaIngreso;
+    }
 }

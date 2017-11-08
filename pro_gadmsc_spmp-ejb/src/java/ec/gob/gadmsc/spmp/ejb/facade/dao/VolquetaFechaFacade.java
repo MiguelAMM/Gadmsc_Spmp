@@ -10,6 +10,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import ec.gob.gadmsc.spmp.servicios.VolquetaFechaServicio;
+import java.util.List;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,5 +31,27 @@ public class VolquetaFechaFacade extends AbstractFacade<VolquetaFecha> implement
     public VolquetaFechaFacade() {
         super(VolquetaFecha.class);
     }
-    
+
+    @Override
+    public List<Object[]> listarVolquetaCargaIngreso(Integer codigoFecha, Integer codigoUsuario) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select a.volq_fecha_combustible, ");
+        sql.append("a.volq_fecha_km, ");
+        sql.append("b.carga_tr_viaje, ");
+        sql.append("c.mat_nombre, ");
+        sql.append("b.carga_tr_comprobante, ");
+        sql.append("b.carga_tr_observacion ");
+        sql.append("from volqueta_fecha a, carga_transportada b, material c ");
+        sql.append("where a.volq_fecha_codigo = b.fk_volq_fecha_codigo ");
+        sql.append("and c.mat_codigo = b.fk_mat_codigo ");
+        sql.append("and a.fk_fecha_tr_codigo = :codigoFecha ");
+        sql.append("and a.fk_usu_codigo = :codigoUsuario ");
+        sql.append("order by c.mat_codigo ");
+
+        Query q = em.createNativeQuery(sql.toString());
+        q.setParameter("codigoFecha", codigoFecha);
+        q.setParameter("codigoUsuario", codigoUsuario);
+        return q.getResultList();
+    }
+
 }

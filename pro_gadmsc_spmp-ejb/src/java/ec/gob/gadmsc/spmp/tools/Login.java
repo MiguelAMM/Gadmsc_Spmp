@@ -31,7 +31,6 @@ public class Login {
             if (u.getUsuNombre().equals(usuario) && u.getUsuPass().equals(password)) {
                 tipoUsuario = u.getUsuTipo();
                 this.u = u;
-                equipo = null;
                 return true;
             }
         }
@@ -39,7 +38,6 @@ public class Login {
         for (Equipo eq : equipos) {
             if (eq.getEqTipo().equals(usuario) && eq.getEqPass().equals(password)) {
                 tipoUsuario = eq.getEqTipoUs();
-                this.u = null;
                 equipo = eq;
                 return true;
             }

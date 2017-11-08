@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:composition template="./../../plantillas/spmp_plantilla.xhtml">
+        <ui:define name="page-content">
+            <h:form id="frmIngresoVolqueta" styleClass="estilo-pagina">  
+                <p:growl id="msgGrowl" life="6500" showDetail="true"/>
+                <p:outputPanel >
+                    <p:panel >
+                        <center>
+                            <h:outputText value="#{etq.tit_edicion_volquetas}" styleClass="estiloTextoCandaraGranColor"/>
+                        </center>
+                        <br/>
+                        <br/>                        
+                    </p:panel>
+
+                    <p:toolbar>
+                        <f:facet name="right">                            
+                            <p:commandButton  
+                                value="Nuevo" 
+                                icon="ui-icon-document" 
+                                styleClass="ui-priority-primary"         
+                                style="width: 80px; height: 27px"
+                                global="false"
+                                async="true"
+                                ajax="false">                                
+                            </p:commandButton> 
+                        </f:facet> 
+                    </p:toolbar>
+                </p:outputPanel>
+                <!-- ******************************************************Empresa****************************************************** -->
+                <p:outputPanel id="contenedor" >
+                    <p:panel id="pnlVolq">
+                        <p:spacer width="100" height="30"/>
+
+                        <center>
+                            <p:panel id="pnlIngresoVolq">    
+                                <h:panelGrid columns="5"  styleClass="estiloTextoCandaraMed">
+                                    <p:outputLabel value="#{etq.lbl_fecha}: "/>
+                                    <p:outputLabel value="#{frmSpmpControlador.fechaFormateada}"/>
+                                    <p:spacer width="100" height="30"/>
+                                    <p:outputLabel value="#{etq.lbl_volqueta}: "/>
+                                    <p:outputLabel value="#{navegacionControlador.loginUsuario.u.usuCodigo}"/>
+                                </h:panelGrid>
+                                <p:spacer height="20"/>
+                                <h:panelGrid id="pnlGVolq">
+                                    <p:panel>
+                                        <center>
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="#{etq.lbl_combustible}: "/>
+                                                <p:inputText value="#{frmSpmpControlador.volquetaFecha.volqFechaCombustible}" disabled="#{baseControlador.disableIngresoVolq}"/>
+                                                <p:outputLabel value="#{etq.lbl_kilometraje}: "/>
+                                                <p:inputText value="#{frmSpmpControlador.volquetaFecha.volqFechaKm}" disabled="#{baseControlador.disableIngresoVolq}"/>
+                                            </h:panelGrid>
+                                        </center>                                        
+                                        <p:spacer height="20"/>
+                                        <h:panelGrid columns="6"  >
+                                            <p:outputLabel value="#{etq.lbl_material}: *"/>
+                                            <p:selectOneMenu id="cmbMaterial" 
+                                                             style="width:200px;"
+                                                             value="#{frmSpmpControlador.cargaTransportada.fkMatCodigo}"
+                                                             converter="#{materialConverter}"                                                             
+                                                             validatorMessage="Seleccione un material de la lista!!!">
+                                                <f:selectItem itemLabel="#{etq.lbl_seleccione}.." 
+                                                              itemValue="" />
+                                                <f:selectItems value="#{frmSpmpControlador.listaMaterial}" 
+                                                               var="_nomMaterial" 
+                                                               itemLabel="#{_nomMaterial.matNombre}" 
+                                                               itemValue="#{_nomMaterial}"/>
+                                                <f:validateRequired/> 
+                                            </p:selectOneMenu>
+                                            <p:spacer width="30" />
+                                            <p:spacer width="30" />
+                                            <h:outputLabel value="#{etq.lbl_numero_volqueta}: " />
+                                            <p:spinner value="#{frmSpmpControlador.cargaTransportada.cargaTrViaje}" size="20"/>
+                                            <h:outputLabel value="#{etq.lbl_comprobante}: " />
+                                            <p:inputText id="iptComprobante" value="#{frmSpmpControlador.cargaTransportada.cargaTrComprobante}"/>
+                                            <p:watermark for="iptComprobante" value="000000"/>
+                                            <h:outputLabel value="" />
+                                            <h:outputLabel value="#{etq.lbl_observacion}: " />
+                                            <p:inputTextarea rows="6" cols="33" value="#{frmSpmpControlador.cargaTransportada.cargaTrObservacion}" />
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </h:panelGrid>
+                                <p:spacer height="20"/>
+                                <h:panelGrid columns="2">
+                                    <p:commandButton id="btnIngresoVolq" 
+                                                     value="Ingresar" 
+                                                     disabled="#{baseControlador.ingresarVolq}" 
+                                                     action="#{frmSpmpControlador.guardarVolq()}" 
+                                                     process="@this pnlGVolq" 
+                                                     update="@form"/>
+                                    <p:commandButton id="btnActualizarVolq" value="Actualizar" disabled="#{frmSpmpControlador.actualiza}"/>
+                                </h:panelGrid>
+                                <p:spacer height="20"/>
+                            </p:panel>
+
+                            <p:panel>
+                                <p:spacer width="100" height="20"/>
+                                <center>
+                                    <h:panelGrid id="pnlGVolqIngresadas" columns="2">
+                                        <p:dataTable id="selectPro1" 
+                                                     var="volqCarga" 
+                                                     value="#{frmSpmpControlador.listaVolquetaCargaIngreso}"
+                                                     style="width:1120px;"
+                                                     scrollWidth="98%"
+                                                     emptyMessage="#{etq.msg_seg_sinRegistros}" >                                           
+
+                                            <p:columnGroup type="header">
+                                                <p:row>
+                                                    <p:column rowspan="4" headerText="#{etq.lbl_material}" style="width: 100px" >
+                                                        <h:outputText value="#{volqCarga[3]}" />
+                                                    </p:column>
+                                                </p:row>
+                                                <p:row>
+                                                    <p:column colspan="2" headerText="#{etq.lbl_combustible}" style="width: 60px" >
+                                                        <h:outputText value="#{volqCarga[0]}" />
+                                                    </p:column>
+                                                    <p:column colspan="2" headerText="#{etq.lbl_kilometraje}" style="width: 60px" >
+                                                        <h:outputText value="#{volqCarga[1]}" />
+                                                    </p:column>
+                                                </p:row>
+                                                <p:row>
+
+                                                    <h:outputText value="#{volqCarga[0]}" />
+
+                                                    <h:outputText value="#{volqCarga[1]}" />
+
+                                                </p:row>
+                                                <p:row>
+                                                    <p:column headerText="#{etq.lbl_numero_volqueta}" />
+                                                    <p:column headerText="#{etq.lbl_comprobante}" />
+                                                    <p:column headerText="#{etq.lbl_observacion}"  />
+                                                    <p:column headerText="#{etq.btn_eliminar}" />
+                                                </p:row>
+                                            </p:columnGroup>
+                                            <p:column headerText="#{etq.lbl_material}" style="width: 100px" >
+                                                <h:outputText value="#{volqCarga[3]}" />
+                                            </p:column>
+                                            <p:column style="width: 50px">
+                                                <h:outputText value="#{volqCarga[2]}" />
+                                            </p:column>
+                                            <p:column style="width: 70px">
+                                                <h:outputText value="#{volqCarga[4]}" />
+                                            </p:column>
+                                            <p:column style="width: 180px">
+                                                <h:outputText value="#{volqCarga[5]}" />
+                                            </p:column>
+                                            <p:column  width="40" styleClass="centeredColumn">                                                
+                                                <p:commandButton id="btnEliminarP" 
+                                                                 icon="ui-icon-trash" 
+                                                                 title="Eliminar" 
+                                                                 process="@this"
+                                                                 update="selectPro1"      
+                                                                 onclick="PF('groupConfirmPro').show();"
+                                                                 > 
+                                                </p:commandButton>
+                                            </p:column>
+                                        </p:dataTable>
+                                        <p:confirmDialog message="Seguro de eliminar este Producto?" showEffect="fade" hideEffect="fade" widgetVar="groupConfirmPro">
+                                            <p:commandButton value="Si"  
+                                                             styleClass="ui-confirmdialog-yes" 
+                                                             icon="ui-icon-check"
+                                                             process="@this"
+                                                             update="pnlIngresoVolq, :frmIngresoVolqueta:msgGrowl"
+                                                             oncomplete="PF('groupConfirmPro').hide();"
+                                                             global="false"
+                                                             async="true"                                                             
+                                                             ajax="false"
+                                                             />
+                                            <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" oncomplete="PF('groupConfirmPro').hide();"/>
+                                        </p:confirmDialog>
+                                    </h:panelGrid>
+                                </center>
+                            </p:panel>
+                        </center>
+                    </p:panel>                    
+                </p:outputPanel>
+            </h:form>
+            <p:dialog id="dlgEliminaEq" widgetVar="dialogo" header="Diálogo" modal="true">
+                <h:form id="form">
+                    <h:outputText value="#{etq.lbl_eliminar}"/>
+                    <p:commandButton id="btnSi" value="SI" action="#{frmSpmpControlador.eliminar()}" update=":frmIngresoVolqueta"/>
+                    <p:commandButton value="NO" onclick="dialogo.hide()" />
+                </h:form>
+            </p:dialog>
+        </ui:define>        
+    </ui:composition>
+</html>
