@@ -20,7 +20,7 @@
                                     <p:outputLabel value="#{etq.lbl_fecha}: "/>
                                     <p:outputLabel value="#{frmSpmpControlador.fechaFormateada}"/>
                                     <p:outputLabel value="#{etq.lbl_equipo_combustible}: "/>
-                                    <p:inputText value="#{frmSpmpControlador.equipoFecha.eqFechaCombustible}"/>
+                                    <p:inputText value="#{frmSpmpControlador.equipoFecha.eqFechaCombustible}" onkeypress="return validarEnteros(event)"/>
                                     <p:outputLabel value="#{etq.lbl_equipo_observacion}: "/>
                                     <p:inputTextarea rows="6" cols="33" value="#{frmSpmpControlador.equipoFecha.eqFechaObservacion}"/>
                                     <p:commandButton id="btnIngresarEq" value="Ingresar" disabled="#{frmSpmpControlador.ingreso}" action="#{frmSpmpControlador.guardar()}" update="@form"/>
@@ -61,7 +61,14 @@
                                 </p:dataTable>
                             </p:panel>
                         </center>
-                    </p:panel>                    
+                    </p:panel>   
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('.ui-tabs').css("position", "inherit");
+                            $('.ui-widget-content').css("position", "inherit");
+                        });
+                    </script>
                 </p:outputPanel>
             </h:form>
             <p:dialog id="dlgEliminaEq" widgetVar="dialogo" header="Diálogo" modal="true">
@@ -71,6 +78,6 @@
                     <p:commandButton value="NO" onclick="dialogo.hide()" />
                 </h:form>
             </p:dialog>
-        </ui:define>        
+        </ui:define>    
     </ui:composition>
 </html>

@@ -181,9 +181,9 @@
                             <h:outputText value="Apellido"/>
                             <p:inputText value="#{reporteControlador.chofer.choferApellido}"/>
                             <h:outputText value="Cédula"/>
-                            <p:inputText value="#{reporteControlador.chofer.choferCi}"/>
+                            <p:inputText value="#{reporteControlador.chofer.choferCi}" onkeypress="return validarEnteros(event)"/>
                             <h:outputText value="Teléfono"/>
-                            <p:inputText value="#{reporteControlador.chofer.choferTlf}"/>
+                            <p:inputText value="#{reporteControlador.chofer.choferTlf}" onkeypress="return validarEnteros(event)"/>
                             <h:outputText value="Dirección"/>
                             <p:inputText value="#{reporteControlador.chofer.choferDireccion}"/>
                             <h:outputText value="Fecha de nacimiento"/>

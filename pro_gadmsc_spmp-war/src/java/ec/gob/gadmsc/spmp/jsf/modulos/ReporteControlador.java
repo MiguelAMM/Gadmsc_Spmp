@@ -34,6 +34,7 @@ import javax.faces.bean.ViewScoped;
 import java.text.ParseException;
 import java.util.*;
 import javax.faces.bean.ManagedProperty;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -70,7 +71,6 @@ public class ReporteControlador {
     private Chofer choferSeleccionado;
     private String maquinaria;
     private String horaActual;
-    private String choferAsignado;
     private boolean ingreso;
     private boolean actualiza;
     private boolean textoIngreso;
@@ -309,14 +309,20 @@ public class ReporteControlador {
     }
 
     public void ingresarVolqueta() {
-        chofer = choferServicio.find(idChoferVolq);
-        volquetaSeleccionada.setFkChoferCodigo(chofer);
-        volquetaSeleccionada.setUsuTipo("volqueta");
-        usuarioServicio.create(volquetaSeleccionada);
-        baseControlador.addSuccessMessage("Ingreso exitoso");
-        volquetaSeleccionada = new Usuario();
-        listaVolquetas = usuarioServicio.buscarVolquetas();
-        idChoferVolq = 0;
+        if (idChoferVolq != 0) {
+            chofer = choferServicio.find(idChoferVolq);
+            volquetaSeleccionada.setFkChoferCodigo(chofer);
+            volquetaSeleccionada.setUsuTipo("volqueta");
+            usuarioServicio.create(volquetaSeleccionada);
+            baseControlador.addSuccessMessage("Ingreso exitoso");
+            volquetaSeleccionada = new Usuario();
+            listaVolquetas = usuarioServicio.buscarVolquetas();
+            idChoferVolq = 0;
+            RequestContext.getCurrentInstance().execute("PF('volqDialogo').hide()");
+        } else {
+            baseControlador.addErrorMessage("Seleccione chofer");
+        }
+
     }
 
     public void actualizarVolqueta() {
@@ -328,6 +334,7 @@ public class ReporteControlador {
             volquetaSeleccionada = new Usuario();
             listaVolquetas = usuarioServicio.buscarVolquetas();
             idChoferVolq = 0;
+            RequestContext.getCurrentInstance().execute("PF('volqDialogo').hide()");
         } else {
             baseControlador.addErrorMessage("Seleccione chofer");
         }
@@ -342,19 +349,26 @@ public class ReporteControlador {
             equipoSeleccionado = new Equipo();
             listaEquipos = equipoServicio.findAll();
             idChoferEq = 0;
+            RequestContext.getCurrentInstance().execute("PF('eqDialogo').hide()");
         } else {
             baseControlador.addErrorMessage("Seleccione chofer");
         }
     }
 
     public void ingresarEquipo() {
-        chofer = choferServicio.find(idChoferEq);
-        equipoSeleccionado.setFkChoferCodigo(chofer);
-        equipoSeleccionado.setEqTipo("equipo");
-        equipoServicio.create(equipoSeleccionado);
-        baseControlador.addSuccessMessage("Ingreso exitoso");
-        listaEquipos = equipoServicio.findAll();
-        equipoSeleccionado = new Equipo();
+        if (idChoferEq != 0) {
+            chofer = choferServicio.find(idChoferEq);
+            equipoSeleccionado.setFkChoferCodigo(chofer);
+            equipoSeleccionado.setEqTipo("equipo");
+            equipoServicio.create(equipoSeleccionado);
+            baseControlador.addSuccessMessage("Ingreso exitoso");
+            listaEquipos = equipoServicio.findAll();
+            equipoSeleccionado = new Equipo();
+            idChoferEq = 0;
+            RequestContext.getCurrentInstance().execute("PF('eqDialogo').hide()");
+        } else {
+            baseControlador.addErrorMessage("Seleccione chofer");
+        }
     }
 
     public void ingresarChofer() {
@@ -362,6 +376,7 @@ public class ReporteControlador {
         baseControlador.addSuccessMessage("Ingreso exitoso");
         listaChoferes = choferServicio.findAll();
         chofer = new Chofer();
+        RequestContext.getCurrentInstance().execute("PF('choferDialogo').hide()");
     }
 
     public void actualizarChofer() {
@@ -369,6 +384,7 @@ public class ReporteControlador {
         baseControlador.addSuccessMessage("Actualización exitosa");
         chofer = new Chofer();
         listaChoferes = choferServicio.findAll();
+        RequestContext.getCurrentInstance().execute("PF('choferDialogo').hide()");
     }
 
     public void seleccionarEquipo() {
@@ -386,7 +402,6 @@ public class ReporteControlador {
     }
 
     public void seleccionarChofer() {
-        choferAsignado = chofer.getChoferAsignado();
         textoIngreso = true;
         ingreso = true;
         actualiza = false;
@@ -686,14 +701,6 @@ public class ReporteControlador {
 
     public void setTextoIngreso(boolean textoIngreso) {
         this.textoIngreso = textoIngreso;
-    }
-
-    public String getChoferAsignado() {
-        return choferAsignado;
-    }
-
-    public void setChoferAsignado(String choferAsignado) {
-        this.choferAsignado = choferAsignado;
     }
     //</editor-fold>
 }

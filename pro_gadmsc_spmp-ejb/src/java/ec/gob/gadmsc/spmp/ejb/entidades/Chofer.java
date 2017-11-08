@@ -5,6 +5,7 @@
  */
 package ec.gob.gadmsc.spmp.ejb.entidades;
 
+import com.cursojsf.validadores.Cedula;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -70,6 +72,7 @@ public class Chofer implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 11)
+    @Cedula(message = "La cédula es inválida")
     @Column(name = "chofer_ci")
     private String choferCi;
     @Basic(optional = false)
@@ -88,7 +91,7 @@ public class Chofer implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date choferFechaNac;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Elija opción de asignado")
     @Size(min = 1, max = 2)
     @Column(name = "chofer_asignado")
     private String choferAsignado;

@@ -74,11 +74,14 @@ public class FrmSpmpControlador {
         equipo = navega.getLoginUsuario().getEquipo();
         listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
+        if (!listaEquiposFecha.isEmpty()) {
+            ingreso = true;
+        }
     }
 
     public void guardar() {
         ingreso = true;
-        actualiza = false;
+        actualiza = true;
         equipoFecha.setFkFechaTrCodigo(fechaTrans);
         equipoFecha.setFkEqCodigo(equipo);
         eqFechaServicio.create(equipoFecha);
@@ -103,6 +106,8 @@ public class FrmSpmpControlador {
         listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
         equipoFecha = new EquipoFecha();
+        ingreso = true;
+        actualiza = true;
     }
 
     public void seleccionar() {
