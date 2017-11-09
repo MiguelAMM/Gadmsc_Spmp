@@ -129,13 +129,13 @@ public class FrmSpmpControlador {
         }
         volquetaFecha.setFkFechaTrCodigo(fechaTrans);
         volquetaFecha.setFkUsuCodigo(navegacionControlador.getLoginUsuario().getU());
-        //volquetaFechaServicio.create(volquetaFecha);
+        volquetaFechaServicio.create(volquetaFecha);
 
         cargaTransportada.setFkVolqFechaCodigo(volquetaFecha);
-        //cargaTransportadaServicio.create(cargaTransportada);
+        cargaTransportadaServicio.create(cargaTransportada);
 
-        //listaVolquetaCargaIngreso = volquetaFechaServicio.listarVolquetaCargaIngreso(fechaTrans.getFechaTrCodigo(), navegacionControlador.getLoginUsuario().getU().getUsuCodigo());
-        listaVolquetaCargaIngreso = volquetaFechaServicio.listarVolquetaCargaIngreso(1738, 1);
+        listaVolquetaCargaIngreso = volquetaFechaServicio.listarVolquetaCargaIngreso(fechaTrans.getFechaTrCodigo(), navegacionControlador.getLoginUsuario().getU().getUsuCodigo());
+        //  listaVolquetaCargaIngreso = volquetaFechaServicio.listarVolquetaCargaIngreso(1738, 1);
 
         baseControlador.addSuccessMessage("Ingreso exitoso");
         volquetaFecha = new VolquetaFecha();
