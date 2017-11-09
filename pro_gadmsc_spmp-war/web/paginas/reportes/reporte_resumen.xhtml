@@ -106,7 +106,7 @@
                                         <p:column headerText="#{etq.lbl_mes}" width="40px" style="#{combustibleResumen[0] ne 'TOTAL' ? 'background-color: #cfeaff' : null}" styleClass="#{combustibleResumen[0] eq 'TOTAL' ? 'rightColumn' : null}">
                                             <h:outputText value="#{combustibleResumen[0]}" />
                                         </p:column>                            
-                                            <p:column headerText="#{etq.lbl_volquetas_resumen}" width="40px">
+                                        <p:column headerText="#{etq.lbl_volquetas_resumen}" width="40px">
                                             <h:outputText value="#{combustibleResumen[1]}" />
                                         </p:column>                               
                                         <p:column headerText="#{etq.lbl_equipo_resumen}"  width="40px" >
@@ -124,6 +124,8 @@
                         $(document).ready(function () {
                             $('.ui-accordion-content').css("position", "inherit");
                             $('.ui-widget-header').css("position", "inherit");
+                            $('.ui-accordion-header').css("z-index", 1);
+                            $('.ui-stack').css("z-index", 2);
                         });
                     </script>
                 </p:outputPanel>

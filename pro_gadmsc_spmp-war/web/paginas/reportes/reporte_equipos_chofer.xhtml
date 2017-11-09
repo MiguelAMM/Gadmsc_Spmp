@@ -44,6 +44,14 @@
                                                 </p:commandButton>                                                    
                                             </p:column>
                                         </p:dataTable>
+                                        <p:spacer width="80" height="20"/>
+                                        <h:panelGrid columns="2">                        
+                                            <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
+                                            <h:commandLink>  
+                                                <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                                <p:dataExporter type="xls" target="tableVolq" fileName="volquetas_#{reporteControlador.horaActual}" />
+                                            </h:commandLink>
+                                        </h:panelGrid>
                                     </p:tab>
                                     <p:tab id="tabEqui" title="Equipos">
                                         <p:commandButton id="btnIngresoNuevoEq" value="Ingresar nuevo equipo" update=":frmDialogoEq:eqDetalle" oncomplete="PF('eqDialogo').show()"
@@ -72,6 +80,14 @@
                                                 </p:commandButton>                                                    
                                             </p:column>
                                         </p:dataTable>
+                                        <p:spacer width="80" height="20"/>
+                                        <h:panelGrid columns="2">                        
+                                            <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
+                                            <h:commandLink>  
+                                                <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                                <p:dataExporter type="xls" target="tableEq" fileName="equipos_#{reporteControlador.horaActual}" />
+                                            </h:commandLink>
+                                        </h:panelGrid>
                                     </p:tab>
                                     <p:tab id="tabChofer" title="Choferes">
                                         <p:commandButton id="btnIngresoNuevoChofer" value="Ingresar nuevo chofer" update=":frmDialogoChofer:choferDetalle" oncomplete="PF('choferDialogo').show()"
@@ -112,9 +128,22 @@
                                                 </p:commandButton>                                                    
                                             </p:column>
                                         </p:dataTable>
+                                        <p:spacer width="80" height="20"/>
+                                        <h:panelGrid columns="2">                        
+                                            <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
+                                            <h:commandLink>  
+                                                <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                                <p:dataExporter type="xls" target="tableChoferes" fileName="choferes_#{reporteControlador.horaActual}" />
+                                            </h:commandLink>
+                                        </h:panelGrid>
                                     </p:tab>
                                 </p:tabView>
-
+                                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        $('.ui-stack').css("z-index", 2);
+                                        $('.ui-tabs-panels').css("z-index", 1);
+                                    });
+                                </script>
                             </p:panel>
                         </center>
                     </p:panel>
@@ -135,14 +164,14 @@
                             <h:outputText value="Chofer"/>
                             <p:selectOneMenu id="cmbChoferVolq" value="#{reporteControlador.idChoferVolq}">
                                 <f:selectItem itemLabel="Seleccione chofer" itemValue="0"/>
-                                <f:selectItems value="#{reporteControlador.listaChoferes}" var="varChoferes"
+                                <f:selectItems value="#{reporteControlador.listaChoferesNoAsignados}" var="varChoferes"
                                                itemLabel="#{varChoferes}" itemValue="#{varChoferes.choferCodigo}"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <p:commandButton id="btnIngresoVolq" value="Ingresar" action="#{reporteControlador.ingresarVolqueta()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:msg" disabled="#{reporteControlador.ingreso}"/>
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" disabled="#{reporteControlador.ingreso}"/>
                         <p:commandButton id="btnActualizaVolq" value="Actualizar" action="#{reporteControlador.actualizarVolqueta()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:msg" disabled="#{reporteControlador.actualiza}"/>    
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" disabled="#{reporteControlador.actualiza}"/>    
                     </p:outputPanel>
                 </h:form>                    
             </p:dialog>
@@ -160,14 +189,14 @@
                             <h:outputText value="Chofer"/>
                             <p:selectOneMenu id="cmbChoferEq" value="#{reporteControlador.idChoferEq}">
                                 <f:selectItem itemLabel="Seleccione chofer" itemValue="0"/>
-                                <f:selectItems value="#{reporteControlador.listaChoferes}" var="varChoferesEq"
+                                <f:selectItems value="#{reporteControlador.listaChoferesNoAsignados}" var="varChoferesEq"
                                                itemLabel="#{varChoferesEq}" itemValue="#{varChoferesEq.choferCodigo}"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <p:commandButton id="btnIngresoEq" value="Ingresar" action="#{reporteControlador.ingresarEquipo()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:msg" disabled="#{reporteControlador.ingreso}"/>
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" disabled="#{reporteControlador.ingreso}"/>
                         <p:commandButton id="btnActualizaEq" value="Actualizar" action="#{reporteControlador.actualizarEquipo()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:msg" disabled="#{reporteControlador.actualiza}"/>
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" disabled="#{reporteControlador.actualiza}"/>
                     </p:outputPanel>
                 </h:form>
             </p:dialog>

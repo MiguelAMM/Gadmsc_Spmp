@@ -52,6 +52,7 @@ public class ReporteControlador {
     private List<Object[]> listaResumenCombustible;
     private List<Usuario> listaVolquetas;
     private List<Chofer> listaChoferes;
+    private List<Chofer> listaChoferesNoAsignados;
     private List<Equipo> listaEquipos;
     private List<FechaTransporte> listaFechasTransporte;
     private LinkedList<String> listaFechasString;
@@ -211,79 +212,86 @@ public class ReporteControlador {
     public void obtenerTablaResumenCarga() {
         int contador = 1;
         System.out.println("Año resumen " + anioResumen);
-        listaCarga = cargaTransportadaServicio.listarResumenCarga(anioResumen);
-        listaTablaCargaResumen = new ArrayList<>();
-        for (Object[] ob : listaCarga) {
-            switch ((int) ob[0]) {
-                case 1:
-                    cargaResumen.setMes(Meses.ENERO);
-                    break;
-                case 2:
-                    cargaResumen.setMes(Meses.FEBRERO);
-                    break;
-                case 3:
-                    cargaResumen.setMes(Meses.MARZO);
-                    break;
-                case 4:
-                    cargaResumen.setMes(Meses.ABRIL);
-                    break;
-                case 5:
-                    cargaResumen.setMes(Meses.MAYO);
-                    break;
-                case 6:
-                    cargaResumen.setMes(Meses.JUNIO);
-                    break;
-                case 7:
-                    cargaResumen.setMes(Meses.JULIO);
-                    break;
-                case 8:
-                    cargaResumen.setMes(Meses.AGOSTO);
-                    break;
-                case 9:
-                    cargaResumen.setMes(Meses.SEPTIEMBRE);
-                    break;
-                case 10:
-                    cargaResumen.setMes(Meses.OCTUBRE);
-                    break;
-                case 11:
-                    cargaResumen.setMes(Meses.NOVIEMBRE);
-                    break;
-                case 12:
-                    cargaResumen.setMes(Meses.DICIEMBRE);
-                    break;
+        if (anioResumen != 0) {
+            listaCarga = cargaTransportadaServicio.listarResumenCarga(anioResumen);
+            listaTablaCargaResumen = new ArrayList<>();
+            for (Object[] ob : listaCarga) {
+                switch ((int) ob[0]) {
+                    case 1:
+                        cargaResumen.setMes(Meses.ENERO);
+                        break;
+                    case 2:
+                        cargaResumen.setMes(Meses.FEBRERO);
+                        break;
+                    case 3:
+                        cargaResumen.setMes(Meses.MARZO);
+                        break;
+                    case 4:
+                        cargaResumen.setMes(Meses.ABRIL);
+                        break;
+                    case 5:
+                        cargaResumen.setMes(Meses.MAYO);
+                        break;
+                    case 6:
+                        cargaResumen.setMes(Meses.JUNIO);
+                        break;
+                    case 7:
+                        cargaResumen.setMes(Meses.JULIO);
+                        break;
+                    case 8:
+                        cargaResumen.setMes(Meses.AGOSTO);
+                        break;
+                    case 9:
+                        cargaResumen.setMes(Meses.SEPTIEMBRE);
+                        break;
+                    case 10:
+                        cargaResumen.setMes(Meses.OCTUBRE);
+                        break;
+                    case 11:
+                        cargaResumen.setMes(Meses.NOVIEMBRE);
+                        break;
+                    case 12:
+                        cargaResumen.setMes(Meses.DICIEMBRE);
+                        break;
+                }
+                switch ((String) ob[1]) {
+                    case "Arena fina":
+                        cargaResumen.setArenaFina((int) ob[2]);
+                        totales.setTotalVolquetadasArena((int) ob[3]);
+                        break;
+                    case "Material para bloque":
+                        cargaResumen.setMaterialBloque((int) ob[2]);
+                        totales.setTotalVolquetadasBloque((int) ob[3]);
+                        break;
+                    case "Polvo de piedra":
+                        cargaResumen.setPolvoPiedra((int) ob[2]);
+                        totales.setTotalVolquetadasPolvo((int) ob[3]);
+                        break;
+                    case "Relleno":
+                        cargaResumen.setRelleno((int) ob[2]);
+                        totales.setTotalVolquetadasRelleno((int) ob[3]);
+                        break;
+                    case "Ripio":
+                        cargaResumen.setRipio((int) ob[2]);
+                        totales.setTotalVolquetadasRipio((int) ob[3]);
+                        break;
+                }
+                if (contador == 5) {
+                    listaTablaCargaResumen.add(cargaResumen);
+                    contador = 1;
+                    cargaResumen = new TablaCarga();
+                } else {
+                    contador++;
+                }
             }
-            switch ((String) ob[1]) {
-                case "Arena fina":
-                    cargaResumen.setArenaFina((int) ob[2]);
-                    totales.setTotalVolquetadasArena((int) ob[3]);
-                    break;
-                case "Material para bloque":
-                    cargaResumen.setMaterialBloque((int) ob[2]);
-                    totales.setTotalVolquetadasBloque((int) ob[3]);
-                    break;
-                case "Polvo de piedra":
-                    cargaResumen.setPolvoPiedra((int) ob[2]);
-                    totales.setTotalVolquetadasPolvo((int) ob[3]);
-                    break;
-                case "Relleno":
-                    cargaResumen.setRelleno((int) ob[2]);
-                    totales.setTotalVolquetadasRelleno((int) ob[3]);
-                    break;
-                case "Ripio":
-                    cargaResumen.setRipio((int) ob[2]);
-                    totales.setTotalVolquetadasRipio((int) ob[3]);
-                    break;
-            }
-            if (contador == 5) {
-                listaTablaCargaResumen.add(cargaResumen);
-                contador = 1;
-                cargaResumen = new TablaCarga();
-            } else {
-                contador++;
-            }
+            totales.calcularTotalesM3();
+            obtenerResumenCombustible();
+        } else {
+            baseControlador.addErrorMessage("Seleccione año de búsqueda");
+            listaTablaCargaResumen = new ArrayList<>();
+            listaResumenCombustible = new ArrayList<>();
+            totales = new TotalesCarga();
         }
-        totales.calcularTotalesM3();
-        obtenerResumenCombustible();
     }
 
     public void listarFechas() {
@@ -314,8 +322,11 @@ public class ReporteControlador {
             volquetaSeleccionada.setFkChoferCodigo(chofer);
             volquetaSeleccionada.setUsuTipo("volqueta");
             usuarioServicio.create(volquetaSeleccionada);
+            chofer.setChoferAsignado("SI");
+            choferServicio.edit(chofer);
             baseControlador.addSuccessMessage("Ingreso exitoso");
             volquetaSeleccionada = new Usuario();
+            listaChoferes = choferServicio.findAll();
             listaVolquetas = usuarioServicio.buscarVolquetas();
             idChoferVolq = 0;
             RequestContext.getCurrentInstance().execute("PF('volqDialogo').hide()");
@@ -330,8 +341,11 @@ public class ReporteControlador {
             chofer = choferServicio.find(idChoferVolq);
             volquetaSeleccionada.setFkChoferCodigo(chofer);
             usuarioServicio.edit(volquetaSeleccionada);
+            chofer.setChoferAsignado("SI");
+            choferServicio.edit(chofer);
             baseControlador.addSuccessMessage("Actualización exitosa");
             volquetaSeleccionada = new Usuario();
+            listaChoferes = choferServicio.findAll();
             listaVolquetas = usuarioServicio.buscarVolquetas();
             idChoferVolq = 0;
             RequestContext.getCurrentInstance().execute("PF('volqDialogo').hide()");
@@ -345,8 +359,11 @@ public class ReporteControlador {
             chofer = choferServicio.find(idChoferEq);
             equipoSeleccionado.setFkChoferCodigo(chofer);
             equipoServicio.edit(equipoSeleccionado);
+            chofer.setChoferAsignado("SI");
+            choferServicio.edit(chofer);
             baseControlador.addSuccessMessage("Actualización exitosa");
             equipoSeleccionado = new Equipo();
+            listaChoferes = choferServicio.findAll();
             listaEquipos = equipoServicio.findAll();
             idChoferEq = 0;
             RequestContext.getCurrentInstance().execute("PF('eqDialogo').hide()");
@@ -359,9 +376,12 @@ public class ReporteControlador {
         if (idChoferEq != 0) {
             chofer = choferServicio.find(idChoferEq);
             equipoSeleccionado.setFkChoferCodigo(chofer);
-            equipoSeleccionado.setEqTipo("equipo");
+            equipoSeleccionado.setEqTipoUs("equipo");
             equipoServicio.create(equipoSeleccionado);
+            chofer.setChoferAsignado("SI");
+            choferServicio.edit(chofer);
             baseControlador.addSuccessMessage("Ingreso exitoso");
+            listaChoferes = choferServicio.findAll();
             listaEquipos = equipoServicio.findAll();
             equipoSeleccionado = new Equipo();
             idChoferEq = 0;
@@ -389,6 +409,9 @@ public class ReporteControlador {
 
     public void seleccionarEquipo() {
         idChoferEq = equipoSeleccionado.getFkChoferCodigo().getChoferCodigo();
+        chofer = choferServicio.find(idChoferEq);
+        listaChoferesNoAsignados = choferServicio.buscarChoferNoAsignado();
+        listaChoferesNoAsignados.add(chofer);
         textoIngreso = true;
         ingreso = true;
         actualiza = false;
@@ -396,6 +419,9 @@ public class ReporteControlador {
 
     public void seleccionarVolq() {
         idChoferVolq = volquetaSeleccionada.getFkChoferCodigo().getChoferCodigo();
+        chofer = choferServicio.find(idChoferVolq);
+        listaChoferesNoAsignados = choferServicio.buscarChoferNoAsignado();
+        listaChoferesNoAsignados.add(chofer);
         textoIngreso = true;
         ingreso = true;
         actualiza = false;
@@ -408,6 +434,7 @@ public class ReporteControlador {
     }
 
     public void ingresarNuevo() {
+        listaChoferesNoAsignados = choferServicio.buscarChoferNoAsignado();
         idChoferEq = 0;
         idChoferVolq = 0;
         chofer = new Chofer();
@@ -701,6 +728,14 @@ public class ReporteControlador {
 
     public void setTextoIngreso(boolean textoIngreso) {
         this.textoIngreso = textoIngreso;
+    }
+
+    public List<Chofer> getListaChoferesNoAsignados() {
+        return listaChoferesNoAsignados;
+    }
+
+    public void setListaChoferesNoAsignados(List<Chofer> listaChoferesNoAsignados) {
+        this.listaChoferesNoAsignados = listaChoferesNoAsignados;
     }
     //</editor-fold>
 }

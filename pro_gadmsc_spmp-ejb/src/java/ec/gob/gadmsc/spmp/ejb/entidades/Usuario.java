@@ -42,7 +42,7 @@ public class Usuario implements Serializable {
     private Integer usuCodigo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 8)
+    @Size(min = 1, max = 8, message = "Los caracteres de la placa deben estar entre 1 y 8")
     @Column(name = "usu_nombre")
     private String usuNombre;
     @Basic(optional = false)
@@ -137,5 +137,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "ec.gob.gadmsc.spmp.ejb.entidades.Usuario[ usuCodigo=" + usuCodigo + " ]";
     }
-    
+
 }

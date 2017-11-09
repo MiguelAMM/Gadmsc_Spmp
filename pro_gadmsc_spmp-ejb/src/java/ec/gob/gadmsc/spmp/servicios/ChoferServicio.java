@@ -29,5 +29,7 @@ public interface ChoferServicio {
     List<Chofer> findRange(int[] range);
 
     int count();
-    
+
+    List<Chofer> buscarChoferNoAsignado();
+
 }

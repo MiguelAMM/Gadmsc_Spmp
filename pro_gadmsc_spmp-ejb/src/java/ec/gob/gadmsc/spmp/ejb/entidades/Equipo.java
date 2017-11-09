@@ -50,7 +50,7 @@ public class Equipo implements Serializable {
     private String eqTipo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 8)
+    @Size(min = 1, max = 8, message = "Los caracteres de la placa deben estar entre 1 y 8")
     @Column(name = "eq_placa")
     private String eqPlaca;
     @Basic(optional = false)
