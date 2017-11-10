@@ -108,6 +108,14 @@ public class NavegacionControlador {
 
     }
 
+    public void navegarUsuarios() throws IOException {
+        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_equipos_chofer.xhtml");
+    }
+
+    public void navegarMaterial() throws IOException {
+        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_material.xhtml");
+    }
+
     public void validarAccesoUsuario() throws IOException, Exception {
         try {
             obtenerFechaActual();
@@ -132,7 +140,7 @@ public class NavegacionControlador {
 //                baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_carga_transportada.xhtml");
                 switch (loginUsuario.getTipoUsuario()) {
                     case "secretaria":
-                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_equipos_chofer.xhtml");
+                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/administracion.xhtml");
                         break;
                     case "volqueta":
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");

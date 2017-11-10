@@ -18,7 +18,7 @@
                             <p:panel>
                                 <p:tabView id="tabViewEquiChofer">
                                     <p:tab id="tabVolq" title="Volquetas">
-                                        <p:commandButton id="btnIngresoNuevoVolq" value="Ingresar nueva volqueta" update=":frmDialogoVolq:volqDetalle" oncomplete="PF('volqDialogo').show()"
+                                        <p:commandButton id="btnIngresoNuevoVolq" value="#{etq.btn_ingresar_volq}" update=":frmDialogoVolq:volqDetalle" oncomplete="PF('volqDialogo').show()"
                                                          process="@this" action="#{reporteControlador.ingresarNuevo()}"/>
                                         <p:dataTable id="tableVolq" var="volquetas" value="#{reporteControlador.listaVolquetas}"
                                                      scrollable="true"
@@ -222,8 +222,8 @@
                             <p:selectOneRadio id="radioCargaT"
                                               value="#{reporteControlador.chofer.choferAsignado}"
                                               columns="2">
-                                <f:selectItem itemLabel="SI" itemValue="SI"/>
-                                <f:selectItem itemLabel="NO" itemValue="NO"/>
+                                <f:selectItem itemLabel="#{etq.radio_SI}" itemValue="#{etq.radio_SI}"/>
+                                <f:selectItem itemLabel="#{etq.radio_NO}" itemValue="#{etq.radio_NO}"/>
                             </p:selectOneRadio>
                             <h:outputText value="Correo electrónico"/>
                             <p:inputText value="#{reporteControlador.chofer.choferEmail}"/>

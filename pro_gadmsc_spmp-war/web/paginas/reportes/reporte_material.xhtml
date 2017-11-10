@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"> 
+
+    <ui:composition template="./../../plantillas/spmp_plantilla.xhtml">
+        <ui:define name="page-content">
+            <h:form id="frmMaterial" styleClass="estilo-pagina">
+                <p:growl id="msg" showDetail="true"/>
+                <p:outputPanel >
+                    <p:panel id="pnlMaterial">
+                        <center>
+                            <h:outputText value="#{etq.tit_admin_materiales}" styleClass="estiloTextoCandaraGranColor"/>
+                            <p:spacer width="200" height="20"/>
+                            <p:panel>
+                                <p:commandButton id="btnIngresoNuevoMat" value="#{etq.btn_ingresar_material}" update=":frmDialogoMat:matDetalle" oncomplete="PF('materialDialogo').show()"
+                                                 process="@this" action="#{frmSpmpControlador.ingresarNuevoMaterial()}"/>
+                                <p:dataTable id="tableMaterial" var="materiales" value="#{frmSpmpControlador.listaMaterial}"
+                                             scrollable="true"
+                                             scrollWidth="96%"
+                                             styleClass="estiloListaCalibriPeq" 
+                                             emptyMessage="#{etq.msg_seg_sinRegistros}">
+                                    <p:column headerText="#{etq.lbl_material}" style="width:30px;text-align: center">
+                                        <h:outputText value="#{materiales.matNombre}"/>
+                                    </p:column>
+                                    <p:column style="width:30px;text-align: center">
+                                        <p:commandButton id="btnSeleccionMaterial" update=":frmDialogoMat:matDetalle" oncomplete="PF('materialDialogo').show()"
+                                                         icon="ui-icon-search" process="@this" title="Ver" action="#{frmSpmpControlador.seleccionarMaterial()}">
+                                            <f:setPropertyActionListener value="#{materiales}" target="#{frmSpmpControlador.material}"/>
+                                        </p:commandButton>                                                    
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                        </center>
+                    </p:panel>
+                </p:outputPanel>
+            </h:form>
+
+
+            <p:dialog id="dialogoMat" header="#{etq.lbl_material}" widgetVar="materialDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <h:form id="frmDialogoMat">
+                    <p:outputPanel id="matDetalle" style="text-align:center;">
+                        <p:panelGrid id="panelMat" columns="2">
+                            <h:outputText value="#{etq.lbl_material}"/>
+                            <p:inputText value="#{frmSpmpControlador.material.matNombre}"/>
+                        </p:panelGrid>
+                        <p:commandButton id="btnIngresoMat" value="Ingresar" action="#{frmSpmpControlador.ingresarMaterial()}" 
+                                         update=":frmMaterial:tableMaterial :frmMaterial:msg" disabled="#{frmSpmpControlador.ingreso}"/>
+                        <p:commandButton id="btnActualizaMat" value="Actualizar" action="#{frmSpmpControlador.actualizarMaterial()}" 
+                                         update=":frmMaterial:tableMaterial :frmMaterial:msg" disabled="#{frmSpmpControlador.actualiza}"/>    
+                    </p:outputPanel>
+                </h:form>                    
+            </p:dialog>
+        </ui:define>        
+    </ui:composition>
+</html>

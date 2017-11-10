@@ -45,6 +45,7 @@ public class FrmSpmpControlador {
     private FechaTransporte fechaTrans;
     private EquipoFecha equipoFecha;
     private Equipo equipo;
+    private Material material;
     private final ManejoFechas manejoFechas;
     private String fechaFormateada;
     private String tipoEquipo;
@@ -85,6 +86,7 @@ public class FrmSpmpControlador {
         manejoFechas = new ManejoFechas();
         equipoFecha = new EquipoFecha();
         equipo = new Equipo();
+        material = new Material();
         volquetaFecha = new VolquetaFecha();
         cargaTransportada = new CargaTransportada();
     }
@@ -165,6 +167,33 @@ public class FrmSpmpControlador {
     public void seleccionar() {
         ingreso = true;
         actualiza = false;
+    }
+
+    public void ingresarNuevoMaterial() {
+        material = new Material();
+        ingreso = false;
+        actualiza = true;
+    }
+
+    public void seleccionarMaterial() {
+        ingreso = true;
+        actualiza = false;
+    }
+
+    public void ingresarMaterial() {
+        materialServicio.create(material);
+        baseControlador.addSuccessMessage("Ingreso exitoso");
+        listaMaterial = materialServicio.findAll();
+        material = new Material();
+        RequestContext.getCurrentInstance().execute("PF('materialDialogo').hide()");
+    }
+
+    public void actualizarMaterial() {
+        materialServicio.edit(material);
+        baseControlador.addSuccessMessage("Actualización exitosa");
+        listaMaterial = materialServicio.findAll();
+        material = new Material();
+        RequestContext.getCurrentInstance().execute("PF('materialDialogo').hide()");
     }
 
     public FechaTransporte getFecha() {
@@ -278,4 +307,13 @@ public class FrmSpmpControlador {
     public void setListaVolquetaCargaIngreso(List<Object[]> listaVolquetaCargaIngreso) {
         this.listaVolquetaCargaIngreso = listaVolquetaCargaIngreso;
     }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
 }
