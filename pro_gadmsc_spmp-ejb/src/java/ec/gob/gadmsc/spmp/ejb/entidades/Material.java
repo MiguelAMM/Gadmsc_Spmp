@@ -47,7 +47,7 @@ public class Material implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "mat_nombre")
     private String matNombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkMatCodigo")
+    @OneToMany(mappedBy = "fkMatCodigo")
     private List<CargaTransportada> cargaTransportadaList;
 
     public Material() {

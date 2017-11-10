@@ -68,6 +68,7 @@ public class ReporteControlador {
     private TotalesCarga totales;
     private Usuario volquetaSeleccionada;
     private Equipo equipoSeleccionado;
+    private Material material;
     private Chofer chofer;
     private Chofer choferSeleccionado;
     private String maquinaria;
@@ -738,4 +739,5 @@ public class ReporteControlador {
         this.listaChoferesNoAsignados = listaChoferesNoAsignados;
     }
     //</editor-fold>
+
 }
