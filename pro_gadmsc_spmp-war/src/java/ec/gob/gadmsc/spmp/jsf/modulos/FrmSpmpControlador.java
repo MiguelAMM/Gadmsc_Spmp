@@ -147,11 +147,12 @@ public class FrmSpmpControlador {
 
     public void eliminar() {
         eqFechaServicio.remove(equipoFecha);
-        RequestContext.getCurrentInstance().execute("PF('dialogo').hide()");
         baseControlador.addSuccessMessage("Equipo eliminado");
         equipoFecha = new EquipoFecha();
         listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
+        ingreso = false;
+        RequestContext.getCurrentInstance().execute("PF('dialogo').hide()");
     }
 
     public void actualizar() {

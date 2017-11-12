@@ -355,6 +355,18 @@ public class ReporteControlador {
         }
     }
 
+    public void eliminarVolq() {
+        chofer = choferServicio.find(volquetaSeleccionada.getFkChoferCodigo().getChoferCodigo());
+        chofer.setChoferAsignado("NO");
+        choferServicio.edit(chofer);
+        usuarioServicio.remove(volquetaSeleccionada);
+        volquetaSeleccionada = new Usuario();
+        listaChoferes = choferServicio.findAll();
+        listaVolquetas = usuarioServicio.buscarVolquetas();
+        RequestContext.getCurrentInstance().execute("PF('volqDialogoElimina').hide()");
+        baseControlador.addSuccessMessage("Volqueta eliminada");
+    }
+
     public void actualizarEquipo() {
         if (idChoferEq != 0) {
             chofer = choferServicio.find(idChoferEq);
@@ -371,6 +383,18 @@ public class ReporteControlador {
         } else {
             baseControlador.addErrorMessage("Seleccione chofer");
         }
+    }
+
+    public void eliminarEq() {
+        chofer = choferServicio.find(equipoSeleccionado.getFkChoferCodigo().getChoferCodigo());
+        chofer.setChoferAsignado("NO");
+        choferServicio.edit(chofer);
+        equipoServicio.remove(equipoSeleccionado);
+        equipoSeleccionado = new Equipo();
+        listaEquipos = equipoServicio.findAll();
+        listaChoferes = choferServicio.findAll();
+        RequestContext.getCurrentInstance().execute("PF('equiDialogoElimina').hide()");
+        baseControlador.addSuccessMessage("Equipo caminero eliminado");
     }
 
     public void ingresarEquipo() {
@@ -406,6 +430,19 @@ public class ReporteControlador {
         chofer = new Chofer();
         listaChoferes = choferServicio.findAll();
         RequestContext.getCurrentInstance().execute("PF('choferDialogo').hide()");
+    }
+
+    public void eliminarChofer() {
+        try {
+            choferServicio.remove(chofer);
+            chofer = new Chofer();
+            listaChoferes = choferServicio.findAll();
+            baseControlador.addSuccessMessage("Chofer eliminado");
+        } catch (Exception e) {
+            baseControlador.addWarningMessage("No se puede eliminar el chofer, está asignado");
+        } finally {
+            RequestContext.getCurrentInstance().execute("PF('choferDialogoElimina').hide()");
+        }
     }
 
     public void seleccionarEquipo() {

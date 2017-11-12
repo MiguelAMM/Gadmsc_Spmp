@@ -48,9 +48,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Chofer.findByChoferEmail", query = "SELECT c FROM Chofer c WHERE c.choferEmail = :choferEmail")})
 public class Chofer implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkChoferCodigo")
+    @OneToMany(mappedBy = "fkChoferCodigo")
     private List<Equipo> equipoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkChoferCodigo")
+    @OneToMany(mappedBy = "fkChoferCodigo")
     private List<Usuario> usuarioList;
 
     private static final long serialVersionUID = 1L;

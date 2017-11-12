@@ -52,7 +52,7 @@ public class VolquetaFecha implements Serializable {
     @NotNull
     @Column(name = "volq_fecha_km")
     private int volqFechaKm;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkVolqFechaCodigo")
+    @OneToMany(mappedBy = "fkVolqFechaCodigo")
     private List<CargaTransportada> cargaTransportadaList;
     @JoinColumn(name = "fk_fecha_tr_codigo", referencedColumnName = "fecha_tr_codigo")
     @ManyToOne(optional = false)
@@ -147,5 +147,5 @@ public class VolquetaFecha implements Serializable {
     public String toString() {
         return "ec.gob.gadmsc.spmp.ejb.entidades.VolquetaFecha[ volqFechaCodigo=" + volqFechaCodigo + " ]";
     }
-    
+
 }

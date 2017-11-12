@@ -55,9 +55,9 @@ public class FechaTransporte implements Serializable {
     @NotNull
     @Column(name = "fecha_tr_anio")
     private int fechaTrAnio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkFechaTrCodigo")
+    @OneToMany(mappedBy = "fkFechaTrCodigo")
     private List<VolquetaFecha> volquetaFechaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkFechaTrCodigo")
+    @OneToMany(mappedBy = "fkFechaTrCodigo")
     private List<EquipoFecha> equipoFechaList;
 
     public FechaTransporte() {
