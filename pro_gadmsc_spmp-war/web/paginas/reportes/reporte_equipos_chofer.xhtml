@@ -10,7 +10,7 @@
         <ui:define name="page-content">
             <h:form id="frmEquiChofer" styleClass="estilo-pagina">
                 <p:growl id="msg" showDetail="true"/>
-                <p:outputPanel >
+                <p:outputPanel>
                     <p:panel id="pnlEquiChofer">
 
                         <center>
@@ -21,15 +21,14 @@
                                     <!-- tabla de volquetas -->
                                     <p:tab id="tabVolq" title="Volquetas">
                                         <p:commandLink id="linkNuevaVolqueta" action="#{reporteControlador.ingresarNuevo()}"
-                                                       update=":frmDialogoVolq:volqDetalle" oncomplete="PF('volqDialogo').show()" process="@this">
+                                                       update=":frmDialogoVolq:volqDetalle" 
+                                                       oncomplete="PF('volqDialogo').show()" process="@this">
                                             <p:graphicImage value="/imagenes/volquete1.png" title="Ingresar Nueva Volqueta"/>
                                         </p:commandLink>
                                         <p:dataTable id="tableVolq" var="volquetas" value="#{reporteControlador.listaVolquetas}"
-                                                     scrollable="true"
-                                                     scrollWidth="96%"
-                                                     styleClass="estiloListaCalibriPeq" 
-                                                     emptyMessage="#{etq.msg_seg_sinRegistros}">
-                                            <p:column headerText="Volqueta número" style="width:30px;text-align: center">
+                                                     scrollable="true" scrollWidth="96%"
+                                                     styleClass="estiloListaCalibriPeq" emptyMessage="#{etq.msg_seg_sinRegistros}">
+                                            <p:column headerText="Número de Volqueta" style="width:30px;text-align: center">
                                                 <h:outputText value="#{volquetas.usuCodigo}"/>
                                             </p:column>
                                             <p:column headerText="Placa" style="width:30px;text-align: center">
@@ -45,14 +44,16 @@
                                                 <f:facet name="header">
                                                     <h:outputText value="#{etq.lbl_opciones}"/>
                                                 </f:facet>
-                                                <p:commandButton id="btnSeleccion" update=":frmDialogoVolq:volqDetalle" oncomplete="PF('volqDialogo').show()"
-                                                                 icon="ui-icon-search" process="@this" title="Ver" action="#{reporteControlador.seleccionarVolq()}">
+                                                <p:commandLink id="linkActualizar" process="@this" oncomplete="PF('volqDialogo').show();"
+                                                               update=":frmDialogoVolq:volqDetalle" action="#{reporteControlador.seleccionarVolq()}">
+                                                    <p:graphicImage value="/imagenes/actualizar.png" width="20" title="Actualizar"/>
                                                     <f:setPropertyActionListener value="#{volquetas}" target="#{reporteControlador.volquetaSeleccionada}"/>
-                                                </p:commandButton>
-                                                <p:commandButton id="btnEliminarVolq" process="@this" onclick="PF('volqDialogoElimina').show();"
-                                                                 icon="ui-icon-trash" title="Eliminar">
-                                                    <f:setPropertyActionListener target="#{reporteControlador.volquetaSeleccionada}" value="#{volquetas}"/>
-                                                </p:commandButton>
+                                                </p:commandLink>
+                                                <font></font>
+                                                <p:commandLink id="linkEliminar" process="@this" onclick="PF('volqDialogoElimina').show();">
+                                                    <p:graphicImage value="/imagenes/basura.png" width="20" title="Eliminar"/>
+                                                    <f:setPropertyActionListener value="#{volquetas}" target="#{reporteControlador.volquetaSeleccionada}"/>
+                                                </p:commandLink>  
                                             </p:column>
                                         </p:dataTable>
                                         <p:spacer width="80" height="20"/>
@@ -60,22 +61,21 @@
                                             <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
                                             <h:commandLink>  
                                                 <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
-                                                <p:dataExporter type="xls" target="tableVolq" fileName="volquetas_#{reporteControlador.horaActual}" />
+                                                <p:dataExporter type="xls" target="tableVolq" fileName="volquetas_#{reporteControlador.horaActual}"/>
                                             </h:commandLink>
                                         </h:panelGrid>
                                     </p:tab>
                                     <!-- tabla de equipos -->
                                     <p:tab id="tabEqui" title="Equipos">
                                         <p:commandLink id="linkNuevoEquipo" action="#{reporteControlador.ingresarNuevo()}"
-                                                       update=":frmDialogoEq:eqDetalle" oncomplete="PF('eqDialogo').show()" process="@this">
+                                                       update=":frmDialogoEq:eqDetalle" 
+                                                       oncomplete="PF('eqDialogo').show()" process="@this">
                                             <p:graphicImage value="/imagenes/tractor.png" title="Ingresar Nuevo Equipo"/>
                                         </p:commandLink>
                                         <p:dataTable id="tableEq" var="equipo" value="#{reporteControlador.listaEquipos}"
-                                                     scrollable="true"
-                                                     scrollWidth="96%"
-                                                     styleClass="estiloListaCalibriPeq" 
-                                                     emptyMessage="#{etq.msg_seg_sinRegistros}">
-                                            <p:column headerText="Equipo caminero" style="width:30px;text-align: center">
+                                                     scrollable="true" scrollWidth="96%"
+                                                     styleClass="estiloListaCalibriPeq" emptyMessage="#{etq.msg_seg_sinRegistros}">
+                                            <p:column headerText="Equipo Caminero" style="width:30px;text-align: center">
                                                 <h:outputText value="#{equipo.eqTipo}"/>
                                             </p:column>
                                             <p:column headerText="Placa" style="width:30px;text-align: center">
@@ -91,14 +91,16 @@
                                                 <f:facet name="header">
                                                     <h:outputText value="#{etq.lbl_opciones}"/>
                                                 </f:facet>
-                                                <p:commandButton id="btnSeleccionEqui" update=":frmDialogoEq:eqDetalle" process="@this"
-                                                                 oncomplete="PF('eqDialogo').show()" icon="ui-icon-search" title="Ver" action="#{reporteControlador.seleccionarEquipo()}">
+                                                <p:commandLink id="linkActualizarEqui" process="@this" oncomplete="PF('eqDialogo').show()"
+                                                               update=":frmDialogoEq:eqDetalle" action="#{reporteControlador.seleccionarEquipo()}">
+                                                    <p:graphicImage value="/imagenes/actualizar.png" width="20" title="Actualizar"/>
                                                     <f:setPropertyActionListener value="#{equipo}" target="#{reporteControlador.equipoSeleccionado}"/>
-                                                </p:commandButton>
-                                                <p:commandButton id="btnEliminarEqui" process="@this" onclick="PF('equiDialogoElimina').show();"
-                                                                 icon="ui-icon-trash" title="Eliminar">
+                                                </p:commandLink>
+                                                <font></font>
+                                                <p:commandLink id="linkEliminarEqui" process="@this" onclick="PF('equiDialogoElimina').show();">
+                                                    <p:graphicImage value="/imagenes/basura.png" width="20" title="Eliminar"/>
                                                     <f:setPropertyActionListener target="#{reporteControlador.equipoSeleccionado}" value="#{equipo}"/>
-                                                </p:commandButton>
+                                                </p:commandLink>
                                             </p:column>
                                         </p:dataTable>
                                         <p:spacer width="80" height="20"/>
@@ -113,33 +115,32 @@
                                     <!-- tabla de choferes -->
                                     <p:tab id="tabChofer" title="Choferes">
                                         <p:commandLink id="linkNuevoChofer" action="#{reporteControlador.ingresarNuevo()}"
-                                                       update=":frmDialogoChofer:choferDetalle" oncomplete="PF('choferDialogo').show()" process="@this">
+                                                       update=":frmDialogoChofer:choferDetalle" 
+                                                       oncomplete="PF('choferDialogo').show()" process="@this">
                                             <p:graphicImage value="/imagenes/conductor.png" title="Ingresar Nuevo Chofer"/>
                                         </p:commandLink>
                                         <p:dataTable id="tableChoferes" var="choferes" value="#{reporteControlador.listaChoferes}"
-                                                     scrollable="true"
-                                                     scrollWidth="96%"
-                                                     styleClass="estiloListaCalibriPeq" 
-                                                     emptyMessage="#{etq.msg_seg_sinRegistros}">
+                                                     scrollable="true" scrollWidth="96%"
+                                                     styleClass="estiloListaCalibriPeq" emptyMessage="#{etq.msg_seg_sinRegistros}">
                                             <p:column headerText="Nombre" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferNombre}"/>
                                             </p:column>
                                             <p:column headerText="Apellido" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferApellido}"/>
                                             </p:column>
-                                            <p:column headerText="Cédula de identidad" style="width:30px;text-align: center">
+                                            <p:column headerText="Cédula de Identidad" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferCi}"/>
                                             </p:column>
                                             <p:column headerText="Teléfono" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferTlf}"/>
                                             </p:column>
-                                            <p:column headerText="Correo electrónico" style="width:30px;text-align: center">
+                                            <p:column headerText="Correo Electrónico" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferEmail}"/>
                                             </p:column>
-                                            <p:column headerText="Dirección domicilio" style="width:30px;text-align: center">
+                                            <p:column headerText="Dirección Domiciliaria" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferDireccion}"/>
                                             </p:column>
-                                            <p:column headerText="Fecha nacimiento" style="width:30px;text-align: center">
+                                            <p:column headerText="Fecha de Nacimiento" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferFechaNac}"/>
                                             </p:column>
                                             <p:column headerText="Asignado" style="width:30px;text-align: center">
@@ -149,14 +150,16 @@
                                                 <f:facet name="header">
                                                     <h:outputText value="#{etq.lbl_opciones}"/>
                                                 </f:facet>
-                                                <p:commandButton id="btnSeleccionChofer" update=":frmDialogoChofer:choferDetalle" process="@this" action="#{reporteControlador.seleccionarChofer()}"
-                                                                 icon="ui-icon-search" title="Ver" oncomplete="PF('choferDialogo').show()">
+                                                <p:commandLink id="linkActualizarChofer" process="@this" oncomplete="PF('choferDialogo').show()"
+                                                               update=":frmDialogoChofer:choferDetalle" action="#{reporteControlador.seleccionarChofer()}">
+                                                    <p:graphicImage value="/imagenes/actualizar.png" width="20" title="Actualizar"/>
                                                     <f:setPropertyActionListener value="#{choferes}" target="#{reporteControlador.chofer}"/>
-                                                </p:commandButton>
-                                                <p:commandButton id="btnEliminarChofer" process="@this" onclick="PF('choferDialogoElimina').show();"
-                                                                 icon="ui-icon-trash" title="Eliminar">
+                                                </p:commandLink>
+                                                <font></font>
+                                                <p:commandLink id="linkEliminarChofer" process="@this" onclick="PF('choferDialogoElimina').show();">
+                                                    <p:graphicImage value="/imagenes/basura.png" width="20" title="Eliminar"/>
                                                     <f:setPropertyActionListener target="#{reporteControlador.chofer}" value="#{choferes}"/>
-                                                </p:commandButton>
+                                                </p:commandLink>
                                             </p:column>
                                         </p:dataTable>
                                         <p:spacer width="80" height="20"/>
