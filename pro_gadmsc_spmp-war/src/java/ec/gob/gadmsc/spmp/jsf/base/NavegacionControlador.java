@@ -61,6 +61,8 @@ public class NavegacionControlador {
     private Login loginUsuario;
     private FechaTransporte transFecha;
     private boolean logueado;
+    private boolean menuAdmin;
+    private boolean menuEquipo;
 
     @EJB
     private UsuarioServicio usuarioServicio;
@@ -140,12 +142,18 @@ public class NavegacionControlador {
 //                baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_carga_transportada.xhtml");
                 switch (loginUsuario.getTipoUsuario()) {
                     case "secretaria":
+                        menuAdmin = true;
+                        menuEquipo = false;
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/administracion.xhtml");
                         break;
                     case "volqueta":
+                        menuEquipo = true;
+                        menuAdmin = false;
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");
                         break;
                     case "equipo":
+                        menuEquipo = true;
+                        menuAdmin = false;
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/ingreso_equipo.xhtml");
                         break;
                 }
@@ -160,7 +168,7 @@ public class NavegacionControlador {
 //                    if (baseControlador.usuarioActual.getUsuNombreUsuario() != null) {
 //                        //usuarioActual.setUsuCodigo(9);
 //                        usuarioServicio.edit(baseControlador.usuarioActual);
-//                        baseControlador.getSession().setAttribute("usuario", baseControlador.usuarioActual);
+                baseControlador.getSession().setAttribute("usuario", baseControlador.usuarioActual);
 //                        
 //                        FacesContext context1 = FacesContext.getCurrentInstance();
 //                        navegacionReportes(context1);
@@ -227,7 +235,7 @@ public class NavegacionControlador {
                 baseControlador.usuarioActual.setUsuario(null);
                 baseControlador.getSession().invalidate();
                 limpiarAtributosSesion();
-                //baseControlador.redirect(baseControlador.getContextName() + "/index.xhtml");
+                baseControlador.redirect(baseControlador.getContextName() + "/index.xhtml");
                 //  Borrar los datos de la sesion
 
             }
@@ -577,4 +585,21 @@ public class NavegacionControlador {
     public void setLogueado(boolean logueado) {
         this.logueado = logueado;
     }
+
+    public boolean isMenuAdmin() {
+        return menuAdmin;
+    }
+
+    public void setMenuAdmin(boolean menuAdmin) {
+        this.menuAdmin = menuAdmin;
+    }
+
+    public boolean isMenuEquipo() {
+        return menuEquipo;
+    }
+
+    public void setMenuEquipo(boolean menuEquipo) {
+        this.menuEquipo = menuEquipo;
+    }
+
 }

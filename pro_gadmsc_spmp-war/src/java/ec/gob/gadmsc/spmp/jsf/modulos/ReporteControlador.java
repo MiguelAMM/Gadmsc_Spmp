@@ -482,6 +482,19 @@ public class ReporteControlador {
         ingreso = false;
         actualiza = true;
     }
+
+    public boolean filtrarMayores(Object value, Object filter, Locale local) {
+        String filterText = (filter == null) ? null : filter.toString().trim();
+        if (filterText == null || filterText.equals("")) {
+            return true;
+        }
+
+        if (value == null) {
+            return false;
+        }
+
+        return ((Comparable) value).compareTo(Integer.valueOf(filterText)) >= 0;
+    }
     //</editor-fold>
 
     //<editor-fold desc="Get and Set" defaultstate="collapsed">

@@ -5,12 +5,12 @@
       >
     <ui:composition>
         <div id="menu">
-            <h:form id="frmMenu">
+            <h:form id="frmMenuEqui" rendered="#{navegacionControlador.menuEquipo}">
                 <center>
                     <h:panelGrid  columns="1" style="font-size: 12px">
                         <p:stack icon="/imagenes/menu/stack.png" >
-                            <p:menuitem value="Salir" icon="/imagenes/menu/logout.png" url="#" actionListener="#{navegacionControlador.cerrarSesion()}"/>
-                            <p:menuitem value="Ayuda" icon="/imagenes/menu/ayuda.png" url="#"/>
+                            <p:menuitem value="Salir" icon="/imagenes/menu/salida.png" action="#{navegacionControlador.cerrarSesion()}" ajax="true"/>
+                            <p:menuitem value="Ayuda" icon="/imagenes/menu/pregunta.png" url="#"/>
                         </p:stack>
                     </h:panelGrid>
                 </center>

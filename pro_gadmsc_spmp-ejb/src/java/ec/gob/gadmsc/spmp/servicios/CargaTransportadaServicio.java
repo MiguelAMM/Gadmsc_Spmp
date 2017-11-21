@@ -33,7 +33,9 @@ public interface CargaTransportadaServicio {
     List<Object[]> listarCargaTransportada(Integer dia, Integer mes, Integer anio, Integer dia2, Integer mes2, Integer anio2);
 
     List<Object[]> listarResumenCarga(int anio);
-    
+
     List<Object[]> listarResumenCombustible(int anio);
+
+    CargaTransportada buscarCarga(Integer cargaCodigo);
 
 }

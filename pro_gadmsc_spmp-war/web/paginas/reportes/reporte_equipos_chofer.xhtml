@@ -45,7 +45,8 @@
                                                                  icon="ui-icon-search" process="@this" title="Ver" action="#{reporteControlador.seleccionarVolq()}">
                                                     <f:setPropertyActionListener value="#{volquetas}" target="#{reporteControlador.volquetaSeleccionada}"/>
                                                 </p:commandButton>
-                                                <p:commandButton id="btnEliminarVolq" value="Eliminar" process="@this" onclick="PF('volqDialogoElimina').show();">
+                                                <p:commandButton id="btnEliminarVolq" process="@this" onclick="PF('volqDialogoElimina').show();"
+                                                                 icon="ui-icon-trash" title="Eliminar">
                                                     <f:setPropertyActionListener target="#{reporteControlador.volquetaSeleccionada}" value="#{volquetas}"/>
                                                 </p:commandButton>
                                             </p:column>
@@ -87,7 +88,8 @@
                                                                  oncomplete="PF('eqDialogo').show()" icon="ui-icon-search" title="Ver" action="#{reporteControlador.seleccionarEquipo()}">
                                                     <f:setPropertyActionListener value="#{equipo}" target="#{reporteControlador.equipoSeleccionado}"/>
                                                 </p:commandButton>
-                                                <p:commandButton id="btnEliminarEqui" value="Eliminar" process="@this" onclick="PF('equiDialogoElimina').show();">
+                                                <p:commandButton id="btnEliminarEqui" process="@this" onclick="PF('equiDialogoElimina').show();"
+                                                                 icon="ui-icon-trash" title="Eliminar">
                                                     <f:setPropertyActionListener target="#{reporteControlador.equipoSeleccionado}" value="#{equipo}"/>
                                                 </p:commandButton>
                                             </p:column>
@@ -141,7 +143,8 @@
                                                                  icon="ui-icon-search" title="Ver" oncomplete="PF('choferDialogo').show()">
                                                     <f:setPropertyActionListener value="#{choferes}" target="#{reporteControlador.chofer}"/>
                                                 </p:commandButton>
-                                                <p:commandButton id="btnEliminarChofer" value="Eliminar" process="@this" onclick="PF('choferDialogoElimina').show();">
+                                                <p:commandButton id="btnEliminarChofer" process="@this" onclick="PF('choferDialogoElimina').show();"
+                                                                 icon="ui-icon-trash" title="Eliminar">
                                                     <f:setPropertyActionListener target="#{reporteControlador.chofer}" value="#{choferes}"/>
                                                 </p:commandButton>
                                             </p:column>
@@ -258,7 +261,7 @@
                 <h:form id="formEliminaVolq">
                     <h:outputText value="#{etq.lbl_eliminar}"/>
                     <p:commandButton id="btnSi" value="SI" action="#{reporteControlador.eliminarVolq()}" update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
-                    <p:commandButton value="NO" onclick="dialogo.hide()" />
+                    <p:commandButton value="NO" onclick="dialogo.hide();" />
                 </h:form>
             </p:dialog>
 
@@ -266,7 +269,7 @@
                 <h:form id="formEliminaEqui">
                     <h:outputText value="#{etq.lbl_eliminar}"/>
                     <p:commandButton id="btnSi" value="SI" action="#{reporteControlador.eliminarEq()}" update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
-                    <p:commandButton value="NO" onclick="dialogo.hide()" />
+                    <p:commandButton value="NO" onclick="dialogo.hide();" />
                 </h:form>
             </p:dialog>
 

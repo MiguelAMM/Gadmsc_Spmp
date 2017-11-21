@@ -5,11 +5,11 @@
       >
     <ui:composition>
         <div id="menu">
-            <h:form id="frmMenu">
+            <h:form id="frmMenu" rendered="#{navegacionControlador.menuAdmin}">
                 <center>
                     <h:panelGrid  columns="1" style="font-size: 12px">
                         <p:stack icon="/imagenes/menu/stack.png">
-                            <p:menuitem value="Salir" icon="/imagenes/menu/salida.png" url="#" actionListener="#{navegacionControlador.cerrarSesion()}"/>
+                            <p:menuitem value="Salir" icon="/imagenes/menu/salida.png" action="#{navegacionControlador.cerrarSesion()}" ajax="true"/>
                             <p:menuitem value="Ayuda" icon="/imagenes/menu/pregunta.png" url="#"/>
                             <p:menuitem value="Reporte Carga" icon="/imagenes/menu/reporte1.png" url="/paginas/reportes/reporte_carga_transportada.xhtml" styleClass="iconRcarga"/>
                             <p:menuitem value="Reporte Anual" icon="/imagenes/menu/reporte.png" url="/paginas/reportes/reporte_resumen.xhtml" styleClass="iconRanual" />

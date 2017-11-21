@@ -31,4 +31,6 @@ public interface VolquetaFechaServicio {
     int count();
 
     List<Object[]> listarVolquetaCargaIngreso(Integer codigoFecha, Integer codigoUsuario);
+
+    VolquetaFecha buscarByCodigo(Integer volqFechaCodigo);
 }

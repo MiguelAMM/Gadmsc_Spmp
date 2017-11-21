@@ -40,12 +40,15 @@ public class VolquetaFechaFacade extends AbstractFacade<VolquetaFecha> implement
         sql.append("b.carga_tr_viaje, ");
         sql.append("c.mat_nombre, ");
         sql.append("b.carga_tr_comprobante, ");
-        sql.append("b.carga_tr_observacion ");
+        sql.append("b.carga_tr_observacion, ");
+        sql.append("a.volq_fecha_codigo, ");
+        sql.append("b.carga_tr_codigo  ");
         sql.append("from volqueta_fecha a, carga_transportada b, material c ");
         sql.append("where a.volq_fecha_codigo = b.fk_volq_fecha_codigo ");
         sql.append("and c.mat_codigo = b.fk_mat_codigo ");
         sql.append("and a.fk_fecha_tr_codigo = :codigoFecha ");
         sql.append("and a.fk_usu_codigo = :codigoUsuario ");
+        sql.append("and b.carga_tr_observacion <> '' ");
         sql.append("order by c.mat_codigo ");
 
         Query q = em.createNativeQuery(sql.toString());
@@ -54,4 +57,11 @@ public class VolquetaFechaFacade extends AbstractFacade<VolquetaFecha> implement
         return q.getResultList();
     }
 
+    @Override
+    public VolquetaFecha buscarByCodigo(Integer volqFechaCodigo) {
+        String sql = "Select e  from VolquetaFecha  e where  e.volqFechaCodigo =:volqFechaCodigo ";
+        Query q = em.createQuery(sql);
+        q.setParameter("volqFechaCodigo", volqFechaCodigo);
+        return (VolquetaFecha) q.getSingleResult();
+    }
 }

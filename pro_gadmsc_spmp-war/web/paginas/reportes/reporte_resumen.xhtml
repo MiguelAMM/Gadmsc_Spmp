@@ -89,6 +89,13 @@
                                             </p:row>
                                         </p:columnGroup> 
                                     </p:dataTable>
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="#{etq.lbl_descarga_excel}"/>
+                                        <h:commandLink>  
+                                            <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                            <p:dataExporter type="xls" target="tableCargaR" fileName="reporte_carga_#{reporteControlador.horaActual}" />
+                                        </h:commandLink>
+                                    </h:panelGrid>
                                 </p:panel>
                             </center>
                         </p:tab>
@@ -116,6 +123,13 @@
                                             <h:outputText value="#{combustibleResumen[3]}" />
                                         </p:column>                                                      
                                     </p:dataTable>
+                                    <h:panelGrid columns="2">
+                                        <h:outputLabel value="#{etq.lbl_descarga_excel}"/>
+                                        <h:commandLink>  
+                                            <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                            <p:dataExporter type="xls" target="tableCombustibleR" fileName="reporte_combustible_#{reporteControlador.horaActual}" />
+                                        </h:commandLink>
+                                    </h:panelGrid>
                                 </p:panel>
                             </center>
                         </p:tab>

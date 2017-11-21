@@ -127,4 +127,11 @@ public class CargaTransportadaFacade extends AbstractFacade<CargaTransportada> i
         return query.getResultList();
     }
 
+    @Override
+    public CargaTransportada buscarCarga(Integer cargaCodigo) {
+        String sql = "Select e  from CargaTransportada  e where  e.cargaTrCodigo =:cargaCodigo ";
+        Query q = em.createQuery(sql);
+        q.setParameter("cargaCodigo", cargaCodigo);
+        return (CargaTransportada) q.getSingleResult();
+    }
 }
