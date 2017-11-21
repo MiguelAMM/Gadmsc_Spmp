@@ -5,6 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+    
     <h:head>
 
         <META NAME="DESCRIPTION" CONTENT="GOBIERNO AUTÓNOMO DESCENTRALIZADO MUNICIPAL DE SANTA CRUZ" />
@@ -12,79 +13,80 @@
         <link href="${facesContext.externalContext.requestContextPath}/css/spmp_css.css" rel="stylesheet" type="text/css"/>        
 
     </h:head>
-    <h:body style="background-image: url(imagenes/2.png) ; " styleClass="fondo">
-
+    
+    <h:body style="background-image: url(imagenes/20.png) ; width: 98% ; height: 100%">
+        
         <h:form id="loginForm" styleClass="clearfix">
             <p:focus context="loginForm"/>
             <p:growl id="msg" showDetail="true"/>  
-
+            
             <center>
                 <h:panelGrid>
                     <br/>
+                    <p:graphicImage value="imagenes/pruebas1.png" style="width: 900px ; height: 200px ; align-content: center"/>
                     <br/>
-                    <br/>   
-                    <p:graphicImage value="/imagenes/logoSipro5.png" style="width: 400px; padding-left: 100px;"/> 
-                    <h:outputLabel styleClass="estiloTextoCandaraXG" value="#{etq.tit_inicio_sistema}"/>
-                    <f:verbatim/>
-                    <f:verbatim/>
-                    <f:verbatim/>
-                    <f:verbatim/>
-                    <f:verbatim/>
-                    <f:verbatim/>  
-                    <br/> 
-                    <br/> 
                 </h:panelGrid>
-
-                <f:verbatim/>
-                <f:verbatim/>                            
-                <h:panelGrid id="panelLogin" columns="3" styleClass="estiloLogin">
-                    <p:panel header="#{etq.tit_ingreso}">
-                        <p:panelGrid >
-                            <p:row>
-
-                                <p:column >
-
-                                    <h:panelGrid columns="2"  cellpadding="5">
-
-                                        <h:outputLabel value="Usuario:" for="user"/>
-                                        <p:inputText value="#{navegacionControlador.loginUsuario.usuario}" 
-                                                     requiredMessage="#{etq.msg_seg_nombre}" 
-                                                     size="12"
-                                                     id="user"/> 
-                                        <h:outputLabel value="Clave:" for="password"/>
-
-                                        <p:password id="password" value="#{navegacionControlador.loginUsuario.password}" 
-                                                    size="12"
-                                                    promptLabel="Ingrese su clave" 
-                                                    requiredMessage="#{etq.msgPrplbl_ClaveUsuario}"
-                                                    maxlength="12"
-                                                    weakLabel="Seguridad baja" 
-                                                    goodLabel="Seguridad buena" 
-                                                    strongLabel="Seguridad fuerte"/>
-                                        <f:facet name="footer">
-                                            <p:commandButton id="btnIngresar"                                                                  
-                                                             value="Ingresar" 
-                                                             icon="ui-icon-power"
-                                                             update="panelLogin msg" 
-                                                             action="#{navegacionControlador.validarAccesoUsuario()}"
-                                                             />
-                                        </f:facet>
-                                    </h:panelGrid>
-                                </p:column>
-                                <p:column>
-                                    <p:graphicImage  value="/imagenes/user4.jpg"/>    
-                                </p:column>
-
-                            </p:row>
-                        </p:panelGrid>
-
+                           
+                <h:panelGrid id="panelLogin" styleClass="estiloLogin">
+                    <p:panel header="#{etq.tit_ingreso}" style="font-family: Courier New; font-size: medium; background: #EFEFFB">
+                        <div align="center">
+                            <p:graphicImage value="/imagenes/verificacion.png"/>
+                        </div>                        
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel value="Usuario:" for="user" 
+                                           style="font-family: fantasy ;font-size: x-large; font-style: inherit; color: #397e94"/>
+                            <p:inputText value="#{navegacionControlador.loginUsuario.usuario}" 
+                                         requiredMessage="#{etq.msg_seg_nombre}" 
+                                         size="12"
+                                         id="user"/> 
+                                        
+                            <h:outputLabel value="Contraseña:" for="password" 
+                                           style="font-family: fantasy ;font-size: x-large; font-style: inherit; color: #397e94"/>
+                            <p:password id="password" value="#{navegacionControlador.loginUsuario.password}" 
+                                        size="12"
+                                        promptLabel="Ingrese su clave" 
+                                        requiredMessage="#{etq.msgPrplbl_ClaveUsuario}"
+                                        maxlength="12"
+                                        weakLabel="Seguridad baja" 
+                                        goodLabel="Seguridad buena" 
+                                        strongLabel="Seguridad fuerte"/>  
+                        </h:panelGrid> 
+                        <br></br>
+                        <div align="center">
+                            
+                            <h:commandButton id="btnIngresar"
+                                             value="Ingresar" 
+                                             class="button"  
+                                             action="#{navegacionControlador.validarAccesoUsuario()}"
+                                             style="font-family: Lucida Handwriting ;font-size: x-large; font-style: inherit; color: #ffffff; cursor: pointer">
+                                             
+                            </h:commandButton>
+                            
+                            
+                            <!--
+                            <p:link id="btnIngresar"
+                                    value="Ingresar"
+                                    class="button" 
+                                    href="#"
+                                    style="font-family: Lucida Handwriting ;font-size: x-large; font-style: inherit; color: #ffffff">
+     
+                                <h:commandLink action="#{navegacionControlador.validarAccesoUsuario()}"/>         
+                                                 
+                                          
+                                
+                            </p:link> --> 
+                            
+                            <!--
+                            <p:commandButton id="btnIngresar"
+                                             value="Ingresar" 
+                                             class="button" 
+                                             update="panelLogin msg" 
+                                             action="#{navegacionControlador.validarAccesoUsuario()}"
+                                             style="font-family: Lucida Handwriting ;font-size: x-large; font-style: inherit; color: #ffffff"/>   -->  
+                        </div>
                     </p:panel>
                 </h:panelGrid>
-
             </center>
-        </h:form>
-        <f:verbatim/>
-        <f:verbatim/>
-
+        </h:form>        
     </h:body>
 </html>

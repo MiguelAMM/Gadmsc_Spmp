@@ -12,14 +12,18 @@
                 <p:growl id="msg" showDetail="true"/>
                 <p:outputPanel >
                     <p:panel id="pnlEquiChofer">
+                        
                         <center>
                             <h:outputText value="#{etq.tit_reporte_equi_chofer}" styleClass="estiloTextoCandaraGranColor"/>
                             <p:spacer width="200" height="20"/>
                             <p:panel>
                                 <p:tabView id="tabViewEquiChofer">
+                                    <!-- tabla de volquetas -->
                                     <p:tab id="tabVolq" title="Volquetas">
-                                        <p:commandButton id="btnIngresoNuevoVolq" value="#{etq.btn_ingresar_volq}" update=":frmDialogoVolq:volqDetalle" oncomplete="PF('volqDialogo').show()"
-                                                         process="@this" action="#{reporteControlador.ingresarNuevo()}"/>
+                                        <p:commandLink id="linkNuevaVolqueta" action="#{reporteControlador.ingresarNuevo()}"
+                                                       update=":frmDialogoVolq:volqDetalle" oncomplete="PF('volqDialogo').show()" process="@this">
+                                            <p:graphicImage value="/imagenes/volquete1.png" title="Ingresar Nueva Volqueta"/>
+                                        </p:commandLink>
                                         <p:dataTable id="tableVolq" var="volquetas" value="#{reporteControlador.listaVolquetas}"
                                                      scrollable="true"
                                                      scrollWidth="96%"
@@ -55,14 +59,17 @@
                                         <h:panelGrid columns="2">                        
                                             <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
                                             <h:commandLink>  
-                                                <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                                <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
                                                 <p:dataExporter type="xls" target="tableVolq" fileName="volquetas_#{reporteControlador.horaActual}" />
                                             </h:commandLink>
                                         </h:panelGrid>
                                     </p:tab>
+                                    <!-- tabla de equipos -->
                                     <p:tab id="tabEqui" title="Equipos">
-                                        <p:commandButton id="btnIngresoNuevoEq" value="Ingresar nuevo equipo" update=":frmDialogoEq:eqDetalle" oncomplete="PF('eqDialogo').show()"
-                                                         process="@this" action="#{reporteControlador.ingresarNuevo()}"/>
+                                        <p:commandLink id="linkNuevoEquipo" action="#{reporteControlador.ingresarNuevo()}"
+                                                       update=":frmDialogoEq:eqDetalle" oncomplete="PF('eqDialogo').show()" process="@this">
+                                            <p:graphicImage value="/imagenes/tractor.png" title="Ingresar Nuevo Equipo"/>
+                                        </p:commandLink>
                                         <p:dataTable id="tableEq" var="equipo" value="#{reporteControlador.listaEquipos}"
                                                      scrollable="true"
                                                      scrollWidth="96%"
@@ -98,14 +105,17 @@
                                         <h:panelGrid columns="2">                        
                                             <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
                                             <h:commandLink>  
-                                                <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                                <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
                                                 <p:dataExporter type="xls" target="tableEq" fileName="equipos_#{reporteControlador.horaActual}" />
                                             </h:commandLink>
                                         </h:panelGrid>
                                     </p:tab>
+                                    <!-- tabla de choferes -->
                                     <p:tab id="tabChofer" title="Choferes">
-                                        <p:commandButton id="btnIngresoNuevoChofer" value="Ingresar nuevo chofer" update=":frmDialogoChofer:choferDetalle" oncomplete="PF('choferDialogo').show()"
-                                                         process="@this" action="#{reporteControlador.ingresarNuevo()}"/>
+                                        <p:commandLink id="linkNuevoChofer" action="#{reporteControlador.ingresarNuevo()}"
+                                                       update=":frmDialogoChofer:choferDetalle" oncomplete="PF('choferDialogo').show()" process="@this">
+                                            <p:graphicImage value="/imagenes/conductor.png" title="Ingresar Nuevo Chofer"/>
+                                        </p:commandLink>
                                         <p:dataTable id="tableChoferes" var="choferes" value="#{reporteControlador.listaChoferes}"
                                                      scrollable="true"
                                                      scrollWidth="96%"
@@ -153,7 +163,7 @@
                                         <h:panelGrid columns="2">                        
                                             <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
                                             <h:commandLink>  
-                                                <p:graphicImage value="/imagenes/excelexport.png" width="25"/>  
+                                                <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
                                                 <p:dataExporter type="xls" target="tableChoferes" fileName="choferes_#{reporteControlador.horaActual}" />
                                             </h:commandLink>
                                         </h:panelGrid>
