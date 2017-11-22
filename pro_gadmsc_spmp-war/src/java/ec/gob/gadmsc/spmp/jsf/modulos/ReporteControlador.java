@@ -75,6 +75,7 @@ public class ReporteControlador {
     private String horaActual;
     private boolean ingreso;
     private boolean actualiza;
+    private boolean habilitaChoferAsig;
     private boolean textoIngreso;
     private int anioResumen;
     private int idChoferVolq;
@@ -356,15 +357,20 @@ public class ReporteControlador {
     }
 
     public void eliminarVolq() {
-        chofer = choferServicio.find(volquetaSeleccionada.getFkChoferCodigo().getChoferCodigo());
-        chofer.setChoferAsignado("NO");
-        choferServicio.edit(chofer);
-        usuarioServicio.remove(volquetaSeleccionada);
-        volquetaSeleccionada = new Usuario();
-        listaChoferes = choferServicio.findAll();
-        listaVolquetas = usuarioServicio.buscarVolquetas();
-        RequestContext.getCurrentInstance().execute("PF('volqDialogoElimina').hide()");
-        baseControlador.addSuccessMessage("Volqueta eliminada");
+        try {
+            chofer = choferServicio.find(volquetaSeleccionada.getFkChoferCodigo().getChoferCodigo());
+            chofer.setChoferAsignado("NO");
+            choferServicio.edit(chofer);
+            usuarioServicio.remove(volquetaSeleccionada);
+            volquetaSeleccionada = new Usuario();
+            listaChoferes = choferServicio.findAll();
+            listaVolquetas = usuarioServicio.buscarVolquetas();
+            baseControlador.addSuccessMessage("Volqueta eliminada");
+        } catch (Exception e) {
+            baseControlador.addWarningMessage("No se puede eliminar la volqueta, está siendo usada");
+        } finally {
+            RequestContext.getCurrentInstance().execute("PF('volqDialogoElimina').hide()");
+        }
     }
 
     public void actualizarEquipo() {
@@ -386,15 +392,20 @@ public class ReporteControlador {
     }
 
     public void eliminarEq() {
-        chofer = choferServicio.find(equipoSeleccionado.getFkChoferCodigo().getChoferCodigo());
-        chofer.setChoferAsignado("NO");
-        choferServicio.edit(chofer);
-        equipoServicio.remove(equipoSeleccionado);
-        equipoSeleccionado = new Equipo();
-        listaEquipos = equipoServicio.findAll();
-        listaChoferes = choferServicio.findAll();
-        RequestContext.getCurrentInstance().execute("PF('equiDialogoElimina').hide()");
-        baseControlador.addSuccessMessage("Equipo caminero eliminado");
+        try {
+            chofer = choferServicio.find(equipoSeleccionado.getFkChoferCodigo().getChoferCodigo());
+            chofer.setChoferAsignado("NO");
+            choferServicio.edit(chofer);
+            equipoServicio.remove(equipoSeleccionado);
+            equipoSeleccionado = new Equipo();
+            listaEquipos = equipoServicio.findAll();
+            listaChoferes = choferServicio.findAll();
+            baseControlador.addSuccessMessage("Equipo caminero eliminado");
+        } catch (Exception e) {
+            baseControlador.addWarningMessage("No se puede eliminar el equipo, está siendo usado");
+        } finally {
+            RequestContext.getCurrentInstance().execute("PF('equiDialogoElimina').hide()");
+        }
     }
 
     public void ingresarEquipo() {
@@ -417,6 +428,7 @@ public class ReporteControlador {
     }
 
     public void ingresarChofer() {
+        chofer.setChoferAsignado("NO");
         choferServicio.create(chofer);
         baseControlador.addSuccessMessage("Ingreso exitoso");
         listaChoferes = choferServicio.findAll();
@@ -466,6 +478,7 @@ public class ReporteControlador {
     }
 
     public void seleccionarChofer() {
+        habilitaChoferAsig = false;
         textoIngreso = true;
         ingreso = true;
         actualiza = false;
@@ -481,6 +494,7 @@ public class ReporteControlador {
         textoIngreso = false;
         ingreso = false;
         actualiza = true;
+        habilitaChoferAsig = true;
     }
 
     public boolean filtrarMayores(Object value, Object filter, Locale local) {
@@ -787,6 +801,14 @@ public class ReporteControlador {
 
     public void setListaChoferesNoAsignados(List<Chofer> listaChoferesNoAsignados) {
         this.listaChoferesNoAsignados = listaChoferesNoAsignados;
+    }
+
+    public boolean isHabilitaChoferAsig() {
+        return habilitaChoferAsig;
+    }
+
+    public void setHabilitaChoferAsig(boolean habilitaChoferAsig) {
+        this.habilitaChoferAsig = habilitaChoferAsig;
     }
     //</editor-fold>
 

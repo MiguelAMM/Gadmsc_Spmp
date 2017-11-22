@@ -12,7 +12,7 @@
                 <p:growl id="msg" showDetail="true"/>
                 <p:outputPanel >
                     <p:panel id="pnlEquiChofer">
-                        
+
                         <center>
                             <h:outputText value="#{etq.tit_reporte_equi_chofer}" styleClass="estiloTextoCandaraGranColor"/>
                             <p:spacer width="200" height="20"/>
@@ -252,7 +252,7 @@
                             <h:outputText value="Asignado"/>
                             <p:selectOneRadio id="radioCargaT"
                                               value="#{reporteControlador.chofer.choferAsignado}"
-                                              columns="2">
+                                              columns="2" disabled="#{reporteControlador.habilitaChoferAsig}">
                                 <f:selectItem itemLabel="#{etq.radio_SI}" itemValue="#{etq.radio_SI}"/>
                                 <f:selectItem itemLabel="#{etq.radio_NO}" itemValue="#{etq.radio_NO}"/>
                             </p:selectOneRadio>

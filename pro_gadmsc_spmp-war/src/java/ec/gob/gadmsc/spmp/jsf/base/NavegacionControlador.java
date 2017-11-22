@@ -144,7 +144,7 @@ public class NavegacionControlador {
                     case "secretaria":
                         menuAdmin = true;
                         menuEquipo = false;
-                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/administracion.xhtml");
+                        baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_equipos_chofer.xhtml");
                         break;
                     case "volqueta":
                         menuEquipo = true;
