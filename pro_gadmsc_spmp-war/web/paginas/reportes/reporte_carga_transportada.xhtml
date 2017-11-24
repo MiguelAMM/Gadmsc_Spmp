@@ -128,7 +128,8 @@
                                 <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
                                 <h:commandLink>  
                                     <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
-                                    <p:dataExporter type="xls" target="tableCargaT" fileName="reporte_volqueta_#{reporteControlador.horaActual}" />
+                                    <p:dataExporter type="xls" target="tableCargaT" fileName="reporte_volqueta_#{reporteControlador.horaActual}" 
+                                                    postProcessor="#{reporteControlador.postProcessXLSCarga}"/>
                                 </h:commandLink>
                             </h:panelGrid>
                         </p:panel>
@@ -191,7 +192,8 @@
                                 <h:outputLabel value="#{etq.lbl_descarga_excel}"/>
                                 <h:commandLink>  
                                     <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
-                                    <p:dataExporter type="xls" target="tableEquipo" fileName="reporte_equipo_#{reporteControlador.horaActual}" />
+                                    <p:dataExporter type="xls" target="tableEquipo" fileName="reporte_equipo_#{reporteControlador.horaActual}" 
+                                                    postProcessor="#{reporteControlador.postProcessXLSCarga}"/>
                                 </h:commandLink>
                             </h:panelGrid>
                         </p:panel>

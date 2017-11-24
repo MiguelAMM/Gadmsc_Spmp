@@ -73,6 +73,8 @@ public class ReporteControlador {
     private TablaCarga cargaResumen;
     private TotalesCarga totales;
     private Usuario volquetaSeleccionada;
+    private Usuario volqueta;
+    private Equipo equipo;
     private Equipo equipoSeleccionado;
     private Material material;
     private Chofer chofer;
@@ -240,8 +242,97 @@ public class ReporteControlador {
         sheet.autoSizeColumn(0);
     }
 
+    public void postProcessXLSCarga(Object document) {
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        HSSFRow header = sheet.getRow(0);
+
+        HSSFCellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+        for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+            HSSFCell cell = header.getCell(i);
+            cell.setCellStyle(cellStyle);
+
+        }
+        if (volqueta != null) {
+            sheet.shiftRows(0, sheet.getLastRowNum(), 3);
+            HSSFRow hssfRowNew;
+            HSSFCell cellNew;
+            HSSFCellStyle estiloCelda = wb.createCellStyle();
+            estiloCelda.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+            hssfRowNew = sheet.createRow(0);
+            cellNew = hssfRowNew.createCell(0);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("Chofer");
+
+            cellNew = hssfRowNew.createCell(1);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue(volqueta.getFkChoferCodigo().getChoferNombre() + " " + volqueta.getFkChoferCodigo().getChoferApellido());
+
+            hssfRowNew = sheet.createRow(1);
+            cellNew = hssfRowNew.createCell(0);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("Hora entrada");
+
+            cellNew = hssfRowNew.createCell(1);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("07:00");
+
+            cellNew = hssfRowNew.createCell(2);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("Hora salida");
+
+            cellNew = hssfRowNew.createCell(3);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("16:00");
+
+            sheet.autoSizeColumn(0);
+            sheet.autoSizeColumn(2);
+        } else if (equipo != null) {
+            sheet.shiftRows(0, sheet.getLastRowNum(), 3);
+            HSSFRow hssfRowNew;
+            HSSFCell cellNew;
+            HSSFCellStyle estiloCelda = wb.createCellStyle();
+            estiloCelda.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+            hssfRowNew = sheet.createRow(0);
+            cellNew = hssfRowNew.createCell(0);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("Chofer");
+
+            cellNew = hssfRowNew.createCell(1);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue(equipo.getFkChoferCodigo().getChoferNombre() + " " + equipo.getFkChoferCodigo().getChoferApellido());
+
+            hssfRowNew = sheet.createRow(1);
+            cellNew = hssfRowNew.createCell(0);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("Hora entrada");
+
+            cellNew = hssfRowNew.createCell(1);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("07:00");
+
+            cellNew = hssfRowNew.createCell(2);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("Hora salida");
+
+            cellNew = hssfRowNew.createCell(3);
+            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cellNew.setCellValue("16:00");
+
+            sheet.autoSizeColumn(0);
+            sheet.autoSizeColumn(2);
+        }
+    }
+
     public void obtenerCargaTransportada() {
         try {
+            equipo = null;
+            volqueta = null;
             fechaCadena.separarFecha(fechaDesde, fechaHasta);
             fechaCadena.comprobarFechas(fechaDesde, fechaHasta);
             listaFechasRango = fechaTransporteServicio.listarFechasRango(fechaCadena.getDiaInicio(), fechaCadena.getMesInicio(),
@@ -268,11 +359,12 @@ public class ReporteControlador {
 
     public void obtenerCargaVolqueta() {
         if (buscaVolqueta != 0) {
-//            System.out.println("Volqueta " + buscaVolqueta);
             listaEquipoFecha = new ArrayList<>();
             listaCargaTransportada = cargaTransportadaServicio.listarCargaTransportada(buscaVolqueta, fechaCadena.getDiaInicio(),
                     fechaCadena.getMesInicio(), fechaCadena.getAnioInicio(), fechaCadena.getDiaFin(), fechaCadena.getMesFin(),
                     fechaCadena.getAnioFin());
+            volqueta = usuarioServicio.find(buscaVolqueta);
+            equipo = null;
         } else {
             baseControlador.addErrorMessage("Seleccione Volqueta");
         }
@@ -283,6 +375,8 @@ public class ReporteControlador {
             listaCargaTransportada = new ArrayList<>();
             listaEquipoFecha = equiFechaServicio.listarEquipoTransporte(buscaEquipo, fechaCadena.getDiaInicio(), fechaCadena.getMesInicio(),
                     fechaCadena.getAnioInicio(), fechaCadena.getDiaFin(), fechaCadena.getMesFin(), fechaCadena.getAnioFin());
+            equipo = equipoServicio.find(buscaEquipo);
+            volqueta = null;
         } else {
             baseControlador.addErrorMessage("Seleccione Equipo");
         }
