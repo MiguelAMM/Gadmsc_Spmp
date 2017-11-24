@@ -32,5 +32,7 @@ public interface EquipoFechaServicio {
 
     List<Object[]> listarEquipoTransporte(Integer dia, Integer mes, Integer anio, Integer dia2, Integer mes2, Integer anio2);
 
+    List<Object[]> listarEquipoTransporte(Integer numEquipo, Integer dia, Integer mes, Integer anio, Integer dia2, Integer mes2, Integer anio2);
+
     List<EquipoFecha> listarEqFecha(String tipoEq, Integer dia, Integer mes, Integer anio);
 }

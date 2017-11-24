@@ -40,7 +40,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -85,6 +84,8 @@ public class ReporteControlador {
     private boolean habilitaChoferAsig;
     private boolean textoIngreso;
     private int anioResumen;
+    private int buscaVolqueta;
+    private int buscaEquipo;
     private int idChoferVolq;
     private int idChoferEq;
     private int idChoferAsignado;
@@ -250,16 +251,40 @@ public class ReporteControlador {
                 listaEquipoFecha = new ArrayList<>();
                 listaCargaTransportada = cargaTransportadaServicio.listarCargaTransportada(fechaCadena.getDiaInicio(), fechaCadena.getMesInicio(),
                         fechaCadena.getAnioInicio(), fechaCadena.getDiaFin(), fechaCadena.getMesFin(), fechaCadena.getAnioFin());
+                buscaVolqueta = 0;
             } else {
                 listaEquipoFecha = equiFechaServicio.listarEquipoTransporte(fechaCadena.getDiaInicio(), fechaCadena.getMesInicio(),
                         fechaCadena.getAnioInicio(), fechaCadena.getDiaFin(), fechaCadena.getMesFin(), fechaCadena.getAnioFin());
                 listaCargaTransportada = new ArrayList<>();
+                buscaEquipo = 0;
             }
         } catch (ReporteException e) {
             baseControlador.addWarningMessage(e.getMessage());
             listaCargaTransportada = new ArrayList<>();
         } catch (NullPointerException np) {
             baseControlador.addWarningMessage("Seleccione un rango de fechas para iniciar la búsqueda");
+        }
+    }
+
+    public void obtenerCargaVolqueta() {
+        if (buscaVolqueta != 0) {
+//            System.out.println("Volqueta " + buscaVolqueta);
+            listaEquipoFecha = new ArrayList<>();
+            listaCargaTransportada = cargaTransportadaServicio.listarCargaTransportada(buscaVolqueta, fechaCadena.getDiaInicio(),
+                    fechaCadena.getMesInicio(), fechaCadena.getAnioInicio(), fechaCadena.getDiaFin(), fechaCadena.getMesFin(),
+                    fechaCadena.getAnioFin());
+        } else {
+            baseControlador.addErrorMessage("Seleccione Volqueta");
+        }
+    }
+
+    public void obtenerCargaEqui() {
+        if (buscaEquipo != 0) {
+            listaCargaTransportada = new ArrayList<>();
+            listaEquipoFecha = equiFechaServicio.listarEquipoTransporte(buscaEquipo, fechaCadena.getDiaInicio(), fechaCadena.getMesInicio(),
+                    fechaCadena.getAnioInicio(), fechaCadena.getDiaFin(), fechaCadena.getMesFin(), fechaCadena.getAnioFin());
+        } else {
+            baseControlador.addErrorMessage("Seleccione Equipo");
         }
     }
 
@@ -315,7 +340,7 @@ public class ReporteControlador {
 
     public void obtenerTablaResumenCarga() {
         int contador = 1;
-        System.out.println("Año resumen " + anioResumen);
+//        System.out.println("Año resumen " + anioResumen);
         if (anioResumen != 0) {
             listaCarga = cargaTransportadaServicio.listarResumenCarga(anioResumen);
             listaTablaCargaResumen = new ArrayList<>();
@@ -911,6 +936,22 @@ public class ReporteControlador {
 
     public void setHabilitaChoferAsig(boolean habilitaChoferAsig) {
         this.habilitaChoferAsig = habilitaChoferAsig;
+    }
+
+    public int getBuscaVolqueta() {
+        return buscaVolqueta;
+    }
+
+    public void setBuscaVolqueta(int buscaVolqueta) {
+        this.buscaVolqueta = buscaVolqueta;
+    }
+
+    public int getBuscaEquipo() {
+        return buscaEquipo;
+    }
+
+    public void setBuscaEquipo(int buscaEquipo) {
+        this.buscaEquipo = buscaEquipo;
     }
     //</editor-fold>
 

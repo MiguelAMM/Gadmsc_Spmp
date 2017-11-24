@@ -51,6 +51,21 @@
                     </p:panel>
                     <center>
                         <p:panel rendered="#{reporteControlador.maquinaria == 'Volqueta'}">
+                            <p:panelGrid id="gridBuscaVolq" columns="3">
+                                <h:outputText value="Buscar por volqueta"/>
+                                <p:selectOneMenu id="cmbBuscaVolq" value="#{reporteControlador.buscaVolqueta}">
+                                    <f:selectItem itemLabel="Seleccione.." itemValue="0"/>
+                                    <f:selectItems value="#{reporteControlador.listaVolquetas}" var="varVolq"
+                                                   itemLabel="#{varVolq}" itemValue="#{varVolq.usuCodigo}"/>
+                                </p:selectOneMenu>
+                                <p:commandButton id="btnBuscarVolq" icon="ui-icon-search" title="Buscar"
+                                                 process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
+                                                 update="tableCargaT tableEquipo"
+                                                 global="false"
+                                                 async="true"
+                                                 ajax="false" action="#{reporteControlador.obtenerCargaVolqueta()}">
+                                </p:commandButton>
+                            </p:panelGrid>
                             <p:dataTable id="tableCargaT" value="#{reporteControlador.listaCargaTransportada}" 
                                          var="carga" 
                                          paginator="true" 
@@ -118,8 +133,24 @@
                             </h:panelGrid>
                         </p:panel>
                     </center>
+
                     <center>
                         <p:panel rendered="#{reporteControlador.maquinaria == 'Equipo Caminero'}">
+                            <p:panelGrid id="gridBuscaEqui" columns="3">
+                                <h:outputText value="Buscar por equipo"/>
+                                <p:selectOneMenu id="cmbBuscaEqui" value="#{reporteControlador.buscaEquipo}">
+                                    <f:selectItem itemLabel="Seleccione.." itemValue="0"/>
+                                    <f:selectItems value="#{reporteControlador.listaEquipos}" var="varEqui"
+                                                   itemLabel="#{varEqui}" itemValue="#{varEqui.eqCodigo}"/>
+                                </p:selectOneMenu>
+                                <p:commandButton id="btnBuscarEqui" icon="ui-icon-search" title="Buscar"
+                                                 process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
+                                                 update="tableCargaT tableEquipo"
+                                                 global="false"
+                                                 async="true"
+                                                 ajax="false" action="#{reporteControlador.obtenerCargaEqui()}">
+                                </p:commandButton>
+                            </p:panelGrid>
                             <p:dataTable id="tableEquipo" value="#{reporteControlador.listaEquipoFecha}" var="varEquipo" 
                                          paginator="true" 
                                          rows="25"  

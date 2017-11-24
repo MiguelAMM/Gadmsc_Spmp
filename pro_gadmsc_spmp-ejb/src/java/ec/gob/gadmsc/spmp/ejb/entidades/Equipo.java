@@ -152,7 +152,8 @@ public class Equipo implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.gob.gadmsc.spmp.ejb.entidades.Equipo[ eqCodigo=" + eqCodigo + " ]";
+//        return "ec.gob.gadmsc.spmp.ejb.entidades.Equipo[ eqCodigo=" + eqCodigo + " ]";
+        return eqTipo;
     }
-    
+
 }

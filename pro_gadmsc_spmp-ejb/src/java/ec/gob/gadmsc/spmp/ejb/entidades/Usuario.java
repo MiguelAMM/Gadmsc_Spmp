@@ -135,7 +135,8 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.gob.gadmsc.spmp.ejb.entidades.Usuario[ usuCodigo=" + usuCodigo + " ]";
+//        return "ec.gob.gadmsc.spmp.ejb.entidades.Usuario[ usuCodigo=" + usuCodigo + " ]";
+        return String.valueOf(usuCodigo);
     }
 
 }
