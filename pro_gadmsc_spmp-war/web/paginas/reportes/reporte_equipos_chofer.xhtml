@@ -41,7 +41,7 @@
                                             <p:column headerText="Chofer" style="width:30px;text-align: center">
                                                 <h:outputText value="#{volquetas.fkChoferCodigo}"/>
                                             </p:column>
-                                            <p:column style="width:30px;text-align: center">
+                                            <p:column style="width:30px;text-align: center" exportable="false">
                                                 <f:facet name="header">
                                                     <h:outputText value="#{etq.lbl_opciones}"/>
                                                 </f:facet>
@@ -88,7 +88,7 @@
                                             <p:column headerText="Chofer" style="width:30px;text-align: center">
                                                 <h:outputText value="#{equipo.fkChoferCodigo}"/>
                                             </p:column>
-                                            <p:column style="width:30px;text-align: center">
+                                            <p:column style="width:30px;text-align: center" exportable="false">
                                                 <f:facet name="header">
                                                     <h:outputText value="#{etq.lbl_opciones}"/>
                                                 </f:facet>
@@ -147,7 +147,7 @@
                                             <p:column headerText="Asignado" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferAsignado}"/>
                                             </p:column>
-                                            <p:column style="width:30px;text-align: center">
+                                            <p:column style="width:30px;text-align: center" exportable="false">
                                                 <f:facet name="header">
                                                     <h:outputText value="#{etq.lbl_opciones}"/>
                                                 </f:facet>
@@ -173,7 +173,7 @@
                                         </h:panelGrid>
                                     </p:tab>
                                 </p:tabView>
-                                
+
                                 <script type="text/javascript">
                                     $(document).ready(function () {
                                         $('.ui-stack').css("z-index", 2);

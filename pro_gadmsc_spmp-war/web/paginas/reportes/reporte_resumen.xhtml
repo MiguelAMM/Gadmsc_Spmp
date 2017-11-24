@@ -93,7 +93,7 @@
                                         <h:outputLabel value="#{etq.lbl_descarga_excel}"/>
                                         <h:commandLink>  
                                             <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
-                                            <p:dataExporter type="xls" target="tableCargaR" fileName="reporte_carga_#{reporteControlador.horaActual}" />
+                                            <p:dataExporter type="xls" target="tableCargaR" fileName="reporte_carga_#{reporteControlador.horaActual}" postProcessor="#{reporteControlador.postProcessXLSAnual}"/>
                                         </h:commandLink>
                                     </h:panelGrid>
                                 </p:panel>

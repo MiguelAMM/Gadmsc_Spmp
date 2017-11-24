@@ -34,6 +34,13 @@ import javax.faces.bean.ViewScoped;
 import java.text.ParseException;
 import java.util.*;
 import javax.faces.bean.ManagedProperty;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -137,6 +144,101 @@ public class ReporteControlador {
     //</editor-fold>
 
     //<editor-fold desc="Metodos" defaultstate="collapsed">
+    public void postProcessXLSAnual(Object document) {
+
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        HSSFRow header = sheet.getRow(0);
+
+        HSSFCellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+        for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+            HSSFCell cell = header.getCell(i);
+            cell.setCellStyle(cellStyle);
+
+        }
+
+        sheet.shiftRows(0, sheet.getLastRowNum(), 2);
+        HSSFRow hssfRowNew;
+        HSSFCell cellNew;
+        HSSFCellStyle estiloCelda = wb.createCellStyle();
+        estiloCelda.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+
+        int rows = sheet.getLastRowNum();
+        hssfRowNew = sheet.createRow(0);
+        cellNew = hssfRowNew.createCell(0);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue("Año de resumen: ");
+
+        cellNew = hssfRowNew.createCell(1);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(anioResumen);
+
+        hssfRowNew = sheet.createRow(rows + 1);
+        cellNew = hssfRowNew.createCell(0);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue("TOTAL VOLQUETAS");
+
+        cellNew = hssfRowNew.createCell(1);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalVolquetadasRelleno());
+        cellNew.setCellStyle(estiloCelda);
+
+        cellNew = hssfRowNew.createCell(2);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalVolquetadasArena());
+        cellNew.setCellStyle(estiloCelda);
+
+        cellNew = hssfRowNew.createCell(3);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalVolquetadasBloque());
+        cellNew.setCellStyle(estiloCelda);
+
+        cellNew = hssfRowNew.createCell(4);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalVolquetadasRipio());
+        cellNew.setCellStyle(estiloCelda);
+
+        cellNew = hssfRowNew.createCell(5);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalVolquetadasPolvo());
+        cellNew.setCellStyle(estiloCelda);
+
+        hssfRowNew = sheet.createRow(rows + 2);
+        cellNew = hssfRowNew.createCell(0);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue("TOTAL m3");
+
+        cellNew = hssfRowNew.createCell(1);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalM3Relleno());
+        cellNew.setCellStyle(estiloCelda);
+
+        cellNew = hssfRowNew.createCell(2);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalM3Arena());
+        cellNew.setCellStyle(estiloCelda);
+
+        cellNew = hssfRowNew.createCell(3);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalM3Bloque());
+        cellNew.setCellStyle(estiloCelda);
+
+        cellNew = hssfRowNew.createCell(4);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalM3Ripio());
+        cellNew.setCellStyle(estiloCelda);
+
+        cellNew = hssfRowNew.createCell(5);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue(totales.getTotalM3Polvo());
+        cellNew.setCellStyle(estiloCelda);
+
+        sheet.autoSizeColumn(0);
+    }
+
     public void obtenerCargaTransportada() {
         try {
             fechaCadena.separarFecha(fechaDesde, fechaHasta);
