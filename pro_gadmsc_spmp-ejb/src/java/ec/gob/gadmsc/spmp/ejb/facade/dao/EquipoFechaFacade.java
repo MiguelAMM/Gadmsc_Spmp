@@ -73,9 +73,11 @@ public class EquipoFechaFacade extends AbstractFacade<EquipoFecha> implements Eq
     }
 
     @Override
-    public List<Object[]> listarEquipoTransporte(Integer numEquipo, Integer dia, Integer mes, Integer anio, Integer dia2, Integer mes2, Integer anio2) {
+    public List<Object[]> listarEquipoTransporte(Integer numEquipo, Integer dia, Integer mes, Integer anio, Integer dia2, Integer mes2,
+            Integer anio2) {
         StringBuilder consulta = new StringBuilder();
-        consulta.append("select q.eq_tipo, b.eq_fecha_combustible, b.eq_fecha_observacion, CONCAT(a.fecha_tr_dia, '/', a.fecha_tr_mes, '/', a.fecha_tr_anio)  ");
+        consulta.append("select q.eq_tipo, b.eq_fecha_combustible, b.eq_fecha_observacion, "
+                + "CONCAT(a.fecha_tr_dia, '/', a.fecha_tr_mes, '/', a.fecha_tr_anio), b.eq_fecha_hora_e, b.eq_fecha_hora_s ");
         consulta.append("from (select * from fecha_transporte ");
         consulta.append("where fecha_tr_codigo between (select fecha_tr_codigo from fecha_transporte ");
         consulta.append("where fecha_tr_dia = :rangoDia1 ");

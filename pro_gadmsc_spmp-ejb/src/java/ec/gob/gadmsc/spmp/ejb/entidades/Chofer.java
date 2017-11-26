@@ -44,14 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Chofer.findByChoferTlf", query = "SELECT c FROM Chofer c WHERE c.choferTlf = :choferTlf")
     , @NamedQuery(name = "Chofer.findByChoferDireccion", query = "SELECT c FROM Chofer c WHERE c.choferDireccion = :choferDireccion")
     , @NamedQuery(name = "Chofer.findByChoferFechaNac", query = "SELECT c FROM Chofer c WHERE c.choferFechaNac = :choferFechaNac")
-    , @NamedQuery(name = "Chofer.findByChoferAsignado", query = "SELECT c FROM Chofer c WHERE c.choferAsignado = :choferAsignado")
-    , @NamedQuery(name = "Chofer.findByChoferEmail", query = "SELECT c FROM Chofer c WHERE c.choferEmail = :choferEmail")})
+    , @NamedQuery(name = "Chofer.findByChoferEmail", query = "SELECT c FROM Chofer c WHERE c.choferEmail = :choferEmail")
+    , @NamedQuery(name = "Chofer.findByChoferAsignado", query = "SELECT c FROM Chofer c WHERE c.choferAsignado = :choferAsignado")})
 public class Chofer implements Serializable {
-
-    @OneToMany(mappedBy = "fkChoferCodigo")
-    private List<Equipo> equipoList;
-    @OneToMany(mappedBy = "fkChoferCodigo")
-    private List<Usuario> usuarioList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -91,13 +86,19 @@ public class Chofer implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date choferFechaNac;
     @Basic(optional = false)
-    @NotNull(message = "Elija opción de asignado")
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "chofer_email")
+    private String choferEmail;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "chofer_asignado")
     private String choferAsignado;
-    @Size(max = 100)
-    @Column(name = "chofer_email")
-    private String choferEmail;
+    @OneToMany(mappedBy = "fkChoferCodigo")
+    private List<Equipo> equipoList;
+    @OneToMany(mappedBy = "fkChoferCodigo")
+    private List<Usuario> usuarioList;
 
     public Chofer() {
     }
@@ -106,7 +107,7 @@ public class Chofer implements Serializable {
         this.choferCodigo = choferCodigo;
     }
 
-    public Chofer(Integer choferCodigo, String choferNombre, String choferApellido, String choferCi, String choferTlf, String choferDireccion, Date choferFechaNac, String choferAsignado) {
+    public Chofer(Integer choferCodigo, String choferNombre, String choferApellido, String choferCi, String choferTlf, String choferDireccion, Date choferFechaNac, String choferEmail, String choferAsignado) {
         this.choferCodigo = choferCodigo;
         this.choferNombre = choferNombre;
         this.choferApellido = choferApellido;
@@ -114,6 +115,7 @@ public class Chofer implements Serializable {
         this.choferTlf = choferTlf;
         this.choferDireccion = choferDireccion;
         this.choferFechaNac = choferFechaNac;
+        this.choferEmail = choferEmail;
         this.choferAsignado = choferAsignado;
     }
 
@@ -173,6 +175,14 @@ public class Chofer implements Serializable {
         this.choferFechaNac = choferFechaNac;
     }
 
+    public String getChoferEmail() {
+        return choferEmail;
+    }
+
+    public void setChoferEmail(String choferEmail) {
+        this.choferEmail = choferEmail;
+    }
+
     public String getChoferAsignado() {
         return choferAsignado;
     }
@@ -181,12 +191,22 @@ public class Chofer implements Serializable {
         this.choferAsignado = choferAsignado;
     }
 
-    public String getChoferEmail() {
-        return choferEmail;
+    @XmlTransient
+    public List<Equipo> getEquipoList() {
+        return equipoList;
     }
 
-    public void setChoferEmail(String choferEmail) {
-        this.choferEmail = choferEmail;
+    public void setEquipoList(List<Equipo> equipoList) {
+        this.equipoList = equipoList;
+    }
+
+    @XmlTransient
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
+    }
+
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
     }
 
     @Override
@@ -212,24 +232,6 @@ public class Chofer implements Serializable {
     @Override
     public String toString() {
         return choferNombre + " " + choferApellido;
-    }
-
-    @XmlTransient
-    public List<Equipo> getEquipoList() {
-        return equipoList;
-    }
-
-    public void setEquipoList(List<Equipo> equipoList) {
-        this.equipoList = equipoList;
-    }
-
-    @XmlTransient
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
-    }
-
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
     }
 
 }

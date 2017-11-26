@@ -6,6 +6,7 @@
 package ec.gob.gadmsc.spmp.ejb.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,7 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "EquipoFecha.findAll", query = "SELECT e FROM EquipoFecha e")
     , @NamedQuery(name = "EquipoFecha.findByEqFechaCodigo", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaCodigo = :eqFechaCodigo")
     , @NamedQuery(name = "EquipoFecha.findByEqFechaCombustible", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaCombustible = :eqFechaCombustible")
-    , @NamedQuery(name = "EquipoFecha.findByEqFechaObservacion", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaObservacion = :eqFechaObservacion")})
+    , @NamedQuery(name = "EquipoFecha.findByEqFechaObservacion", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaObservacion = :eqFechaObservacion")
+    , @NamedQuery(name = "EquipoFecha.findByEqFechaHoraE", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaHoraE = :eqFechaHoraE")
+    , @NamedQuery(name = "EquipoFecha.findByEqFechaHoraS", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaHoraS = :eqFechaHoraS")})
 public class EquipoFecha implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +55,16 @@ public class EquipoFecha implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "eq_fecha_observacion")
     private String eqFechaObservacion;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "eq_fecha_hora_e")
+    @Temporal(TemporalType.TIME)
+    private Date eqFechaHoraE;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "eq_fecha_hora_s")
+    @Temporal(TemporalType.TIME)
+    private Date eqFechaHoraS;
     @JoinColumn(name = "fk_eq_codigo", referencedColumnName = "eq_codigo")
     @ManyToOne(optional = false)
     private Equipo fkEqCodigo;
@@ -64,10 +79,12 @@ public class EquipoFecha implements Serializable {
         this.eqFechaCodigo = eqFechaCodigo;
     }
 
-    public EquipoFecha(Integer eqFechaCodigo, int eqFechaCombustible, String eqFechaObservacion) {
+    public EquipoFecha(Integer eqFechaCodigo, int eqFechaCombustible, String eqFechaObservacion, Date eqFechaHoraE, Date eqFechaHoraS) {
         this.eqFechaCodigo = eqFechaCodigo;
         this.eqFechaCombustible = eqFechaCombustible;
         this.eqFechaObservacion = eqFechaObservacion;
+        this.eqFechaHoraE = eqFechaHoraE;
+        this.eqFechaHoraS = eqFechaHoraS;
     }
 
     public Integer getEqFechaCodigo() {
@@ -92,6 +109,22 @@ public class EquipoFecha implements Serializable {
 
     public void setEqFechaObservacion(String eqFechaObservacion) {
         this.eqFechaObservacion = eqFechaObservacion;
+    }
+
+    public Date getEqFechaHoraE() {
+        return eqFechaHoraE;
+    }
+
+    public void setEqFechaHoraE(Date eqFechaHoraE) {
+        this.eqFechaHoraE = eqFechaHoraE;
+    }
+
+    public Date getEqFechaHoraS() {
+        return eqFechaHoraS;
+    }
+
+    public void setEqFechaHoraS(Date eqFechaHoraS) {
+        this.eqFechaHoraS = eqFechaHoraS;
     }
 
     public Equipo getFkEqCodigo() {

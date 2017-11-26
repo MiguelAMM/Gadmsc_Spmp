@@ -6,7 +6,9 @@
 package ec.gob.gadmsc.spmp.ejb.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -63,6 +67,8 @@ public class Equipo implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "eq_tipo_us")
     private String eqTipoUs;
+    @OneToMany(mappedBy = "fkEqCodigo")
+    private List<EquipoFecha> equipoFechaList;
     @JoinColumn(name = "fk_chofer_codigo", referencedColumnName = "chofer_codigo")
     @ManyToOne(optional = false)
     private Chofer fkChoferCodigo;
@@ -122,6 +128,15 @@ public class Equipo implements Serializable {
         this.eqTipoUs = eqTipoUs;
     }
 
+    @XmlTransient
+    public List<EquipoFecha> getEquipoFechaList() {
+        return equipoFechaList;
+    }
+
+    public void setEquipoFechaList(List<EquipoFecha> equipoFechaList) {
+        this.equipoFechaList = equipoFechaList;
+    }
+
     public Chofer getFkChoferCodigo() {
         return fkChoferCodigo;
     }
@@ -152,7 +167,6 @@ public class Equipo implements Serializable {
 
     @Override
     public String toString() {
-//        return "ec.gob.gadmsc.spmp.ejb.entidades.Equipo[ eqCodigo=" + eqCodigo + " ]";
         return eqTipo;
     }
 

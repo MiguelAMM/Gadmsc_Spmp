@@ -6,6 +6,7 @@
 package ec.gob.gadmsc.spmp.ejb.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,6 +21,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -35,7 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "VolquetaFecha.findAll", query = "SELECT v FROM VolquetaFecha v")
     , @NamedQuery(name = "VolquetaFecha.findByVolqFechaCodigo", query = "SELECT v FROM VolquetaFecha v WHERE v.volqFechaCodigo = :volqFechaCodigo")
     , @NamedQuery(name = "VolquetaFecha.findByVolqFechaCombustible", query = "SELECT v FROM VolquetaFecha v WHERE v.volqFechaCombustible = :volqFechaCombustible")
-    , @NamedQuery(name = "VolquetaFecha.findByVolqFechaKm", query = "SELECT v FROM VolquetaFecha v WHERE v.volqFechaKm = :volqFechaKm")})
+    , @NamedQuery(name = "VolquetaFecha.findByVolqFechaKm", query = "SELECT v FROM VolquetaFecha v WHERE v.volqFechaKm = :volqFechaKm")
+    , @NamedQuery(name = "VolquetaFecha.findByVolqHoraE", query = "SELECT v FROM VolquetaFecha v WHERE v.volqHoraE = :volqHoraE")
+    , @NamedQuery(name = "VolquetaFecha.findByVolqHoraS", query = "SELECT v FROM VolquetaFecha v WHERE v.volqHoraS = :volqHoraS")})
 public class VolquetaFecha implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +57,16 @@ public class VolquetaFecha implements Serializable {
     @NotNull
     @Column(name = "volq_fecha_km")
     private int volqFechaKm;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "volq_hora_e")
+    @Temporal(TemporalType.TIME)
+    private Date volqHoraE;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "volq_hora_s")
+    @Temporal(TemporalType.TIME)
+    private Date volqHoraS;
     @OneToMany(mappedBy = "fkVolqFechaCodigo")
     private List<CargaTransportada> cargaTransportadaList;
     @JoinColumn(name = "fk_fecha_tr_codigo", referencedColumnName = "fecha_tr_codigo")
@@ -68,10 +83,12 @@ public class VolquetaFecha implements Serializable {
         this.volqFechaCodigo = volqFechaCodigo;
     }
 
-    public VolquetaFecha(Integer volqFechaCodigo, int volqFechaCombustible, int volqFechaKm) {
+    public VolquetaFecha(Integer volqFechaCodigo, int volqFechaCombustible, int volqFechaKm, Date volqHoraE, Date volqHoraS) {
         this.volqFechaCodigo = volqFechaCodigo;
         this.volqFechaCombustible = volqFechaCombustible;
         this.volqFechaKm = volqFechaKm;
+        this.volqHoraE = volqHoraE;
+        this.volqHoraS = volqHoraS;
     }
 
     public Integer getVolqFechaCodigo() {
@@ -96,6 +113,22 @@ public class VolquetaFecha implements Serializable {
 
     public void setVolqFechaKm(int volqFechaKm) {
         this.volqFechaKm = volqFechaKm;
+    }
+
+    public Date getVolqHoraE() {
+        return volqHoraE;
+    }
+
+    public void setVolqHoraE(Date volqHoraE) {
+        this.volqHoraE = volqHoraE;
+    }
+
+    public Date getVolqHoraS() {
+        return volqHoraS;
+    }
+
+    public void setVolqHoraS(Date volqHoraS) {
+        this.volqHoraS = volqHoraS;
     }
 
     @XmlTransient

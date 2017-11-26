@@ -120,12 +120,12 @@ public class NavegacionControlador {
 
     public void validarAccesoUsuario() throws IOException, Exception {
         try {
-            obtenerFechaActual();
+            Date d = obtenerFechaActual();
             List<Usuario> listaUsuarios = usuarioServicio.findAll();
             List<Equipo> listaEquipos = equipoServicio.findAll();
             transFecha = fechaTransorteServicio.buscarFecha(Integer.parseInt(diaActual), Integer.parseInt(mesActual), Integer.parseInt(anioActual));
             if (transFecha == null) {
-                transFecha = new FechaTransporte(Integer.parseInt(diaActual), Integer.parseInt(mesActual), Integer.parseInt(anioActual));
+                transFecha = new FechaTransporte(Integer.parseInt(diaActual), Integer.parseInt(mesActual), Integer.parseInt(anioActual), d);
                 fechaTransorteServicio.create(transFecha);
             }
             boolean login = loginUsuario.validarUsuario(listaUsuarios, listaEquipos);

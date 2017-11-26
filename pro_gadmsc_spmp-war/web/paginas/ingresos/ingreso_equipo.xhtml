@@ -19,11 +19,18 @@
                                 <h:panelGrid columns="2">                            
                                     <p:outputLabel value="#{etq.lbl_fecha}: "/>
                                     <p:outputLabel value="#{frmSpmpControlador.fechaFormateada}"/>
+                                    <p:outputLabel value="Hora entrada"/>
+                                    <p:calendar id="calendarHoraE" value="#{frmSpmpControlador.equipoFecha.eqFechaHoraE}" 
+                                                pattern="HH:mm" timeOnly="true"/>
+                                    <p:outputLabel value="Hora salida"/>
+                                    <p:calendar id="calendarHoraS" value="#{frmSpmpControlador.equipoFecha.eqFechaHoraS}" 
+                                                pattern="HH:mm" timeOnly="true"/>
                                     <p:outputLabel value="#{etq.lbl_equipo_combustible}: "/>
                                     <p:inputText value="#{frmSpmpControlador.equipoFecha.eqFechaCombustible}" onkeypress="return validarEnteros(event)"/>
                                     <p:outputLabel value="#{etq.lbl_equipo_observacion}: "/>
                                     <p:inputTextarea rows="6" cols="33" value="#{frmSpmpControlador.equipoFecha.eqFechaObservacion}"/>
-                                    <p:commandButton id="btnIngresarEq" value="Ingresar" disabled="#{frmSpmpControlador.ingreso}" action="#{frmSpmpControlador.guardar()}" update="@form"/>
+                                    <p:commandButton id="btnIngresarEq" value="Ingresar" disabled="#{frmSpmpControlador.ingreso}" 
+                                                     action="#{frmSpmpControlador.guardar()}" update="@form"/>
                                     <p:commandButton id="btnActualizarEq" value="Actualizar" disabled="#{frmSpmpControlador.actualiza}"
                                                      action="#{frmSpmpControlador.actualizar()}" update="@form"/>
                                 </h:panelGrid>

@@ -6,6 +6,7 @@
 package ec.gob.gadmsc.spmp.ejb.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -34,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "FechaTransporte.findByFechaTrCodigo", query = "SELECT f FROM FechaTransporte f WHERE f.fechaTrCodigo = :fechaTrCodigo")
     , @NamedQuery(name = "FechaTransporte.findByFechaTrDia", query = "SELECT f FROM FechaTransporte f WHERE f.fechaTrDia = :fechaTrDia")
     , @NamedQuery(name = "FechaTransporte.findByFechaTrMes", query = "SELECT f FROM FechaTransporte f WHERE f.fechaTrMes = :fechaTrMes")
-    , @NamedQuery(name = "FechaTransporte.findByFechaTrAnio", query = "SELECT f FROM FechaTransporte f WHERE f.fechaTrAnio = :fechaTrAnio")})
+    , @NamedQuery(name = "FechaTransporte.findByFechaTrAnio", query = "SELECT f FROM FechaTransporte f WHERE f.fechaTrAnio = :fechaTrAnio")
+    , @NamedQuery(name = "FechaTransporte.findByFechaCompleta", query = "SELECT f FROM FechaTransporte f WHERE f.fechaCompleta = :fechaCompleta")})
 public class FechaTransporte implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +59,11 @@ public class FechaTransporte implements Serializable {
     @NotNull
     @Column(name = "fecha_tr_anio")
     private int fechaTrAnio;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "fecha_completa")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCompleta;
     @OneToMany(mappedBy = "fkFechaTrCodigo")
     private List<VolquetaFecha> volquetaFechaList;
     @OneToMany(mappedBy = "fkFechaTrCodigo")
@@ -63,21 +72,23 @@ public class FechaTransporte implements Serializable {
     public FechaTransporte() {
     }
 
-    public FechaTransporte(int dia, int mes, int anio) {
+    public FechaTransporte(int dia, int mes, int anio, Date d) {
         this.fechaTrDia = dia;
         this.fechaTrMes = mes;
         this.fechaTrAnio = anio;
+        this.fechaCompleta = d;
     }
 
     public FechaTransporte(Integer fechaTrCodigo) {
         this.fechaTrCodigo = fechaTrCodigo;
     }
 
-    public FechaTransporte(Integer fechaTrCodigo, int fechaTrDia, int fechaTrMes, int fechaTrAnio) {
+    public FechaTransporte(Integer fechaTrCodigo, int fechaTrDia, int fechaTrMes, int fechaTrAnio, Date fechaCompleta) {
         this.fechaTrCodigo = fechaTrCodigo;
         this.fechaTrDia = fechaTrDia;
         this.fechaTrMes = fechaTrMes;
         this.fechaTrAnio = fechaTrAnio;
+        this.fechaCompleta = fechaCompleta;
     }
 
     public Integer getFechaTrCodigo() {
@@ -110,6 +121,14 @@ public class FechaTransporte implements Serializable {
 
     public void setFechaTrAnio(int fechaTrAnio) {
         this.fechaTrAnio = fechaTrAnio;
+    }
+
+    public Date getFechaCompleta() {
+        return fechaCompleta;
+    }
+
+    public void setFechaCompleta(Date fechaCompleta) {
+        this.fechaCompleta = fechaCompleta;
     }
 
     @XmlTransient

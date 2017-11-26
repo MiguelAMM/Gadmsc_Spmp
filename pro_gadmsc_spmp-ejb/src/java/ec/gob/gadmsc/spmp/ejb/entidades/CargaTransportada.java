@@ -53,8 +53,9 @@ public class CargaTransportada implements Serializable {
     private String cargaTrObservacion;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "carga_tr_comprobante")
-    private int cargaTrComprobante;
+    private String cargaTrComprobante;
     @JoinColumn(name = "fk_mat_codigo", referencedColumnName = "mat_codigo")
     @ManyToOne(optional = false)
     private Material fkMatCodigo;
@@ -69,7 +70,7 @@ public class CargaTransportada implements Serializable {
         this.cargaTrCodigo = cargaTrCodigo;
     }
 
-    public CargaTransportada(Integer cargaTrCodigo, int cargaTrViaje, String cargaTrObservacion, int cargaTrComprobante) {
+    public CargaTransportada(Integer cargaTrCodigo, int cargaTrViaje, String cargaTrObservacion, String cargaTrComprobante) {
         this.cargaTrCodigo = cargaTrCodigo;
         this.cargaTrViaje = cargaTrViaje;
         this.cargaTrObservacion = cargaTrObservacion;
@@ -100,11 +101,11 @@ public class CargaTransportada implements Serializable {
         this.cargaTrObservacion = cargaTrObservacion;
     }
 
-    public int getCargaTrComprobante() {
+    public String getCargaTrComprobante() {
         return cargaTrComprobante;
     }
 
-    public void setCargaTrComprobante(int cargaTrComprobante) {
+    public void setCargaTrComprobante(String cargaTrComprobante) {
         this.cargaTrComprobante = cargaTrComprobante;
     }
 

@@ -146,7 +146,7 @@ public class FrmSpmpControlador {
 
                 for (Object[] viaje : listaVolquetaCargaIngreso) {
                     if (materialN.getMatNombre().equals(viaje[3].toString())) {
-                        mat.getViajes().add(new Viajes(Integer.valueOf(viaje[0].toString()), Integer.valueOf(viaje[1].toString()), Integer.valueOf(viaje[2].toString()), Integer.valueOf(viaje[4].toString()), viaje[5].toString(), Integer.valueOf(viaje[6].toString()), Integer.valueOf(viaje[7].toString())));
+                        mat.getViajes().add(new Viajes(Integer.valueOf(viaje[0].toString()), Integer.valueOf(viaje[1].toString()), Integer.valueOf(viaje[2].toString()), viaje[4].toString(), viaje[5].toString(), Integer.valueOf(viaje[6].toString()), Integer.valueOf(viaje[7].toString())));
                     }
                 }
                 if (!mat.getViajes().isEmpty()) {

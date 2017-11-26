@@ -140,9 +140,10 @@ public class CargaTransportadaFacade extends AbstractFacade<CargaTransportada> i
             Integer rangoDia2, Integer rangoMes2, Integer rangoAnio2) {
         StringBuilder consulta = new StringBuilder();
         consulta.append("select volq.fk_usu_codigo, volq.volq_fecha_combustible, volq.volq_fecha_km, mat.mat_nombre, ");
-        consulta.append("c.carga_tr_viaje, c.carga_tr_comprobante, c.carga_tr_observacion, CONCAT(volq.fecha_tr_dia, '/', volq.fecha_tr_mes, '/', volq.fecha_tr_anio) ");
+        consulta.append("c.carga_tr_viaje, c.carga_tr_comprobante, c.carga_tr_observacion, "
+                + "CONCAT(volq.fecha_tr_dia, '/', volq.fecha_tr_mes, '/', volq.fecha_tr_anio), volq.volq_hora_e, volq.volq_hora_s ");
         consulta.append("from (select b.volq_fecha_codigo, b.fk_usu_codigo, a.fecha_tr_dia, ");
-        consulta.append("a.fecha_tr_mes, a.fecha_tr_anio, b.volq_fecha_combustible, b.volq_fecha_km ");
+        consulta.append("a.fecha_tr_mes, a.fecha_tr_anio, b.volq_fecha_combustible, b.volq_fecha_km, b.volq_hora_e, b.volq_hora_s ");
         consulta.append("from (select * from fecha_transporte ");
         consulta.append("where fecha_tr_codigo between (select fecha_tr_codigo from fecha_transporte ");
         consulta.append("where fecha_tr_dia =:rangoDia1 ");

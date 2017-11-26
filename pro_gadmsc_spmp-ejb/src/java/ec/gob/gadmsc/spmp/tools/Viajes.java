@@ -11,18 +11,20 @@ import java.io.Serializable;
  *
  * @author HOGAR
  */
-public class Viajes implements Serializable{
+public class Viajes implements Serializable {
+
     private Integer combustible;
     private Integer km;
     private Integer carga;
-    private Integer comprobante;
+    private String comprobante;
     private String observacion;
     private Integer volquetaCodigo;
     private Integer cargaCodigo;
-    
-    public Viajes(){}
 
-    public Viajes(Integer combustible, Integer km, Integer carga, Integer comprobante, String observacion,Integer volquetaCodigo, Integer cargaCodigo) {
+    public Viajes() {
+    }
+
+    public Viajes(Integer combustible, Integer km, Integer carga, String comprobante, String observacion, Integer volquetaCodigo, Integer cargaCodigo) {
         this.combustible = combustible;
         this.km = km;
         this.carga = carga;
@@ -56,11 +58,11 @@ public class Viajes implements Serializable{
         this.carga = carga;
     }
 
-    public Integer getComprobante() {
+    public String getComprobante() {
         return comprobante;
     }
 
-    public void setComprobante(Integer comprobante) {
+    public void setComprobante(String comprobante) {
         this.comprobante = comprobante;
     }
 
@@ -70,7 +72,7 @@ public class Viajes implements Serializable{
 
     public void setObservacion(String observacion) {
         this.observacion = observacion;
-    }   
+    }
 
     public Integer getCargaCodigo() {
         return cargaCodigo;
@@ -87,5 +89,5 @@ public class Viajes implements Serializable{
     public void setVolquetaCodigo(Integer volquetaCodigo) {
         this.volquetaCodigo = volquetaCodigo;
     }
-     
+
 }

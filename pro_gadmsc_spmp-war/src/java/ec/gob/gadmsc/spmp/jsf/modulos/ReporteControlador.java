@@ -256,6 +256,9 @@ public class ReporteControlador {
             cell.setCellStyle(cellStyle);
 
         }
+        long fecha1 = fechaDesde.getTime();
+        long fecha2 = fechaHasta.getTime();
+        long restaFecha = fecha1 - fecha2;
         if (volqueta != null) {
             sheet.shiftRows(0, sheet.getLastRowNum(), 3);
             HSSFRow hssfRowNew;
@@ -272,23 +275,25 @@ public class ReporteControlador {
             cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
             cellNew.setCellValue(volqueta.getFkChoferCodigo().getChoferNombre() + " " + volqueta.getFkChoferCodigo().getChoferApellido());
 
-            hssfRowNew = sheet.createRow(1);
-            cellNew = hssfRowNew.createCell(0);
-            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cellNew.setCellValue("Hora entrada");
+            if (restaFecha == 0) {
+                Object[] obj = listaCargaTransportada.get(0);
+                hssfRowNew = sheet.createRow(1);
+                cellNew = hssfRowNew.createCell(0);
+                cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+                cellNew.setCellValue("Hora entrada");
 
-            cellNew = hssfRowNew.createCell(1);
-            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cellNew.setCellValue("07:00");
+                cellNew = hssfRowNew.createCell(1);
+                cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+                cellNew.setCellValue(obj[8].toString());
 
-            cellNew = hssfRowNew.createCell(2);
-            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cellNew.setCellValue("Hora salida");
+                cellNew = hssfRowNew.createCell(2);
+                cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+                cellNew.setCellValue("Hora salida");
 
-            cellNew = hssfRowNew.createCell(3);
-            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cellNew.setCellValue("16:00");
-
+                cellNew = hssfRowNew.createCell(3);
+                cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+                cellNew.setCellValue(obj[9].toString());
+            }
             sheet.autoSizeColumn(0);
             sheet.autoSizeColumn(2);
         } else if (equipo != null) {
@@ -307,22 +312,24 @@ public class ReporteControlador {
             cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
             cellNew.setCellValue(equipo.getFkChoferCodigo().getChoferNombre() + " " + equipo.getFkChoferCodigo().getChoferApellido());
 
-            hssfRowNew = sheet.createRow(1);
-            cellNew = hssfRowNew.createCell(0);
-            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cellNew.setCellValue("Hora entrada");
+            if (restaFecha == 0) {
+                Object[] obj = listaEquipoFecha.get(0);
+                hssfRowNew = sheet.createRow(1);
+                cellNew = hssfRowNew.createCell(0);
+                cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+                cellNew.setCellValue("Hora entrada");
+                cellNew = hssfRowNew.createCell(1);
+                cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+                cellNew.setCellValue(obj[4].toString());
 
-            cellNew = hssfRowNew.createCell(1);
-            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cellNew.setCellValue("07:00");
+                cellNew = hssfRowNew.createCell(2);
+                cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+                cellNew.setCellValue("Hora salida");
 
-            cellNew = hssfRowNew.createCell(2);
-            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cellNew.setCellValue("Hora salida");
-
-            cellNew = hssfRowNew.createCell(3);
-            cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
-            cellNew.setCellValue("16:00");
+                cellNew = hssfRowNew.createCell(3);
+                cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+                cellNew.setCellValue(obj[5].toString());
+            }
 
             sheet.autoSizeColumn(0);
             sheet.autoSizeColumn(2);
