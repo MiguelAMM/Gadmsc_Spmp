@@ -49,7 +49,8 @@ public class CargaTransportadaFacade extends AbstractFacade<CargaTransportada> i
         consulta.append("and fecha_tr_mes =:rangoMes2 ");
         consulta.append("and fecha_tr_anio =:rangoAnio2)) a, volqueta_fecha b ");
         consulta.append("where a.fecha_tr_codigo = b.fk_fecha_tr_codigo ) volq, carga_transportada c, material mat ");
-        consulta.append("where volq.volq_fecha_codigo = c.fk_volq_fecha_codigo and mat.mat_codigo = c.fk_mat_codigo");
+        consulta.append("where volq.volq_fecha_codigo = c.fk_volq_fecha_codigo and mat.mat_codigo = c.fk_mat_codigo ");
+        consulta.append("and c.carga_tr_observacion NOT IN('')");
 
         Query query = em.createNativeQuery(consulta.toString());
         query.setParameter("rangoDia1", rangoDia1);
@@ -154,7 +155,8 @@ public class CargaTransportadaFacade extends AbstractFacade<CargaTransportada> i
         consulta.append("and fecha_tr_anio =:rangoAnio2)) a, volqueta_fecha b ");
         consulta.append("where a.fecha_tr_codigo = b.fk_fecha_tr_codigo ) volq, carga_transportada c, material mat ");
         consulta.append("where volq.volq_fecha_codigo = c.fk_volq_fecha_codigo and mat.mat_codigo = c.fk_mat_codigo ");
-        consulta.append("and volq.fk_usu_codigo =:numVolq");
+        consulta.append("and volq.fk_usu_codigo =:numVolq ");
+        consulta.append("and c.carga_tr_observacion NOT IN('')");
 
         Query query = em.createNativeQuery(consulta.toString());
         query.setParameter("rangoDia1", rangoDia1);

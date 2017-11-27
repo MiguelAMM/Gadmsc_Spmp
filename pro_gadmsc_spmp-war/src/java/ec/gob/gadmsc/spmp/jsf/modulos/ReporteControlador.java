@@ -239,6 +239,11 @@ public class ReporteControlador {
         cellNew.setCellValue(totales.getTotalM3Polvo());
         cellNew.setCellStyle(estiloCelda);
 
+        //colocar fórmulas en Excel
+//        hssfRowNew = sheet.createRow(rows + 4);
+//        cellNew = hssfRowNew.createCell(0);
+//        cellNew.setCellType(HSSFCell.CELL_TYPE_FORMULA);
+//        cellNew.setCellFormula("SUM(B4:B6)");
         sheet.autoSizeColumn(0);
     }
 
@@ -259,8 +264,8 @@ public class ReporteControlador {
         long fecha1 = fechaDesde.getTime();
         long fecha2 = fechaHasta.getTime();
         long restaFecha = fecha1 - fecha2;
+        sheet.shiftRows(0, sheet.getLastRowNum(), 3);
         if (volqueta != null) {
-            sheet.shiftRows(0, sheet.getLastRowNum(), 3);
             HSSFRow hssfRowNew;
             HSSFCell cellNew;
             HSSFCellStyle estiloCelda = wb.createCellStyle();
@@ -297,7 +302,6 @@ public class ReporteControlador {
             sheet.autoSizeColumn(0);
             sheet.autoSizeColumn(2);
         } else if (equipo != null) {
-            sheet.shiftRows(0, sheet.getLastRowNum(), 3);
             HSSFRow hssfRowNew;
             HSSFCell cellNew;
             HSSFCellStyle estiloCelda = wb.createCellStyle();
@@ -334,6 +338,30 @@ public class ReporteControlador {
             sheet.autoSizeColumn(0);
             sheet.autoSizeColumn(2);
         }
+
+        HSSFRow hssfRowNew;
+        HSSFCell cellNew;
+        int rows = sheet.getLastRowNum();
+        String rangoCombustible = "B" + 5 + ":" + "B" + rows;
+        String rangoKilometraje = "C" + 5 + ":" + "C" + rows;
+        String rangoCantidad = "E" + 5 + ":" + "E" + rows;
+        hssfRowNew = sheet.createRow(rows + 1);
+        cellNew = hssfRowNew.createCell(0);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue("TOTAL");
+//        cellNew.setCellFormula("SUM(B4:B6)");
+
+        cellNew = hssfRowNew.createCell(1);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_FORMULA);
+        cellNew.setCellFormula("SUM(" + rangoCombustible + ")");
+
+        cellNew = hssfRowNew.createCell(2);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_FORMULA);
+        cellNew.setCellFormula("SUM(" + rangoKilometraje + ")");
+
+        cellNew = hssfRowNew.createCell(4);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_FORMULA);
+        cellNew.setCellFormula("SUM(" + rangoCantidad + ")");
     }
 
     public void obtenerCargaTransportada() {
