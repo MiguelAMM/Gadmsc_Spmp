@@ -59,7 +59,7 @@
                                         </p:dataTable>
                                         <p:spacer width="80" height="20"/>
                                         <h:panelGrid columns="2">                        
-                                            <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
+                                            <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>                            
                                             <h:commandLink>  
                                                 <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
                                                 <p:dataExporter type="xls" target="tableVolq" fileName="volquetas_#{reporteControlador.horaActual}"/>
@@ -67,7 +67,7 @@
                                         </h:panelGrid>
                                     </p:tab>
                                     <!-- tabla de equipos -->
-                                    <p:tab id="tabEqui" title="Equipos">
+                                    <p:tab id="tabEqui" title="Equipos Camineros">
                                         <p:commandLink id="linkNuevoEquipo" action="#{reporteControlador.ingresarNuevo()}"
                                                        update=":frmDialogoEq:eqDetalle" 
                                                        oncomplete="PF('eqDialogo').show()" process="@this">
@@ -106,7 +106,7 @@
                                         </p:dataTable>
                                         <p:spacer width="80" height="20"/>
                                         <h:panelGrid columns="2">                        
-                                            <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
+                                            <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>                            
                                             <h:commandLink>  
                                                 <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
                                                 <p:dataExporter type="xls" target="tableEq" fileName="equipos_#{reporteControlador.horaActual}" />
@@ -165,7 +165,7 @@
                                         </p:dataTable>
                                         <p:spacer width="80" height="20"/>
                                         <h:panelGrid columns="2">                        
-                                            <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
+                                            <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>                            
                                             <h:commandLink>  
                                                 <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
                                                 <p:dataExporter type="xls" target="tableChoferes" fileName="choferes_#{reporteControlador.horaActual}" />
@@ -186,114 +186,162 @@
                 </p:outputPanel>
             </h:form>
 
-            <!-- Mensajes de Diálogo al momento de ingresar datos de la Volqueta -->
-            <p:dialog id="dialogoVolq" header="Volqueta" widgetVar="volqDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <!-- Mensajes de Diálogo al momento de ingresar y actualizar datos de la Volqueta -->
+            <p:dialog id="dialogoVolq" header="VOLQUETA" widgetVar="volqDialogo" 
+                      modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+                      style="font-family: Audiowide; font-size: medium; background: #EFEFFB">
                 <h:form id="frmDialogoVolq">
-                    <p:outputPanel id="volqDetalle" style="text-align:center;">
+                    <p:outputPanel id="volqDetalle" style="text-align:right">
                         <p:panelGrid id="panelVolq" columns="2">
-                            <h:outputText value="Volqueta número"/>
-                            <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuCodigo}" disabled="#{reporteControlador.textoIngreso}"/>
+                            <h:outputText value="Número de Volqueta"/>
+                            <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuCodigo}" 
+                                         disabled="#{reporteControlador.textoIngreso}"/>
                             <h:outputText value="Placa"/>
                             <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuNombre}"/>
                             <h:outputText value="Contraseña"/>
                             <p:inputText value="#{reporteControlador.volquetaSeleccionada.usuPass}"/>
                             <h:outputText value="Chofer"/>
                             <p:selectOneMenu id="cmbChoferVolq" value="#{reporteControlador.idChoferVolq}">
-                                <f:selectItem itemLabel="Seleccione chofer" itemValue="0"/>
+                                <f:selectItem itemLabel="Seleccione Chofer" itemValue="0"/>
                                 <f:selectItems value="#{reporteControlador.listaChoferesNoAsignados}" var="varChoferes"
                                                itemLabel="#{varChoferes}" itemValue="#{varChoferes.choferCodigo}"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:commandButton id="btnIngresoVolq" value="Ingresar" action="#{reporteControlador.ingresarVolqueta()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" disabled="#{reporteControlador.ingreso}"/>
-                        <p:commandButton id="btnActualizaVolq" value="Actualizar" action="#{reporteControlador.actualizarVolqueta()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" disabled="#{reporteControlador.actualiza}"/>    
+                        <br></br>
+                        <div align="center">
+                            <p:commandButton id="btnIngresoVolq" value="Ingresar" action="#{reporteControlador.ingresarVolqueta()}" 
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
+                                         disabled="#{reporteControlador.ingreso}"/>
+                            <font> <font></font> </font>
+                            <p:commandButton id="btnActualizaVolq" value="Actualizar" action="#{reporteControlador.actualizarVolqueta()}" 
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
+                                         disabled="#{reporteControlador.actualiza}"/>
+                        </div>        
                     </p:outputPanel>
                 </h:form>                    
             </p:dialog>
 
-            <p:dialog id="dialogoEq" header="Equipo" widgetVar="eqDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <!-- Mensajes de Diálogo al momento de ingresar y actualizar datos de los Equipos -->
+            <p:dialog id="dialogoEq" header="EQUIPO" widgetVar="eqDialogo" 
+                      modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+                      style="font-family: Audiowide; font-size: medium; background: #EFEFFB">
                 <h:form id="frmDialogoEq">
-                    <p:outputPanel id="eqDetalle" style="text-align:center;">
+                    <p:outputPanel id="eqDetalle" style="text-align:right">
                         <p:panelGrid id="panelEqui" columns="2">
                             <h:outputText value="Tipo"/>
-                            <p:inputText value="#{reporteControlador.equipoSeleccionado.eqTipo}" disabled="#{reporteControlador.textoIngreso}"/>
+                            <p:inputText value="#{reporteControlador.equipoSeleccionado.eqTipo}" 
+                                         disabled="#{reporteControlador.textoIngreso}"/>
                             <h:outputText value="Placa"/>
                             <p:inputText value="#{reporteControlador.equipoSeleccionado.eqPlaca}"/>
                             <h:outputText value="Contraseña"/>
                             <p:inputText value="#{reporteControlador.equipoSeleccionado.eqPass}"/>
                             <h:outputText value="Chofer"/>
                             <p:selectOneMenu id="cmbChoferEq" value="#{reporteControlador.idChoferEq}">
-                                <f:selectItem itemLabel="Seleccione chofer" itemValue="0"/>
+                                <f:selectItem itemLabel="Seleccione Chofer" itemValue="0"/>
                                 <f:selectItems value="#{reporteControlador.listaChoferesNoAsignados}" var="varChoferesEq"
                                                itemLabel="#{varChoferesEq}" itemValue="#{varChoferesEq.choferCodigo}"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:commandButton id="btnIngresoEq" value="Ingresar" action="#{reporteControlador.ingresarEquipo()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" disabled="#{reporteControlador.ingreso}"/>
-                        <p:commandButton id="btnActualizaEq" value="Actualizar" action="#{reporteControlador.actualizarEquipo()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" disabled="#{reporteControlador.actualiza}"/>
+                        <br></br>
+                        <div align="center">
+                            <p:commandButton id="btnIngresoEq" value="Ingresar" action="#{reporteControlador.ingresarEquipo()}" 
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
+                                         disabled="#{reporteControlador.ingreso}"/>
+                            <font> <font></font> </font>
+                            <p:commandButton id="btnActualizaEq" value="Actualizar" action="#{reporteControlador.actualizarEquipo()}" 
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
+                                         disabled="#{reporteControlador.actualiza}"/>
+                        </div> 
                     </p:outputPanel>
                 </h:form>
             </p:dialog>
 
-            <p:dialog id="dialogoChofer" header="Chofer" widgetVar="choferDialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <!-- Mensajes de Diálogo al momento de ingresar y actualizar datos del Chofer -->
+            <p:dialog id="dialogoChofer" header="CHOFER" widgetVar="choferDialogo" 
+                      modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+                      style="font-family: Audiowide; font-size: medium; background: #EFEFFB">
                 <h:form id="frmDialogoChofer">
-                    <p:outputPanel id="choferDetalle" style="text-align:center;">
+                    <p:outputPanel id="choferDetalle" style="text-align:right">
                         <p:panelGrid id="panelChofer" columns="2">
                             <h:outputText value="Nombre"/>
                             <p:inputText value="#{reporteControlador.chofer.choferNombre}"/>
                             <h:outputText value="Apellido"/>
                             <p:inputText value="#{reporteControlador.chofer.choferApellido}"/>
-                            <h:outputText value="Cédula"/>
+                            <h:outputText value="Cédula de Identidad"/>
                             <p:inputText value="#{reporteControlador.chofer.choferCi}" onkeypress="return validarEnteros(event)"/>
                             <h:outputText value="Teléfono"/>
                             <p:inputText value="#{reporteControlador.chofer.choferTlf}" onkeypress="return validarEnteros(event)"/>
-                            <h:outputText value="Dirección"/>
+                            <h:outputText value="Dirección Domiciliaria"/>
                             <p:inputText value="#{reporteControlador.chofer.choferDireccion}"/>
-                            <h:outputText value="Fecha de nacimiento"/>
+                            <h:outputText value="Fecha de Nacimiento"/>
                             <p:calendar value="#{reporteControlador.chofer.choferFechaNac}" pattern="dd-MM-yyyy" mask="true"
                                         locale="es" navigator="true"/>
                             <h:outputText value="Asignado"/>
-                            <p:selectOneRadio id="radioCargaT"
-                                              value="#{reporteControlador.chofer.choferAsignado}"
+                            <p:selectOneRadio id="radioCargaT" value="#{reporteControlador.chofer.choferAsignado}"
                                               columns="2" disabled="#{reporteControlador.habilitaChoferAsig}">
                                 <f:selectItem itemLabel="#{etq.radio_SI}" itemValue="#{etq.radio_SI}"/>
                                 <f:selectItem itemLabel="#{etq.radio_NO}" itemValue="#{etq.radio_NO}"/>
                             </p:selectOneRadio>
-                            <h:outputText value="Correo electrónico"/>
+                            <h:outputText value="Correo Electrónico"/>
                             <p:inputText value="#{reporteControlador.chofer.choferEmail}"/>
                         </p:panelGrid>
-                        <p:commandButton id="btnIngresoChofer" value="Ingresar" action="#{reporteControlador.ingresarChofer()}" 
-                                         disabled="#{reporteControlador.ingreso}" update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
-                        <p:commandButton id="btnActualizaChofer" value="Actualizar" action="#{reporteControlador.actualizarChofer()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" disabled="#{reporteControlador.actualiza}"/>    
+                        <br></br>
+                        <div align="center">
+                            <p:commandButton id="btnIngresoChofer" value="Ingresar" action="#{reporteControlador.ingresarChofer()}" 
+                                         disabled="#{reporteControlador.ingreso}" 
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
+                            <font> <font></font> </font>
+                            <p:commandButton id="btnActualizaChofer" value="Actualizar" action="#{reporteControlador.actualizarChofer()}" 
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
+                                         disabled="#{reporteControlador.actualiza}"/>    
+                        </div>      
                     </p:outputPanel>
                 </h:form>
             </p:dialog>
 
-            <p:dialog id="dlgEliminaVolq" widgetVar="volqDialogoElimina" header="Eliminar volqueta" modal="true">
-                <h:form id="formEliminaVolq">
-                    <h:outputText value="#{etq.lbl_eliminar}"/>
-                    <p:commandButton id="btnSi" value="SI" action="#{reporteControlador.eliminarVolq()}" update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
+            <!-- Eliminar registro de la volqueta asignada -->
+            <p:dialog id="dlgEliminaVolq" widgetVar="volqDialogoElimina" header="ELIMINAR VOLQUETA" modal="true"
+                      style="font-family: Audiowide; font-size: medium; background: #EFEFFB">
+                <div align="center">
+                    <h:form id="formEliminaVolq">
+                        <h:outputText value="#{etq.lbl_eliminar}" style="font-family: Arial; font-size: large"/>
+                        <br></br>
+                        <p:commandButton id="btnSi" value="SI" action="#{reporteControlador.eliminarVolq()}" 
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
+                        <font> <font></font> </font>
                     <p:commandButton value="NO" onclick="dialogo.hide();" />
-                </h:form>
+                    </h:form>
+                </div>   
             </p:dialog>
 
-            <p:dialog id="dlgEliminaEqui" widgetVar="equiDialogoElimina" header="Eliminar equipo caminero" modal="true">
-                <h:form id="formEliminaEqui">
-                    <h:outputText value="#{etq.lbl_eliminar}"/>
-                    <p:commandButton id="btnSi" value="SI" action="#{reporteControlador.eliminarEq()}" update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
-                    <p:commandButton value="NO" onclick="dialogo.hide();" />
-                </h:form>
+            <!-- Eliminar registro del equipo asignado -->
+            <p:dialog id="dlgEliminaEqui" widgetVar="equiDialogoElimina" header="ELIMINAR EQUIPO CAMINERO" modal="true"
+                      style="font-family: Audiowide; font-size: medium; background: #EFEFFB">
+                <div align="center">
+                    <h:form id="formEliminaEqui">
+                        <h:outputText value="#{etq.lbl_eliminar}" style="font-family: Arial; font-size: large"/>
+                        <br></br>
+                        <p:commandButton id="btnSi" value="SI" action="#{reporteControlador.eliminarEq()}" 
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
+                        <font> <font></font> </font>
+                        <p:commandButton value="NO" onclick="dialogo.hide();" />
+                    </h:form>
+                </div>    
             </p:dialog>
 
-            <p:dialog id="dlgEliminaChofer" widgetVar="choferDialogoElimina" header="Eliminar chofer" modal="true">
-                <h:form id="formEliminaChofer">
-                    <h:outputText value="#{etq.lbl_eliminar}"/>
-                    <p:commandButton id="btnSi" value="SI" action="#{reporteControlador.eliminarChofer()}" update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
-                    <p:commandButton value="NO" onclick="dialogo.hide()" />
-                </h:form>
+            <!-- Eliminar registro del chofer asignado -->
+            <p:dialog id="dlgEliminaChofer" widgetVar="choferDialogoElimina" header="ELIMINAR CHOFER" modal="true"
+                      style="font-family: Audiowide; font-size: medium; background: #EFEFFB">
+                <div align="center">
+                    <h:form id="formEliminaChofer">
+                        <h:outputText value="#{etq.lbl_eliminar}" style="font-family: Arial; font-size: large"/>
+                        <br></br>
+                        <p:commandButton id="btnSi" value="SI" action="#{reporteControlador.eliminarChofer()}" 
+                                         update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
+                        <font> <font></font> </font>
+                        <p:commandButton value="NO" onclick="dialogo.hide()" />
+                    </h:form>
+                </div>    
             </p:dialog>
 
         </ui:define>        
