@@ -78,20 +78,19 @@
                                          styleClass="estiloListaCalibriPeq"
                                          widgetVar="tablaCarga"
                                          emptyMessage="#{etq.msg_seg_sinRegistros}">
-                                <p:column headerText="#{etq.lbl_volqueta}" footerText="#{etq.lbl_volqueta}" filterStyle="width: 80px;" filterBy="#{carga[0]}"  
-                                          filterMatchMode="exact"   width="40"  >
+                                <p:column headerText="#{etq.lbl_volqueta}" width="40"  >
                                     <h:outputText value="#{carga[0]}" />
                                 </p:column>                            
-                                <p:column headerText="#{etq.lbl_combustible}" footerText="#{etq.lbl_combustible}" width="160"  filterBy="#{carga[1]}"
+                                <p:column headerText="#{etq.lbl_combustible}" width="160" filterBy="#{carga[1]}" 
                                           filterFunction="#{reporteControlador.filtrarMayores}">
                                     <h:outputText value="#{carga[1]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_kilometraje}" footerText="#{etq.lbl_kilometraje}"  width="100" filterBy="#{carga[2]}"
+                                <p:column headerText="#{etq.lbl_kilometraje}" width="100" filterBy="#{carga[2]}"
                                           filterFunction="#{reporteControlador.filtrarMayores}">
                                     <h:outputText value="#{carga[2]}" />
                                 </p:column>                                                      
-                                <p:column headerText="#{etq.lbl_material}" footerText="#{etq.lbl_material}" filterStyle="width: 80px;" filterBy="#{carga[3]}"  
-                                          filterMatchMode="exact"   width="120"  >
+                                <p:column headerText="#{etq.lbl_material}" filterStyle="width: 80px;" filterBy="#{carga[3]}"  
+                                          filterMatchMode="exact" width="120" >
                                     <f:facet name="filter">
                                         <p:selectOneMenu onchange="PF('tablaCarga').filter()">
                                             <f:selectItem itemLabel="Seleccione material" itemValue="#{null}" noSelectionOption="true"/>
@@ -100,18 +99,18 @@
                                     </f:facet>
                                     <h:outputText value="#{carga[3]}" />
                                 </p:column>                                                      
-                                <p:column headerText="#{etq.lbl_cantidad_t}" footerText="#{etq.lbl_cantidad_t}" width="80" filterBy="#{carga[4]}"
+                                <p:column headerText="#{etq.lbl_cantidad_t}" width="80" filterBy="#{carga[4]}"
                                           filterFunction="#{reporteControlador.filtrarMayores}">
                                     <h:outputText value="#{carga[4]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_comprobante}" footerText="#{etq.lbl_comprobante}"  width="80"  >
+                                <p:column headerText="#{etq.lbl_comprobante}" width="80">
                                     <h:outputText value="#{carga[5]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_observacion}" footerText="#{etq.lbl_observacion}"  width="80"  >
+                                <p:column headerText="#{etq.lbl_observacion}" width="80">
                                     <h:outputText value="#{carga[6]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_fecha}" footerText="#{etq.lbl_fecha}" width="80" filterBy="#{carga[7]}"  
-                                          filterMatchMode="contains" >
+                                <p:column headerText="#{etq.lbl_fecha}" width="80" filterBy="#{carga[7]}"  
+                                          filterMatchMode="contains">
                                     <f:facet name="filter">
                                         <f:facet name="filter">
                                             <p:selectOneMenu onchange="PF('tablaCarga').filter()">
@@ -162,8 +161,7 @@
                                          rowsPerPageTemplate="15,20,25"                                                                          
                                          styleClass="estiloListaCalibriPeq"
                                          widgetVar="tablaEquipo">
-                                <p:column headerText="#{etq.lbl_equipo_caminero}" filterStyle="width: 80px;" filterBy="#{varEquipo[0]}"  
-                                          filterMatchMode="exact"   width="40"  >
+                                <p:column headerText="#{etq.lbl_equipo_caminero}" width="40">
                                     <h:outputText value="#{varEquipo[0]}" />
                                 </p:column>
                                 <p:column headerText="#{etq.lbl_equipo_combustible}" filterStyle="width: 80px;" filterBy="#{varEquipo[1]}" 
@@ -171,11 +169,10 @@
                                     <h:outputText value="#{varEquipo[1]}" />
                                 </p:column>
                                 <p:column headerText="#{etq.lbl_equipo_observacion}" filterStyle="width: 80px;" filterBy="#{varEquipo[2]}"  
-                                          filterMatchMode="exact"   width="40"  >
+                                          filterMatchMode="exact" width="40"  >
                                     <h:outputText value="#{varEquipo[2]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_fecha}" filterBy="#{varEquipo[3]}" footerText="#{etq.lbl_fecha}"
-                                          filterMatchMode="contains" width="40">
+                                <p:column headerText="#{etq.lbl_fecha}" filterBy="#{varEquipo[3]}" filterMatchMode="contains" width="40">
                                     <f:facet name="filter">
                                         <f:facet name="filter">
                                             <p:selectOneMenu onchange="PF('tablaEquipo').filter()">

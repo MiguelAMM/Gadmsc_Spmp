@@ -341,11 +341,12 @@ public class ReporteControlador {
 
         HSSFRow hssfRowNew;
         HSSFCell cellNew;
+        cellStyle = wb.createCellStyle();
+        cellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
         int rows = sheet.getLastRowNum();
         String rangoCombustible = "B" + 5 + ":" + "B" + rows;
-        String rangoKilometraje = "C" + 5 + ":" + "C" + rows;
         String rangoCantidad = "E" + 5 + ":" + "E" + rows;
-        hssfRowNew = sheet.createRow(rows + 1);
+        hssfRowNew = sheet.createRow(rows);
         cellNew = hssfRowNew.createCell(0);
         cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
         cellNew.setCellValue("TOTAL");
@@ -355,13 +356,21 @@ public class ReporteControlador {
         cellNew.setCellType(HSSFCell.CELL_TYPE_FORMULA);
         cellNew.setCellFormula("SUM(" + rangoCombustible + ")");
 
-        cellNew = hssfRowNew.createCell(2);
-        cellNew.setCellType(HSSFCell.CELL_TYPE_FORMULA);
-        cellNew.setCellFormula("SUM(" + rangoKilometraje + ")");
-
         cellNew = hssfRowNew.createCell(4);
         cellNew.setCellType(HSSFCell.CELL_TYPE_FORMULA);
         cellNew.setCellFormula("SUM(" + rangoCantidad + ")");
+
+        hssfRowNew = sheet.createRow(rows + 6);
+        cellNew = hssfRowNew.createCell(0);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue("FIRMA:");
+        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellNew = hssfRowNew.createCell(1);
+        cellNew.setCellStyle(cellStyle);
+        cellNew = hssfRowNew.createCell(2);
+        cellNew.setCellStyle(cellStyle);
+        cellNew = hssfRowNew.createCell(3);
+        cellNew.setCellStyle(cellStyle);
     }
 
     public void obtenerCargaTransportada() {
@@ -575,23 +584,26 @@ public class ReporteControlador {
     }
 
     public void ingresarVolqueta() {
-        if (idChoferVolq != 0) {
-            chofer = choferServicio.find(idChoferVolq);
-            volquetaSeleccionada.setFkChoferCodigo(chofer);
-            volquetaSeleccionada.setUsuTipo("volqueta");
-            usuarioServicio.create(volquetaSeleccionada);
-            chofer.setChoferAsignado("SI");
-            choferServicio.edit(chofer);
-            baseControlador.addSuccessMessage("Ingreso exitoso");
-            volquetaSeleccionada = new Usuario();
-            listaChoferes = choferServicio.findAll();
-            listaVolquetas = usuarioServicio.buscarVolquetas();
-            idChoferVolq = 0;
-            RequestContext.getCurrentInstance().execute("PF('volqDialogo').hide()");
-        } else {
-            baseControlador.addErrorMessage("Seleccione chofer");
+        try {
+            if (idChoferVolq != 0) {
+                chofer = choferServicio.find(idChoferVolq);
+                volquetaSeleccionada.setFkChoferCodigo(chofer);
+                volquetaSeleccionada.setUsuTipo("volqueta");
+                usuarioServicio.create(volquetaSeleccionada);
+                chofer.setChoferAsignado("SI");
+                choferServicio.edit(chofer);
+                baseControlador.addSuccessMessage("Ingreso exitoso");
+                volquetaSeleccionada = new Usuario();
+                listaChoferes = choferServicio.findAll();
+                listaVolquetas = usuarioServicio.buscarVolquetas();
+                idChoferVolq = 0;
+                RequestContext.getCurrentInstance().execute("PF('volqDialogo').hide()");
+            } else {
+                baseControlador.addErrorMessage("Seleccione chofer");
+            }
+        } catch (Exception e) {
+            baseControlador.addErrorMessage("Ya existe la volqueta");
         }
-
     }
 
     public void actualizarVolqueta() {

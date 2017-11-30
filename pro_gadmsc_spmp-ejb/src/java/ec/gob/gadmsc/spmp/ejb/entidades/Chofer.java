@@ -86,8 +86,8 @@ public class Chofer implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date choferFechaNac;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+//    @NotNull
+//    @Size(min = 1, max = 100)
     @Column(name = "chofer_email")
     private String choferEmail;
     @Basic(optional = false)

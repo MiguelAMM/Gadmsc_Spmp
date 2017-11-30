@@ -44,7 +44,8 @@ public class ChoferFacade extends AbstractFacade<Chofer> implements ChoferServic
     @Override
     public List<Chofer> buscarChoferNoAsignado() {
         StringBuilder consulta = new StringBuilder();
-        consulta.append("SELECT c FROM Chofer c WHERE choferAsignado NOT IN ('SI') ORDER BY choferNombre, choferApellido");
+        consulta.append("SELECT c FROM Chofer c WHERE choferAsignado NOT IN ('SI') AND choferCodigo NOT IN(0) "
+                + "ORDER BY choferNombre, choferApellido");
         Query query = em.createQuery(consulta.toString());
         List<Chofer> listaChoferes = query.getResultList();
         return listaChoferes;
