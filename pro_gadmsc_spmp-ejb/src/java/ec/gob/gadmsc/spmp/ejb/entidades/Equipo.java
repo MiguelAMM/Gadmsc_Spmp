@@ -49,7 +49,7 @@ public class Equipo implements Serializable {
     private Integer eqCodigo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100, message = "Ingrese equipo caminero")
     @Column(name = "eq_tipo")
     private String eqTipo;
     @Basic(optional = false)
@@ -59,7 +59,7 @@ public class Equipo implements Serializable {
     private String eqPlaca;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 50, message = "Ingrese contraseña")
     @Column(name = "eq_pass")
     private String eqPass;
     @Basic(optional = false)

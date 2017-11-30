@@ -29,10 +29,10 @@
                                         <p:dataTable id="tableVolq" var="volquetas" value="#{reporteControlador.listaVolquetas}"
                                                      scrollable="true" scrollWidth="96%"
                                                      styleClass="estiloListaCalibriPeq" emptyMessage="#{etq.msg_seg_sinRegistros}">
-                                            <p:column headerText="Número de Volqueta" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{volquetas.usuCodigo}" filterMatchMode="exact" headerText="Número de Volqueta" style="width:30px;text-align: center">
                                                 <h:outputText value="#{volquetas.usuCodigo}"/>
                                             </p:column>
-                                            <p:column headerText="Placa" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{volquetas.usuNombre}" filterMatchMode="contains" headerText="Placa" style="width:30px;text-align: center">
                                                 <h:outputText value="#{volquetas.usuNombre}"/>
                                             </p:column>
                                             <p:column headerText="Contraseña" style="width:30px;text-align: center">
@@ -76,10 +76,10 @@
                                         <p:dataTable id="tableEq" var="equipo" value="#{reporteControlador.listaEquipos}"
                                                      scrollable="true" scrollWidth="96%"
                                                      styleClass="estiloListaCalibriPeq" emptyMessage="#{etq.msg_seg_sinRegistros}">
-                                            <p:column headerText="Equipo Caminero" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{equipo.eqTipo}" filterMatchMode="contains" headerText="Equipo Caminero" style="width:30px;text-align: center">
                                                 <h:outputText value="#{equipo.eqTipo}"/>
                                             </p:column>
-                                            <p:column headerText="Placa" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{equipo.eqPlaca}" filterMatchMode="contains" headerText="Placa" style="width:30px;text-align: center">
                                                 <h:outputText value="#{equipo.eqPlaca}"/>
                                             </p:column>
                                             <p:column headerText="Contraseña" style="width:30px;text-align: center">
@@ -123,28 +123,28 @@
                                         <p:dataTable id="tableChoferes" var="choferes" value="#{reporteControlador.listaChoferes}"
                                                      scrollable="true" scrollWidth="96%"
                                                      styleClass="estiloListaCalibriPeq" emptyMessage="#{etq.msg_seg_sinRegistros}">
-                                            <p:column headerText="Nombre" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{choferes.choferNombre}" filterMatchMode="contains" headerText="Nombre" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferNombre}"/>
                                             </p:column>
-                                            <p:column headerText="Apellido" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{choferes.choferApellido}" filterMatchMode="contains" headerText="Apellido" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferApellido}"/>
                                             </p:column>
-                                            <p:column headerText="Cédula de Identidad" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{choferes.choferCi}" filterMatchMode="contains" headerText="Cédula de Identidad" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferCi}"/>
                                             </p:column>
-                                            <p:column headerText="Teléfono" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{choferes.choferTlf}" filterMatchMode="contains" headerText="Teléfono" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferTlf}"/>
                                             </p:column>
-                                            <p:column headerText="Correo Electrónico" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{choferes.choferEmail}" filterMatchMode="contains" headerText="Correo Electrónico" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferEmail}"/>
                                             </p:column>
-                                            <p:column headerText="Dirección Domiciliaria" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{choferes.choferDireccion}" filterMatchMode="contains" headerText="Dirección Domiciliaria" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferDireccion}"/>
                                             </p:column>
-                                            <p:column headerText="Fecha de Nacimiento" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{choferes.choferFechaNac}" filterMatchMode="contains" headerText="Fecha de Nacimiento" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferFechaNac}"/>
                                             </p:column>
-                                            <p:column headerText="Asignado" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{choferes.choferAsignado}" filterMatchMode="exact" headerText="Asignado" style="width:30px;text-align: center">
                                                 <h:outputText value="#{choferes.choferAsignado}"/>
                                             </p:column>
                                             <p:column style="width:30px;text-align: center" exportable="false">
@@ -210,12 +210,12 @@
                         <br></br>
                         <div align="center">
                             <p:commandButton id="btnIngresoVolq" value="Ingresar" action="#{reporteControlador.ingresarVolqueta()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
-                                         disabled="#{reporteControlador.ingreso}"/>
+                                             update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
+                                             disabled="#{reporteControlador.ingreso}"/>
                             <font> <font></font> </font>
                             <p:commandButton id="btnActualizaVolq" value="Actualizar" action="#{reporteControlador.actualizarVolqueta()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
-                                         disabled="#{reporteControlador.actualiza}"/>
+                                             update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
+                                             disabled="#{reporteControlador.actualiza}"/>
                         </div>        
                     </p:outputPanel>
                 </h:form>                    
@@ -245,12 +245,12 @@
                         <br></br>
                         <div align="center">
                             <p:commandButton id="btnIngresoEq" value="Ingresar" action="#{reporteControlador.ingresarEquipo()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
-                                         disabled="#{reporteControlador.ingreso}"/>
+                                             update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
+                                             disabled="#{reporteControlador.ingreso}"/>
                             <font> <font></font> </font>
                             <p:commandButton id="btnActualizaEq" value="Actualizar" action="#{reporteControlador.actualizarEquipo()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
-                                         disabled="#{reporteControlador.actualiza}"/>
+                                             update=":frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
+                                             disabled="#{reporteControlador.actualiza}"/>
                         </div> 
                     </p:outputPanel>
                 </h:form>
@@ -288,12 +288,13 @@
                         <br></br>
                         <div align="center">
                             <p:commandButton id="btnIngresoChofer" value="Ingresar" action="#{reporteControlador.ingresarChofer()}" 
-                                         disabled="#{reporteControlador.ingreso}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
+                                             disabled="#{reporteControlador.ingreso}" 
+                                             update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
                             <font> <font></font> </font>
                             <p:commandButton id="btnActualizaChofer" value="Actualizar" action="#{reporteControlador.actualizarChofer()}" 
-                                         update=":frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg" 
-                                         disabled="#{reporteControlador.actualiza}"/>    
+                                             update=":frmEquiChofer:tabViewEquiChofer:tableChoferes 
+                                             frmEquiChofer:tabViewEquiChofer:tableEq :frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:msg" 
+                                             disabled="#{reporteControlador.actualiza}"/>    
                         </div>      
                     </p:outputPanel>
                 </h:form>
@@ -309,7 +310,7 @@
                         <p:commandButton id="btnSi" value="SI" action="#{reporteControlador.eliminarVolq()}" 
                                          update=":frmEquiChofer:tabViewEquiChofer:tableVolq :frmEquiChofer:tabViewEquiChofer:tableChoferes :frmEquiChofer:msg"/>
                         <font> <font></font> </font>
-                    <p:commandButton value="NO" onclick="dialogo.hide();" />
+                        <p:commandButton value="NO" onclick="dialogo.hide();" />
                     </h:form>
                 </div>   
             </p:dialog>

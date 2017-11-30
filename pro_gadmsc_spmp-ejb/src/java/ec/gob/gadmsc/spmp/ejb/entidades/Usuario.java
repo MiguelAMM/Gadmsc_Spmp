@@ -41,7 +41,7 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Ingrese número de volqueta")
     @Column(name = "usu_codigo")
     private Integer usuCodigo;
     @Basic(optional = false)
@@ -51,7 +51,7 @@ public class Usuario implements Serializable {
     private String usuNombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 50, message = "Ingrese contraseña")
     @Column(name = "usu_pass")
     private String usuPass;
     @Basic(optional = false)

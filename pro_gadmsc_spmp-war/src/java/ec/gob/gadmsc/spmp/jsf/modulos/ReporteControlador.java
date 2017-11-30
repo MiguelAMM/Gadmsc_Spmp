@@ -19,6 +19,7 @@ import ec.gob.gadmsc.spmp.servicios.FechaTransporteServicio;
 import ec.gob.gadmsc.spmp.servicios.MaterialServicio;
 import ec.gob.gadmsc.spmp.servicios.UsuarioServicio;
 import ec.gob.gadmsc.spmp.tools.AgrupaVolquetas;
+import ec.gob.gadmsc.spmp.tools.BusquedaEquipos;
 import ec.gob.gadmsc.spmp.tools.ManejoFechas;
 import ec.gob.gadmsc.spmp.tools.Meses;
 import ec.gob.gadmsc.spmp.tools.ReporteException;
@@ -705,6 +706,21 @@ public class ReporteControlador {
     }
 
     public void actualizarChofer() {
+        if (chofer.getChoferAsignado().equals("NO")) {
+            BusquedaEquipos buscaEquipos = new BusquedaEquipos();
+            Equipo equi = buscaEquipos.buscarEquipoChofer(listaEquipos, chofer.getChoferCodigo());
+            Usuario u = buscaEquipos.buscarVolquetaChofer(listaVolquetas, chofer.getChoferCodigo());
+            if (equi != null) {
+                equi.getFkChoferCodigo().setChoferCodigo(0);
+                equipoServicio.edit(equi);
+                listaEquipos = equipoServicio.findAll();
+            }
+            if (u != null) {
+                u.getFkChoferCodigo().setChoferCodigo(0);
+                usuarioServicio.edit(u);
+                listaVolquetas = usuarioServicio.buscarVolquetas();
+            }
+        }
         choferServicio.edit(chofer);
         baseControlador.addSuccessMessage("Actualización exitosa");
         chofer = new Chofer();

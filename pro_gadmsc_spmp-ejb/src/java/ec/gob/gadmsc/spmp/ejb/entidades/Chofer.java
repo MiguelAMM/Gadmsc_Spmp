@@ -56,32 +56,32 @@ public class Chofer implements Serializable {
     private Integer choferCodigo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100, message = "Ingrese nombre")
     @Column(name = "chofer_nombre")
     private String choferNombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100, message = "Ingrese apellido")
     @Column(name = "chofer_apellido")
     private String choferApellido;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 11)
+//    @Size(min = 1, max = 11)
     @Cedula(message = "La cédula es inválida")
     @Column(name = "chofer_ci")
     private String choferCi;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 10, message = "Ingrese número de teléfono")
     @Column(name = "chofer_tlf")
     private String choferTlf;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100, message = "Ingrese dirección de domicilio")
     @Column(name = "chofer_direccion")
     private String choferDireccion;
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Elija fecha")
     @Column(name = "chofer_fecha_nac")
     @Temporal(TemporalType.DATE)
     private Date choferFechaNac;
