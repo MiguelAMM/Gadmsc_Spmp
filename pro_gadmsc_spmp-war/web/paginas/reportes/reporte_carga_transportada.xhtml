@@ -14,14 +14,18 @@
                     <p:panel id="pnlCargaT">
                         <center>
                             <h:outputText value="#{etq.tit_reporte_cargaT}" styleClass="estiloTextoCandaraGranColor"/>
-
+                            <br></br>
                             <p:spacer width="200" height="20"/>
+                            
                             <p:panel>
+                                <!-- Panel del reporte de carga transportada -->
                                 <h:panelGrid columns="6">                            
-                                    <p:outputLabel value="#{etq.lbl_fecha_desde}: "/>
+                                    <p:outputLabel value="#{etq.lbl_fecha_desde} : " 
+                                                   style="font-family: Audiowide; font-size: medium"/>
                                     <p:calendar value="#{reporteControlador.fechaDesde}" pattern="dd-MM-yyyy" mask="true"
                                                 locale="es" navigator="true"/>
-                                    <p:outputLabel value="#{etq.lbl_fecha_hasta}: "/>
+                                    <p:outputLabel value="#{etq.lbl_fecha_hasta} : "
+                                                   style="font-family: Audiowide; font-size: medium"/>
                                     <p:calendar value="#{reporteControlador.fechaHasta}" pattern="dd-MM-yyyy" mask="true"
                                                 locale="es" navigator="true"/>
                                     <p:outputLabel value=""/>
