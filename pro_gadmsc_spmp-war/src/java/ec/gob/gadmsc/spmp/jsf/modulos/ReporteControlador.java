@@ -452,13 +452,13 @@ public class ReporteControlador {
             cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
             cellNew.setCellValue(volqueta.getFkChoferCodigo().getChoferNombre() + " " + volqueta.getFkChoferCodigo().getChoferApellido());
             cellNew.setCellStyle(estiloCelda);
-            
+
             cellNew = hssfRowNew.createCell(2);
             cellNew.setCellStyle(estiloCelda);
 
             cellNew = hssfRowNew.createCell(3);
             cellNew.setCellStyle(estiloCelda);
-            
+
             RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
             RegionUtil.setBorderTop(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
             RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
@@ -620,6 +620,205 @@ public class ReporteControlador {
         cellNew.setCellStyle(cellStyle);
     }
 
+    public void postProcessXLSVolqueta(Object document) {
+
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        int rows = sheet.getLastRowNum();
+        HSSFRow header = sheet.getRow(0);
+        wb.setSheetName(0, "Volquetas");
+
+        HSSFFont fuente = wb.createFont();
+        fuente.setBold(true);
+        fuente.setFontName("Arial");
+
+        HSSFCellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+
+        fuente.setFontHeightInPoints((short) 11);
+        cellStyle.setFont(fuente);
+        for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+            HSSFCell cell = header.getCell(i);
+            cell.setCellStyle(cellStyle);
+            sheet.autoSizeColumn(i);
+        }
+
+        //Bordes para la tabla
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 0), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 0), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 0), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 1, 1), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 2, 2), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 2, 2), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 2, 2), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 3, 3), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 3, 3), sheet, wb);
+
+        sheet.shiftRows(0, sheet.getLastRowNum(), 2);
+        HSSFRow hssfRowNew;
+        HSSFCell cellNew;
+
+        cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        cellStyle.setFont(fuente);
+
+        hssfRowNew = sheet.createRow(0);
+        cellNew = hssfRowNew.createCell(0);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue("Lista de Volquetas");
+        cellNew.setCellStyle(cellStyle);
+
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
+
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
+        RegionUtil.setBorderTop(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
+    }
+
+    public void postProcessXLSEquipo(Object document) {
+
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        int rows = sheet.getLastRowNum();
+        HSSFRow header = sheet.getRow(0);
+        wb.setSheetName(0, "Equipo caminero");
+
+        HSSFFont fuente = wb.createFont();
+        fuente.setBold(true);
+        fuente.setFontName("Arial");
+
+        HSSFCellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+
+        fuente.setFontHeightInPoints((short) 11);
+        cellStyle.setFont(fuente);
+        for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+            HSSFCell cell = header.getCell(i);
+            cell.setCellStyle(cellStyle);
+            sheet.autoSizeColumn(i);
+        }
+
+        //Bordes para la tabla
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 0), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 0), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 0), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 1, 1), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 2, 2), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 2, 2), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 2, 2), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 3, 3), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 3, 3), sheet, wb);
+
+        sheet.shiftRows(0, sheet.getLastRowNum(), 2);
+        HSSFRow hssfRowNew;
+        HSSFCell cellNew;
+
+        cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        cellStyle.setFont(fuente);
+
+        hssfRowNew = sheet.createRow(0);
+        cellNew = hssfRowNew.createCell(0);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue("Lista de Equipos");
+        cellNew.setCellStyle(cellStyle);
+
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
+
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
+        RegionUtil.setBorderTop(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 3), sheet, wb);
+    }
+
+    public void postProcessXLSChofer(Object document) {
+
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+        int rows = sheet.getLastRowNum();
+        HSSFRow header = sheet.getRow(0);
+        wb.setSheetName(0, "Choferes");
+
+        HSSFFont fuente = wb.createFont();
+        fuente.setBold(true);
+        fuente.setFontName("Arial");
+
+        HSSFCellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+
+        fuente.setFontHeightInPoints((short) 11);
+        cellStyle.setFont(fuente);
+        for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+            HSSFCell cell = header.getCell(i);
+            cell.setCellStyle(cellStyle);
+            sheet.autoSizeColumn(i);
+        }
+
+        //Bordes para la tabla
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 0), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 0), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 0), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 1, 1), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 2, 2), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 2, 2), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 2, 2), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 3, 3), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 3, 3), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 4), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 4), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 4), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 5), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 5), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 6), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 6), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 6), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 7), sheet, wb);
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(1, rows, 0, 7), sheet, wb);
+
+        sheet.shiftRows(0, sheet.getLastRowNum(), 2);
+        HSSFRow hssfRowNew;
+        HSSFCell cellNew;
+
+        cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        cellStyle.setFont(fuente);
+
+        hssfRowNew = sheet.createRow(0);
+        cellNew = hssfRowNew.createCell(0);
+        cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
+        cellNew.setCellValue("Lista de Choferes");
+        cellNew.setCellStyle(cellStyle);
+
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 7));
+
+        RegionUtil.setBorderBottom(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 7), sheet, wb);
+        RegionUtil.setBorderTop(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 7), sheet, wb);
+        RegionUtil.setBorderLeft(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 7), sheet, wb);
+        RegionUtil.setBorderRight(HSSFCellStyle.BORDER_THIN, new CellRangeAddress(0, 0, 0, 7), sheet, wb);
+    }
+
     public void obtenerCargaTransportada() {
         try {
             equipo = null;
@@ -725,7 +924,6 @@ public class ReporteControlador {
 
     public void obtenerTablaResumenCarga() {
         int contador = 1;
-//        System.out.println("Año resumen " + anioResumen);
         if (anioResumen != 0) {
             listaCarga = cargaTransportadaServicio.listarResumenCarga(anioResumen);
             listaTablaCargaResumen = new ArrayList<>();

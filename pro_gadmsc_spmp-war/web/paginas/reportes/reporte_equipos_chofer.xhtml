@@ -62,7 +62,8 @@
                                             <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>                            
                                             <h:commandLink>  
                                                 <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
-                                                <p:dataExporter type="xls" target="tableVolq" fileName="volquetas_#{reporteControlador.horaActual}"/>
+                                                <p:dataExporter type="xls" target="tableVolq" fileName="volquetas_#{reporteControlador.horaActual}"
+                                                                postProcessor="#{reporteControlador.postProcessXLSVolqueta}"/>
                                             </h:commandLink>
                                         </h:panelGrid>
                                     </p:tab>
@@ -168,7 +169,8 @@
                                             <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>                            
                                             <h:commandLink>  
                                                 <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
-                                                <p:dataExporter type="xls" target="tableChoferes" fileName="choferes_#{reporteControlador.horaActual}" />
+                                                <p:dataExporter type="xls" target="tableChoferes" fileName="choferes_#{reporteControlador.horaActual}" 
+                                                                postProcessor="#{reporteControlador.postProcessXLSChofer}"/>
                                             </h:commandLink>
                                         </h:panelGrid>
                                     </p:tab>
