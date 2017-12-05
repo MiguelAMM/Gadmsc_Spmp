@@ -923,46 +923,141 @@ public class ReporteControlador {
     }
 
     public void obtenerTablaResumenCarga() {
-        int contador = 1;
         if (anioResumen != 0) {
+            int contador = 1;
+            boolean finMes = false;
+            Object objeto[];
             listaCarga = cargaTransportadaServicio.listarResumenCarga(anioResumen);
             listaTablaCargaResumen = new ArrayList<>();
             for (Object[] ob : listaCarga) {
                 switch ((int) ob[0]) {
                     case 1:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 2) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.ENERO);
                         break;
                     case 2:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 3) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.FEBRERO);
                         break;
                     case 3:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 4) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.MARZO);
                         break;
                     case 4:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 5) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.ABRIL);
                         break;
                     case 5:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 6) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.MAYO);
                         break;
                     case 6:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 7) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.JUNIO);
                         break;
                     case 7:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 8) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.JULIO);
                         break;
                     case 8:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 9) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.AGOSTO);
                         break;
                     case 9:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 10) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.SEPTIEMBRE);
                         break;
                     case 10:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 11) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.OCTUBRE);
                         break;
                     case 11:
+                        try {
+                            objeto = listaCarga.get(contador);
+                            if ((int) objeto[0] == 12) {
+                                finMes = true;
+                            }
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.NOVIEMBRE);
                         break;
                     case 12:
+                        try {
+                            listaCarga.get(contador);
+                        } catch (Exception e) {
+                            finMes = true;
+                        }
                         cargaResumen.setMes(Meses.DICIEMBRE);
                         break;
                 }
@@ -988,13 +1083,16 @@ public class ReporteControlador {
                         totales.setTotalVolquetadasRipio((int) ob[3]);
                         break;
                 }
-                if (contador == 5) {
+                if (finMes) {//contador == 5
                     listaTablaCargaResumen.add(cargaResumen);
-                    contador = 1;
+//                    contador = 1;
                     cargaResumen = new TablaCarga();
-                } else {
-                    contador++;
+                    finMes = false;
                 }
+//                else {
+//                    contador++;
+//                }
+                contador++;
             }
             totales.calcularTotalesM3();
             obtenerResumenCombustible();
