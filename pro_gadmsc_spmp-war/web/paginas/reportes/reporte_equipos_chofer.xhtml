@@ -14,8 +14,9 @@
                     <p:panel id="pnlEquiChofer">
 
                         <center>
-                            <h:outputText value="#{etq.tit_reporte_equi_chofer}" styleClass="estiloTextoCandaraGranColor"/>
-                            <p:spacer width="200" height="20"/>
+                            <h:outputText value="#{etq.tit_reporte_equi_chofer}" styleClass="estiloTextoCandaraGranColor"
+                                          style="font: bold 30px Candara"/>
+                            <p:spacer width="120" height="20"/>
                             <p:panel>
                                 <!-- Etiquetas de la Administración de Usuarios-->
                                 <p:tabView id="tabViewEquiChofer">
@@ -29,10 +30,12 @@
                                         <p:dataTable id="tableVolq" var="volquetas" value="#{reporteControlador.listaVolquetas}"
                                                      scrollable="true" scrollWidth="96%"
                                                      styleClass="estiloListaCalibriPeq" emptyMessage="#{etq.msg_seg_sinRegistros}">
-                                            <p:column filterBy="#{volquetas.usuCodigo}" filterMatchMode="exact" headerText="Número de Volqueta" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{volquetas.usuCodigo}" filterMatchMode="exact" headerText="Número de Volqueta" 
+                                                      style="width:30px;text-align: center">
                                                 <h:outputText value="#{volquetas.usuCodigo}"/>
                                             </p:column>
-                                            <p:column filterBy="#{volquetas.usuNombre}" filterMatchMode="contains" headerText="Placa" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{volquetas.usuNombre}" filterMatchMode="contains" headerText="Placa" 
+                                                      style="width:30px;text-align: center">
                                                 <h:outputText value="#{volquetas.usuNombre}"/>
                                             </p:column>
                                             <p:column headerText="Contraseña" style="width:30px;text-align: center">
@@ -77,10 +80,12 @@
                                         <p:dataTable id="tableEq" var="equipo" value="#{reporteControlador.listaEquipos}"
                                                      scrollable="true" scrollWidth="96%"
                                                      styleClass="estiloListaCalibriPeq" emptyMessage="#{etq.msg_seg_sinRegistros}">
-                                            <p:column filterBy="#{equipo.eqTipo}" filterMatchMode="contains" headerText="Equipo Caminero" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{equipo.eqTipo}" filterMatchMode="contains" headerText="Equipo Caminero" 
+                                                      style="width:30px;text-align: center">
                                                 <h:outputText value="#{equipo.eqTipo}"/>
                                             </p:column>
-                                            <p:column filterBy="#{equipo.eqPlaca}" filterMatchMode="contains" headerText="Placa" style="width:30px;text-align: center">
+                                            <p:column filterBy="#{equipo.eqPlaca}" filterMatchMode="contains" headerText="Placa" 
+                                                      style="width:30px;text-align: center">
                                                 <h:outputText value="#{equipo.eqPlaca}"/>
                                             </p:column>
                                             <p:column headerText="Contraseña" style="width:30px;text-align: center">

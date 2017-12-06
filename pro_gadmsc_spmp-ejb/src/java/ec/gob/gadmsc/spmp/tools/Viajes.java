@@ -6,6 +6,7 @@
 package ec.gob.gadmsc.spmp.tools;
 
 import java.io.Serializable;
+import java.sql.Time;
 
 /**
  *
@@ -20,11 +21,14 @@ public class Viajes implements Serializable {
     private String observacion;
     private Integer volquetaCodigo;
     private Integer cargaCodigo;
+    private Time horaEntrada;
+    private Time horaSalida;
 
     public Viajes() {
     }
 
-    public Viajes(Integer combustible, Integer km, Integer carga, String comprobante, String observacion, Integer volquetaCodigo, Integer cargaCodigo) {
+    public Viajes(Integer combustible, Integer km, Integer carga, String comprobante, String observacion, Integer volquetaCodigo, 
+            Integer cargaCodigo, Time horaEntrada, Time horaSalida) {
         this.combustible = combustible;
         this.km = km;
         this.carga = carga;
@@ -32,6 +36,8 @@ public class Viajes implements Serializable {
         this.observacion = observacion;
         this.volquetaCodigo = volquetaCodigo;
         this.cargaCodigo = cargaCodigo;
+        this.horaEntrada = horaEntrada;
+        this.horaSalida = horaSalida;
     }
 
     public Integer getCombustible() {
@@ -88,6 +94,22 @@ public class Viajes implements Serializable {
 
     public void setVolquetaCodigo(Integer volquetaCodigo) {
         this.volquetaCodigo = volquetaCodigo;
+    }
+
+    public Time getHoraEntrada() {
+        return horaEntrada;
+    }
+
+    public void setHoraEntrada(Time horaEntrada) {
+        this.horaEntrada = horaEntrada;
+    }
+
+    public Time getHoraSalida() {
+        return horaSalida;
+    }
+
+    public void setHoraSalida(Time horaSalida) {
+        this.horaSalida = horaSalida;
     }
 
 }

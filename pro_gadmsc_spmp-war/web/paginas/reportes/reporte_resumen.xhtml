@@ -10,40 +10,45 @@
         <ui:define name="page-content">
             <h:form id="frmCargaR" styleClass="estilo-pagina">                
                 <p:growl id="msg" showDetail="true"/>
-                <p:outputPanel >
+                <p:outputPanel>
+                    <!-- Panel principal para ingresar datos para el reporte resumen -->
                     <p:panel id="pnlCargaR">
                         <center>
-                            <h:outputText value="#{etq.tit_reporte_carga_anual}" styleClass="estiloTextoCandaraGranColor"/>
-                            <p:spacer width="200" height="20"/>
+                            <h:outputText value="#{etq.tit_reporte_carga_anual}" styleClass="estiloTextoCandaraGranColor"
+                                          style="font: bold 30px Candara"/>
+                            <p:spacer width="120" height="20"/>
                             <p:panel>
-                                <h:panelGrid columns="2">                            
-                                    <p:outputLabel value="#{etq.lbl_anio}: "/>
-                                    <p:selectOneMenu id="cmbAnios" value="#{reporteControlador.anioResumen}">
+                                <!-- SubPanel del reporte del resumen anual -->
+                                <h:panelGrid columns="2" style="text-align: right">                            
+                                    <p:outputLabel value="#{etq.lbl_anio} : "
+                                                   style="font-family: Audiowide; font-size: medium"/>
+                                    <p:selectOneMenu id="cmbAnios" value="#{reporteControlador.anioResumen}"
+                                                     style="font-family: Audiowide; font-size: medium">
                                         <f:selectItem itemLabel="Seleccione año"/>
                                         <f:selectItems value="#{reporteControlador.listaAnios}" var="varAnios"
                                                        itemLabel="#{varAnios}">
                                         </f:selectItems>
                                     </p:selectOneMenu>
-                                    <p:spacer width="80" height="20"/>
-                                    <p:spacer width="80" height="20"/>
-                                    <p:commandButton id="btnGenerarResumen" 
-                                                     value="Generar resumen"
-                                                     icon="ui-icon-search"
-                                                     process=":pnlCargaT:cmbAnios"
-                                                     action="#{reporteControlador.obtenerTablaResumenCarga()}"                                         
-                                                     update="tableCargaR tableCombustibleR"
-                                                     global="false"
-                                                     async="true"
-                                                     ajax="false"
-                                                     style="width: 80px; height: 50px">
-                                    </p:commandButton>
                                 </h:panelGrid>
+                                <br></br>
+                                <div align="center">
+                                    <p:commandLink id="linkGenerarResumen"
+                                                   process=":pnlCargaT:cmbAnios"
+                                                   action="#{reporteControlador.obtenerTablaResumenCarga()}"
+                                                   update="tableCargaR tableCombustibleR"
+                                                   global="false" async="true" ajax="false">
+                                        <p:graphicImage value="/imagenes/carpeta.png"/>
+                                    </p:commandLink>
+                                    <br></br>
+                                    <h:outputLabel value="#{etq.lbl_generar_resumen}" style="font: bold 12px Arial"/>
+                                </div>                               
                             </p:panel>
                         </center>
                     </p:panel>
-
-                    <p:accordionPanel id="accPnl" multiple="true" >
-                        <p:tab id="tabR" title="Resumen carga" >
+                    <!-- Panel de acordión para el Resumen Carga y Resumen de Combustible-->
+                    <p:accordionPanel id="accPnl" multiple="true" style="font-family: Arial; font-size: medium">
+                        <!-- Resumen Carga -->
+                        <p:tab id="tabR" title="Resumen Carga">
                             <center>
                                 <p:panel id="pnlR">
                                     <p:dataTable id="tableCargaR" value="#{reporteControlador.listaTablaCargaResumen}" 
@@ -53,26 +58,26 @@
                                                  styleClass="estiloListaCalibriPeq" 
                                                  emptyMessage="#{etq.msg_seg_sinRegistros}">
                                         <p:column headerText="#{etq.lbl_mes}" width="20" style="background-color: #cfeaff">
-                                            <h:outputText value="#{cargaResumen.mes}" />
+                                            <h:outputText value="#{cargaResumen.mes}"/>
                                         </p:column>                            
                                         <p:column headerText="#{etq.lbl_relleno}" width="20" >
-                                            <h:outputText value="#{cargaResumen.relleno}" />
+                                            <h:outputText value="#{cargaResumen.relleno}"/>
                                         </p:column>                               
                                         <p:column headerText="#{etq.lbl_arena}"  width="20"  >
-                                            <h:outputText value="#{cargaResumen.arenaFina}" />
+                                            <h:outputText value="#{cargaResumen.arenaFina}"/>
                                         </p:column>                                                      
                                         <p:column headerText="#{etq.lbl_bloque}" width="20"  >
-                                            <h:outputText value="#{cargaResumen.materialBloque}" />
+                                            <h:outputText value="#{cargaResumen.materialBloque}"/>
                                         </p:column>                                                      
                                         <p:column headerText="#{etq.lbl_ripio}" width="20"  >
-                                            <h:outputText value="#{cargaResumen.ripio}" />
+                                            <h:outputText value="#{cargaResumen.ripio}"/>
                                         </p:column>
                                         <p:column headerText="#{etq.lbl_polvo_piedra}"  width="20"  >
-                                            <h:outputText value="#{cargaResumen.polvoPiedra}" />
+                                            <h:outputText value="#{cargaResumen.polvoPiedra}"/>
                                         </p:column>
                                         <p:columnGroup type="footer">
                                             <p:row>
-                                                <p:column style="text-align:right" footerText="Total volqueta:" />
+                                                <p:column style="text-align:right" footerText="TOTAL VOLQUETA :" />
                                                 <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalVolquetadasRelleno}" />
                                                 <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalVolquetadasArena}" />
                                                 <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalVolquetadasBloque}" />
@@ -80,7 +85,7 @@
                                                 <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalVolquetadasPolvo}" />
                                             </p:row>
                                             <p:row>
-                                                <p:column style="text-align:right" footerText="Total en m3:" />
+                                                <p:column style="text-align:right" footerText="TOTAL (m3) :" />
                                                 <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalM3Relleno}" />
                                                 <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalM3Arena}" />
                                                 <p:column style="text-align:left" footerText="#{reporteControlador.totales.totalM3Bloque}" />
@@ -89,18 +94,20 @@
                                             </p:row>
                                         </p:columnGroup> 
                                     </p:dataTable>
+                                    <p:spacer width="80" height="20"/>
                                     <h:panelGrid columns="2">
-                                        <h:outputLabel value="#{etq.lbl_descarga_excel}"/>
-                                        <h:commandLink>  
-                                            <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
-                                            <p:dataExporter type="xls" target="tableCargaR" fileName="reporte_carga_#{reporteControlador.horaActual}"
-                                                            postProcessor="#{reporteControlador.postProcessXLSAnual}"/>
-                                        </h:commandLink>
+                                        <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>                            
+                                            <h:commandLink>  
+                                                <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
+                                                <p:dataExporter type="xls" target="tableCargaR" fileName="reporte_carga_#{reporteControlador.horaActual}"
+                                                                postProcessor="#{reporteControlador.postProcessXLSAnual}"/>
+                                            </h:commandLink>
                                     </h:panelGrid>
                                 </p:panel>
                             </center>
                         </p:tab>
-                        <p:tab id="tabRC" title="Resumen combustible">
+                        <!-- Resumen Combustible -->
+                        <p:tab id="tabRC" title="Resumen Combustible">
                             <center>
                                 <p:panel id="pnlRC">
                                     <p:dataTable id="tableCombustibleR" value="#{reporteControlador.listaResumenCombustible}" 
@@ -109,8 +116,7 @@
                                                  scrollWidth="96%"
                                                  styleClass="estiloListaCalibriPeq" 
                                                  emptyMessage="#{etq.msg_seg_sinRegistros}"
-                                                 rowStyleClass="#{combustibleResumen[0] eq 'TOTAL' ? 'colorTotal' : null}"
-                                                 >
+                                                 rowStyleClass="#{combustibleResumen[0] eq 'TOTAL' ? 'colorTotal' : null}">
                                         <p:column headerText="#{etq.lbl_mes}" width="40px" style="#{combustibleResumen[0] ne 'TOTAL' ? 'background-color: #cfeaff' : null}" styleClass="#{combustibleResumen[0] eq 'TOTAL' ? 'rightColumn' : null}">
                                             <h:outputText value="#{combustibleResumen[0]}" />
                                         </p:column>                            
@@ -124,18 +130,20 @@
                                             <h:outputText value="#{combustibleResumen[3]}" />
                                         </p:column>                                                      
                                     </p:dataTable>
+                                    <p:spacer width="80" height="20"/>
                                     <h:panelGrid columns="2">
-                                        <h:outputLabel value="#{etq.lbl_descarga_excel}"/>
-                                        <h:commandLink>  
-                                            <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
-                                            <p:dataExporter type="xls" target="tableCombustibleR" fileName="reporte_combustible_#{reporteControlador.horaActual}" 
-                                                            postProcessor="#{reporteControlador.postProcessXLSAnualCombustible}"/>
-                                        </h:commandLink>
+                                        <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>                            
+                                            <h:commandLink>  
+                                                <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
+                                                <p:dataExporter type="xls" target="tableCombustibleR" fileName="reporte_combustible_#{reporteControlador.horaActual}"
+                                                                postProcessor="#{reporteControlador.postProcessXLSAnualCombustible}"/>
+                                            </h:commandLink>
                                     </h:panelGrid>
                                 </p:panel>
                             </center>
-                        </p:tab>
+                        </p:tab>   
                     </p:accordionPanel>
+                    
                     <script type="text/javascript">
                         $(document).ready(function () {
                             $('.ui-accordion-content').css("position", "inherit");

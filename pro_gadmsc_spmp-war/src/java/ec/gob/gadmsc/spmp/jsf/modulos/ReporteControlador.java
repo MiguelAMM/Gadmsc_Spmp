@@ -231,7 +231,7 @@ public class ReporteControlador {
 
         fuente.setFontHeightInPoints((short) 11);
         cellStyle.setFont(fuente);
-
+rows = sheet.getLastRowNum();
         hssfRowNew = sheet.createRow(rows + 1);
         cellNew = hssfRowNew.createCell(0);
         cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);

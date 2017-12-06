@@ -23,9 +23,11 @@ import ec.gob.gadmsc.spmp.tools.ManejoFechas;
 import ec.gob.gadmsc.spmp.tools.Materiales;
 import ec.gob.gadmsc.spmp.tools.Viajes;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -59,15 +61,18 @@ public class FrmSpmpControlador {
     private String tipoEquipo;
     private boolean ingreso;
     private boolean actualiza;
-    private VolquetaFecha volquetaFecha;
+    private VolquetaFecha volquetaFecha, volquetaFechaEditar;
     private CargaTransportada cargaTransportada;
     private List<Material> listaMaterial;
     private List<Object[]> listaVolquetaCargaIngreso;
     private List<Materiales> materiales;
     private Integer combustible;
     private Integer km;
-    private boolean ingresarVolq;
+    private Time horaEntrada;
+    private Time horaSalida;
     private boolean disableIngresoVolq;
+    private String edita;
+    private boolean disableVolq;
 
     @EJB
     private FechaTransporteServicio fechaTransServicio;
@@ -93,8 +98,7 @@ public class FrmSpmpControlador {
     private NavegacionControlador navegacionControlador;
 
     public FrmSpmpControlador() {
-        ingreso = false;
-        actualiza = true;
+        activarIngreso();
         Calendar cal = Calendar.getInstance();
         manejoFechas = new ManejoFechas();
         equipoFecha = new EquipoFecha();
@@ -146,7 +150,10 @@ public class FrmSpmpControlador {
 
                 for (Object[] viaje : listaVolquetaCargaIngreso) {
                     if (materialN.getMatNombre().equals(viaje[3].toString())) {
-                        mat.getViajes().add(new Viajes(Integer.valueOf(viaje[0].toString()), Integer.valueOf(viaje[1].toString()), Integer.valueOf(viaje[2].toString()), viaje[4].toString(), viaje[5].toString(), Integer.valueOf(viaje[6].toString()), Integer.valueOf(viaje[7].toString())));
+                        mat.getViajes().add(new Viajes(Integer.valueOf(viaje[0].toString()), Integer.valueOf(viaje[1].toString()),
+                                Integer.valueOf(viaje[2].toString()), viaje[4].toString(), viaje[5].toString(),
+                                Integer.valueOf(viaje[6].toString()), Integer.valueOf(viaje[7].toString()),
+                                Time.valueOf(viaje[8].toString()), Time.valueOf(viaje[9].toString())));
                     }
                 }
                 if (!mat.getViajes().isEmpty()) {
@@ -154,15 +161,17 @@ public class FrmSpmpControlador {
                 }
             }
             if (!listaVolquetaCargaIngreso.isEmpty()) {
-                combustible = materiales.get(0).getViajes().get(0).getCombustible();
+                /*combustible = materiales.get(0).getViajes().get(0).getCombustible();
                 km = materiales.get(0).getViajes().get(0).getKm();
+                horaEntrada = materiales.get(0).getViajes().get(0).getHoraEntrada();
+                horaSalida = materiales.get(0).getViajes().get(0).getHoraSalida();*/
+                volquetaFechaEditar = volquetaFechaServicio.find(materiales.get(0).getViajes().get(0).getVolquetaCodigo());
             }
             System.err.println("size1: " + listaVolquetaCargaIngreso.size());
-            if (listaVolquetaCargaIngreso.size() >= 5) {
-                ingresarVolq = true;
-            }
             if (listaVolquetaCargaIngreso.size() >= 1) {
                 disableIngresoVolq = true;
+            } else {
+                disableIngresoVolq = false;
             }
 
             volquetaFecha = new VolquetaFecha();
@@ -176,24 +185,32 @@ public class FrmSpmpControlador {
     public void guardarVolq() {
         try {
             System.err.println("size2: " + listaVolquetaCargaIngreso.size());
+            activarIngreso();
             if (listaVolquetaCargaIngreso.size() < 1) {
+                if(volquetaFecha.getVolqHoraE()!=null || volquetaFecha.getVolqHoraS()!=null){
                 volquetaFecha.setFkFechaTrCodigo(fechaTrans);
                 volquetaFecha.setFkUsuCodigo(navegacionControlador.getLoginUsuario().getU());
                 volquetaFechaServicio.create(volquetaFecha);
-            }
-
-            if (listaVolquetaCargaIngreso.size() <= 5) {
-                if (!listaVolquetaCargaIngreso.isEmpty()) {
-                    VolquetaFecha volquetaFechaRecup = volquetaFechaServicio.buscarByCodigo(Integer.valueOf(listaVolquetaCargaIngreso.get(0)[6].toString()));
-                    cargaTransportada.setFkVolqFechaCodigo(volquetaFechaRecup);
-                } else {
-                    cargaTransportada.setFkVolqFechaCodigo(volquetaFecha);
+                } else{
+                    baseControlador.addErrorMessage("Ingrese la hora de entrada y salida.", null);
                 }
-                cargaTransportadaServicio.create(cargaTransportada);
-                traerListaViajesIngresados();
-
-                baseControlador.addSuccessMessage("Ingreso exitoso");
             }
+
+            //if (listaVolquetaCargaIngreso.size() <= 5) {
+            if (!listaVolquetaCargaIngreso.isEmpty()) {
+                VolquetaFecha volquetaFechaRecup = volquetaFechaServicio.find(Integer.valueOf(listaVolquetaCargaIngreso.get(0)[6].toString()));
+                cargaTransportada.setFkVolqFechaCodigo(volquetaFechaRecup);
+            } else {
+                cargaTransportada.setFkVolqFechaCodigo(volquetaFecha);
+            }
+            if(cargaTransportada.getCargaTrComprobante() == null){
+                cargaTransportada.setCargaTrComprobante("0");
+            }
+            cargaTransportadaServicio.create(cargaTransportada);
+            traerListaViajesIngresados();
+
+            baseControlador.addSuccessMessage("Ingreso exitoso",null);
+            //}
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -202,44 +219,62 @@ public class FrmSpmpControlador {
     public void recuperarCargaLista(Viajes carga) {
         try {
             if (carga.getCargaCodigo() != null) {
-                cargaTransportada = cargaTransportadaServicio.buscarCarga(carga.getCargaCodigo());
+                cargaTransportada = cargaTransportadaServicio.find(carga.getCargaCodigo());
+                ingreso = true;
+                actualiza = false;
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
-    public void eliminarCargaLista() {
+    public void eliminarCargaLista(Viajes carga) {
         try {
+            cargaTransportada = cargaTransportadaServicio.find(carga.getCargaCodigo());
             cargaTransportadaServicio.remove(cargaTransportada);
-            baseControlador.addSuccessMessage("Viaje borrado exitosamente!!!");
+            
+            if(listaVolquetaCargaIngreso.size() ==1){
+                volquetaFecha=volquetaFechaServicio.find(Integer.valueOf(listaVolquetaCargaIngreso.get(0)[6].toString()));
+                volquetaFechaServicio.remove(volquetaFecha);
+                volquetaFechaEditar = null;
+                baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");
+            }
             traerListaViajesIngresados();
-            baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");
+            baseControlador.addSuccessMessage("Viaje borrado exitosamente!!!",null);
+            //baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
-    public void actualizarCargaLista() {
+    public void actualizarPnlEditar() {
         try {
-            volquetaFecha = new VolquetaFecha();
-            cargaTransportada = new CargaTransportada();
-            VolquetaFecha volquetaFechaRecup = volquetaFechaServicio.buscarByCodigo(carga.getVolquetaCodigo());
-            volquetaFechaRecup.setVolqFechaCombustible(carga.getCombustible());
-            volquetaFechaRecup.setVolqFechaKm(carga.getKm());
-            volquetaFechaServicio.edit(volquetaFechaRecup);
-
-            CargaTransportada cargaRecup = cargaTransportadaServicio.buscarCarga(carga.getCargaCodigo());
-            cargaRecup.setCargaTrComprobante(carga.getComprobante());
-            cargaRecup.setCargaTrObservacion(carga.getObservacion());
-            cargaRecup.setCargaTrViaje(carga.getCarga());
-            cargaTransportadaServicio.edit(cargaRecup);
-
-            baseControlador.addSuccessMessage("Viaje actualizado exitosamente!!!");
+            switch (edita) {
+                case "v":
+                    volquetaFechaServicio.edit(volquetaFechaEditar);
+                    baseControlador.addSuccessMessage("Registros actualizados exitosamente!!!",null);
+                    disableIngresoVolq = true;
+                    break;
+                case "c":
+                    cargaTransportadaServicio.edit(cargaTransportada);
+                    baseControlador.addSuccessMessage("Viaje actualizado exitosamente!!!",null);
+                    break;
+            }
             traerListaViajesIngresados();
-            baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");
-            actualiza = true;
-            ingreso = false;
+            activarIngreso();
+            disableVolq = false;
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void recuperaVolquetaLista() {
+        try {
+            volquetaFecha = volquetaFechaEditar;
+            disableIngresoVolq = false;
+            disableVolq = true;
+            ingreso = true;
+            actualiza = false;
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -296,6 +331,23 @@ public class FrmSpmpControlador {
         listaMaterial = materialServicio.findAll();
         material = new Material();
         RequestContext.getCurrentInstance().execute("PF('materialDialogo').hide()");
+    }
+
+    public String parametro() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        this.edita = conseguirParametro(fc);
+        return edita;
+    }
+
+    public String conseguirParametro(FacesContext fc) {
+        Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+        return params.get("edita");
+    }
+
+    public void activarIngreso() {
+        ingreso = false;
+        actualiza = true;
+        disableVolq = false;
     }
 
     public FechaTransporte getFecha() {
@@ -442,14 +494,6 @@ public class FrmSpmpControlador {
         this.km = km;
     }
 
-    public boolean isIngresarVolq() {
-        return ingresarVolq;
-    }
-
-    public void setIngresarVolq(boolean ingresarVolq) {
-        this.ingresarVolq = ingresarVolq;
-    }
-
     public boolean isDisableIngresoVolq() {
         return disableIngresoVolq;
     }
@@ -464,6 +508,38 @@ public class FrmSpmpControlador {
 
     public void setCarga(Viajes carga) {
         this.carga = carga;
+    }
+
+    public Time getHoraEntrada() {
+        return horaEntrada;
+    }
+
+    public void setHoraEntrada(Time horaEntrada) {
+        this.horaEntrada = horaEntrada;
+    }
+
+    public Time getHoraSalida() {
+        return horaSalida;
+    }
+
+    public void setHoraSalida(Time horaSalida) {
+        this.horaSalida = horaSalida;
+    }
+
+    public VolquetaFecha getVolquetaFechaEditar() {
+        return volquetaFechaEditar;
+    }
+
+    public void setVolquetaFechaEditar(VolquetaFecha volquetaFechaEditar) {
+        this.volquetaFechaEditar = volquetaFechaEditar;
+    }
+
+    public boolean isDisableVolq() {
+        return disableVolq;
+    }
+
+    public void setDisableVolq(boolean disableVolq) {
+        this.disableVolq = disableVolq;
     }
 
 }

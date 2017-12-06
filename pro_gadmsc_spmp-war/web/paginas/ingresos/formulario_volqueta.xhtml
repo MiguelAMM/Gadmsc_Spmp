@@ -12,7 +12,7 @@
     <ui:composition template="./../../plantillas/spmp_plantilla.xhtml">
         <ui:define name="page-content">
             <h:form id="frmIngresoVolqueta" styleClass="estilo-pagina">  
-                <p:growl id="msgGrowl" life="6500" showDetail="true"/>
+                <p:growl id="msgGrowl" life="6500" />
                 <p:outputPanel >
                     <p:panel >
                         <center>
@@ -27,7 +27,9 @@
                             <p:commandButton  
                                 value="Nuevo" 
                                 icon="ui-icon-document" 
-                                styleClass="ui-priority-primary"         
+                                styleClass="ui-priority-primary"     
+                                actionListener="#{frmSpmpControlador.traerListaViajesIngresados()}" 
+                                action="#{frmSpmpControlador.activarIngreso()}" 
                                 style="width: 80px; height: 27px"
                                 global="false"
                                 async="true"
@@ -36,7 +38,6 @@
                         </f:facet> 
                     </p:toolbar>
                 </p:outputPanel>
-                <!-- ******************************************************Empresa****************************************************** -->
                 <p:outputPanel id="contenedor" >
                     <p:panel id="pnlVolq">
                         <p:spacer width="100" height="30"/>
@@ -53,21 +54,28 @@
                                 <h:panelGrid id="pnlGVolq">
                                     <p:panel>
                                         <center>
-                                            <h:panelGrid columns="2">
+                                            <h:panelGrid id="pnlGIngresaVolq" columns="2">
                                                 <p:outputLabel value="#{etq.lbl_combustible}: "/>
                                                 <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaCombustible}" disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0"/>
                                                 <p:outputLabel value="#{etq.lbl_kilometraje}: "/>
-                                                <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaKm}" disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0"/>
+                                                <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaKm}" disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0" />
+                                                <p:outputLabel value="#{etq.lbl_h_entrada}: "/>
+                                                <p:calendar id="calendarHoraE" value="#{frmSpmpControlador.volquetaFecha.volqHoraE}" disabled="#{frmSpmpControlador.disableIngresoVolq}"
+                                                            pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" requiredMessage="Ingrese la hora de entrada."/>
+                                                <p:outputLabel value="#{etq.lbl_h_salida}: "/>
+                                                <p:calendar id="calendarHoraS" value="#{frmSpmpControlador.volquetaFecha.volqHoraS}" disabled="#{frmSpmpControlador.disableIngresoVolq}"
+                                                            pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" requiredMessage="Ingrese la hora de entrada."/>
                                             </h:panelGrid>
                                         </center>                                        
                                         <p:spacer height="20"/>
-                                        <h:panelGrid columns="6"  >
+                                        <h:panelGrid id="pnlGIngresaCarga" columns="6"  >
                                             <p:outputLabel value="#{etq.lbl_material}: *"/>
                                             <p:selectOneMenu id="cmbMaterialId" 
                                                              style="width:200px;"
                                                              value="#{frmSpmpControlador.cargaTransportada.fkMatCodigo}"
                                                              converter="#{materialConverter}"                                                             
-                                                             validatorMessage="Seleccione un material de la lista!!!">
+                                                             validatorMessage="Seleccione un material de la lista!!!"
+                                                             disabled="#{frmSpmpControlador.disableVolq}">
                                                 <f:selectItem itemLabel="#{etq.lbl_seleccione}.." 
                                                               itemValue="" />
                                                 <f:selectItems value="#{frmSpmpControlador.listaMaterial}" 
@@ -81,27 +89,39 @@
                                             <h:outputLabel value="#{etq.lbl_numero_volqueta}: " />
                                             <p:spinner value="#{frmSpmpControlador.cargaTransportada.cargaTrViaje}" size="20" min="0"/>
                                             <h:outputLabel value="#{etq.lbl_comprobante}: " />
-                                            <p:inputText id="iptComprobante" value="#{frmSpmpControlador.cargaTransportada.cargaTrComprobante}"/>
+                                            <p:inputNumber id="iptComprobante" value="#{frmSpmpControlador.cargaTransportada.cargaTrComprobante}" decimalPlaces="0"/>
                                             <p:watermark for="iptComprobante" value="000000"/>
                                             <h:outputLabel value="" />
                                             <h:outputLabel value="#{etq.lbl_observacion}: *" />
-                                            <p:inputTextarea id="inputTObsId" rows="6" cols="33" value="#{frmSpmpControlador.cargaTransportada.cargaTrObservacion}" required="true" requiredMessage="Se debe ingresar la observación."/>                                                                                        
+                                            <p:inputTextarea id="inputTObsId" rows="6" cols="33" 
+                                                             value="#{frmSpmpControlador.cargaTransportada.cargaTrObservacion}" 
+                                                             required="true" requiredMessage="Se debe ingresar la observación."
+                                                             disabled="#{frmSpmpControlador.disableVolq}"/>                                                                                        
                                         </h:panelGrid>
                                     </p:panel>
                                 </h:panelGrid>
                                 <p:spacer height="20"/>
-                                <h:panelGrid columns="2">
+                                <h:panelGrid id="pnlGBtnVal" columns="2">
                                     <p:commandButton id="btnIngresoVolq" 
                                                      value="Ingresar" 
-                                                     disabled="#{frmSpmpControlador.ingresarVolq}" 
+                                                     disabled="#{frmSpmpControlador.ingreso}" 
                                                      action="#{frmSpmpControlador.guardarVolq()}" 
+                                                     onclick="this.onclick=function(){alert('El ingreso ya se esta realizando!!!'); return false;}"
+                                                     oncomplete="this.onclick=function(){return true;}"
                                                      process="pnlGVolq" 
                                                      update="pnlGVolq msgGrowl"
                                                      global="false"
                                                      async="true"
                                                      ajax="false"/>
-                                    <p:commandButton id="btnActualizarVolq" value="Actualizar" disabled="#{frmSpmpControlador.actualiza}"
-                                                     action="#{frmSpmpControlador.actualizarCargaLista()}" update="pnlGVolq msgGrowl"/>
+                                    <p:commandButton id="btnActualizarVolq" 
+                                                     value="Actualizar" 
+                                                     disabled="#{frmSpmpControlador.actualiza}"
+                                                     action="#{frmSpmpControlador.actualizarPnlEditar()}" 
+                                                     process="pnlGVolq" 
+                                                     update="pnlGVolq msgGrowl"
+                                                     global="false"
+                                                     async="true"
+                                                     ajax="false"/>
                                 </h:panelGrid>
                                 <p:spacer height="20"/>
                             </p:panel>
@@ -109,18 +129,38 @@
                             <p:panel id="pnlListaCargaId">
                                 <p:spacer width="100" height="20"/>
                                 <center>
-                                    <h:panelGrid columns="6" >
-                                        <p:graphicImage  id="g1"  height="35" width="35" value="/imagenes/eda2.png"/> 
-                                        <p:outputLabel value="Combustible:"/>
-                                        <p:outputLabel value="#{frmSpmpControlador.combustible}"/>
 
+                                    <h:panelGrid id="pnlGVolqEditId" columns="14" >
+                                        <p:panel >
+                                            <p:graphicImage  id="g1"  height="35" width="35" value="/imagenes/eda2.png"/> 
+                                            <p:outputLabel value="#{etq.lbl_combustible}:"/>
+                                            <p:outputLabel value="#{frmSpmpControlador.volquetaFechaEditar.volqFechaCombustible}"/>
 
-                                        <p:graphicImage  id="g2" height="35" width="35" value="/imagenes/sync2.png"/> 
-                                        <p:outputLabel value="Kilometraje:"/>
-                                        <p:outputLabel value="#{frmSpmpControlador.km}"/>
+                                            <p:graphicImage  id="g2" height="35" width="35" value="/imagenes/sync2.png"/> 
+                                            <p:outputLabel value="#{etq.lbl_kilometraje}:"/>
+                                            <p:outputLabel value="#{frmSpmpControlador.volquetaFechaEditar.volqFechaKm}"/>
 
+                                            <p:graphicImage  id="g3" height="35" width="35" value="/imagenes/sync2.png"/> 
+                                            <p:outputLabel value="#{etq.lbl_h_entrada}:"/>
+                                            <p:outputLabel value="#{frmSpmpControlador.volquetaFechaEditar.volqHoraE}"/>
 
-                                    </h:panelGrid>    
+                                            <p:graphicImage  id="g4" height="35" width="35" value="/imagenes/sync2.png"/> 
+                                            <p:outputLabel value="#{etq.lbl_h_salida}:"/>
+                                            <p:outputLabel value="#{frmSpmpControlador.volquetaFechaEditar.volqHoraS}"/>
+
+                                            <p:spacer width="50" height="20"/>
+                                            <p:commandButton id="btnEditVolq" 
+                                                             value="#{etq.btn_editar}"                                                      
+                                                             process="pnlGVolqEditId" 
+                                                             update=":frmIngresoVolqueta:pnlGIngresaVolq :frmIngresoVolqueta:pnlGBtnVal"
+                                                             action="#{frmSpmpControlador.recuperaVolquetaLista()}"
+                                                             actionListener="#{frmSpmpControlador.parametro()}"
+                                                             style="height: 40px">
+                                                <f:param name="edita" value="v" />
+                                            </p:commandButton>
+
+                                        </p:panel>
+                                    </h:panelGrid> 
                                     <h:panelGrid id="pnlGVolqIngresadas" columns="2">
 
                                         <p:dataTable id="lstDataTableViajes"
@@ -139,7 +179,7 @@
                                                     <p:column headerText="#{etq.lbl_comprobante}" />
                                                     <p:column headerText="#{etq.lbl_observacion}"  />
                                                     <p:column headerText="#{etq.btn_eliminar}" />
-                                                    <p:column headerText="#{etq.btn_actualizar}" />
+                                                    <p:column headerText="#{etq.btn_editar}" />
                                                 </p:row>
                                             </p:columnGroup>
 
@@ -155,45 +195,36 @@
                                                 </p:column>
                                                 <p:column>
                                                     <h:outputText value="#{vj.observacion}" />
-                                                </p:column>
+                                                </p:column>                                                
                                                 <p:column  width="40" styleClass="centeredColumn">                                                
                                                     <p:commandButton id="btnEliminarP" 
                                                                      icon="ui-icon-trash" 
-                                                                     title="Eliminar" 
+                                                                     title="#{etq.lbl_seleccionar}" 
                                                                      process=":frmIngresoVolqueta:lstDataTableViajes"
-                                                                     action="#{frmSpmpControlador.recuperarCargaLista(vj)}"                                                                 
-                                                                     update=":frmIngresoVolqueta:lstDataTableViajes"      
-                                                                     onclick="PF('groupConfirmCarga').show();"
+                                                                     action="#{frmSpmpControlador.eliminarCargaLista(vj)}"                                                                 
+                                                                     update=":frmIngresoVolqueta:lstDataTableViajes :frmIngresoVolqueta:msgGrowl"  
                                                                      > 
+                                                        <p:confirm header="Atención" message="Seguro de eliminar este Viaje?" icon="ui-icon-alert" />
                                                     </p:commandButton>
+                                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                    </p:confirmDialog>
                                                 </p:column>            
                                                 <p:column  width="40" styleClass="centeredColumn">                                                
                                                     <p:commandButton id="btnEditarCargaId" 
                                                                      icon="ui-icon-refresh" 
-                                                                     title="Editar" 
+                                                                     title="#{etq.lbl_seleccionar}" 
                                                                      process=":frmIngresoVolqueta:lstDataTableViajes"                                        
-                                                                     update=":frmIngresoVolqueta:pnlIngresoVolq"  
-                                                                     action="#{frmSpmpControlador.seleccionar()}">
-                                                        <f:setPropertyActionListener target="#{frmSpmpControlador.materiales}" value="#{mat}"/>
-                                                        <f:setPropertyActionListener target="#{frmSpmpControlador.materiales}" value="#{mat}"/>
+                                                                     update=":frmIngresoVolqueta:pnlGIngresaCarga :frmIngresoVolqueta:pnlGBtnVal"  
+                                                                     action="#{frmSpmpControlador.recuperarCargaLista(vj)}"
+                                                                     actionListener="#{frmSpmpControlador.parametro()}"
+                                                                     >
+                                                        <f:param name="edita" value="c" />
                                                     </p:commandButton>
                                                 </p:column>            
                                             </p:subTable>                                           
-                                        </p:dataTable>
-                                        <p:confirmDialog message="Seguro de eliminar este Viaje?" showEffect="fade" hideEffect="fade" widgetVar="groupConfirmCarga">
-                                            <p:commandButton value="Si"  
-                                                             styleClass="ui-confirmdialog-yes" 
-                                                             icon="ui-icon-check"
-                                                             process="@this"
-                                                             update=":frmIngresoVolqueta:pnlListaCargaId msgGrowl"
-                                                             action="#{frmSpmpControlador.eliminarCargaLista()}"
-                                                             oncomplete="PF('groupConfirmCarga').hide();"
-                                                             global="false"
-                                                             async="true"                                                             
-
-                                                             />
-                                            <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close" oncomplete="PF('groupConfirmCarga').hide();"/>
-                                        </p:confirmDialog>
+                                        </p:dataTable>                                        
                                     </h:panelGrid>
                                 </center>
                             </p:panel>

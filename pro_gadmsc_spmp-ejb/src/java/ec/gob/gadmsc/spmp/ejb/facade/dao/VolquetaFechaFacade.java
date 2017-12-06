@@ -42,7 +42,9 @@ public class VolquetaFechaFacade extends AbstractFacade<VolquetaFecha> implement
         sql.append("b.carga_tr_comprobante, ");
         sql.append("b.carga_tr_observacion, ");
         sql.append("a.volq_fecha_codigo, ");
-        sql.append("b.carga_tr_codigo  ");
+        sql.append("b.carga_tr_codigo, ");
+        sql.append("a.volq_hora_e, ");
+        sql.append("a.volq_hora_s ");
         sql.append("from volqueta_fecha a, carga_transportada b, material c ");
         sql.append("where a.volq_fecha_codigo = b.fk_volq_fecha_codigo ");
         sql.append("and c.mat_codigo = b.fk_mat_codigo ");
