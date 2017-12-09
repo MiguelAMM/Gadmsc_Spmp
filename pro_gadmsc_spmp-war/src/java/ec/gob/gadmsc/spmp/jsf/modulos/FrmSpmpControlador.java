@@ -133,7 +133,7 @@ public class FrmSpmpControlador {
         equipoFecha.setFkFechaTrCodigo(fechaTrans);
         equipoFecha.setFkEqCodigo(equipo);
         eqFechaServicio.create(equipoFecha);
-        baseControlador.addSuccessMessage("Ingreso exitoso");
+        baseControlador.addSuccessMessage("Ingreso exitoso", null);
         listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
         equipoFecha = new EquipoFecha();
@@ -141,6 +141,7 @@ public class FrmSpmpControlador {
 
     public void traerListaViajesIngresados() {
         try {
+            if(baseControlador.usuarioActual.getTipoUsuario().equals("volqueta")){
             listaVolquetaCargaIngreso = volquetaFechaServicio.listarVolquetaCargaIngreso(fechaTrans.getFechaTrCodigo(), navegacionControlador.getLoginUsuario().getU().getUsuCodigo());
             //listaVolquetaCargaIngreso = volquetaFechaServicio.listarVolquetaCargaIngreso(1551, 4);
 
@@ -167,7 +168,7 @@ public class FrmSpmpControlador {
                 horaSalida = materiales.get(0).getViajes().get(0).getHoraSalida();*/
                 volquetaFechaEditar = volquetaFechaServicio.find(materiales.get(0).getViajes().get(0).getVolquetaCodigo());
             }
-            System.err.println("size1: " + listaVolquetaCargaIngreso.size());
+            //System.err.println("size1: " + listaVolquetaCargaIngreso.size());
             if (listaVolquetaCargaIngreso.size() >= 1) {
                 disableIngresoVolq = true;
             } else {
@@ -176,7 +177,7 @@ public class FrmSpmpControlador {
 
             volquetaFecha = new VolquetaFecha();
             cargaTransportada = new CargaTransportada();
-
+            }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
@@ -184,7 +185,7 @@ public class FrmSpmpControlador {
 
     public void guardarVolq() {
         try {
-            System.err.println("size2: " + listaVolquetaCargaIngreso.size());
+            //System.err.println("size2: " + listaVolquetaCargaIngreso.size());
             activarIngreso();
             if (listaVolquetaCargaIngreso.size() < 1) {
                 if(volquetaFecha.getVolqHoraE()!=null || volquetaFecha.getVolqHoraS()!=null){
@@ -240,7 +241,7 @@ public class FrmSpmpControlador {
                 baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");
             }
             traerListaViajesIngresados();
-            baseControlador.addSuccessMessage("Viaje borrado exitosamente!!!",null);
+            baseControlador.addSuccessMessage("Viaje eliminado",null);
             //baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -252,12 +253,12 @@ public class FrmSpmpControlador {
             switch (edita) {
                 case "v":
                     volquetaFechaServicio.edit(volquetaFechaEditar);
-                    baseControlador.addSuccessMessage("Registros actualizados exitosamente!!!",null);
+                    baseControlador.addSuccessMessage("Registro actualizado",null);
                     disableIngresoVolq = true;
                     break;
                 case "c":
                     cargaTransportadaServicio.edit(cargaTransportada);
-                    baseControlador.addSuccessMessage("Viaje actualizado exitosamente!!!",null);
+                    baseControlador.addSuccessMessage("Actualización exitosa",null);
                     break;
             }
             traerListaViajesIngresados();
@@ -282,7 +283,7 @@ public class FrmSpmpControlador {
 
     public void eliminar() {
         eqFechaServicio.remove(equipoFecha);
-        baseControlador.addSuccessMessage("Equipo eliminado");
+        baseControlador.addSuccessMessage("Equipo eliminado", null);
         equipoFecha = new EquipoFecha();
         listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
@@ -292,7 +293,7 @@ public class FrmSpmpControlador {
 
     public void actualizar() {
         eqFechaServicio.edit(equipoFecha);
-        baseControlador.addSuccessMessage("Actualización exitosa");
+        baseControlador.addSuccessMessage("Actualización exitosa", null);
         listaEquiposFecha = eqFechaServicio.listarEqFecha(equipo.getEqTipo(), fechaTrans.getFechaTrDia(),
                 fechaTrans.getFechaTrMes(), fechaTrans.getFechaTrAnio());
         equipoFecha = new EquipoFecha();
@@ -303,7 +304,6 @@ public class FrmSpmpControlador {
     public void seleccionar() {
         ingreso = true;
         actualiza = false;
-        System.out.println("Ingreso selecciona");
     }
 
     public void ingresarNuevoMaterial() {
@@ -319,7 +319,7 @@ public class FrmSpmpControlador {
 
     public void ingresarMaterial() {
         materialServicio.create(material);
-        baseControlador.addSuccessMessage("Ingreso exitoso");
+        baseControlador.addSuccessMessage("Ingreso exitoso", null);
         listaMaterial = materialServicio.findAll();
         material = new Material();
         RequestContext.getCurrentInstance().execute("PF('materialDialogo').hide()");
@@ -327,7 +327,7 @@ public class FrmSpmpControlador {
 
     public void actualizarMaterial() {
         materialServicio.edit(material);
-        baseControlador.addSuccessMessage("Actualización exitosa");
+        baseControlador.addSuccessMessage("Actualización exitosa", null);
         listaMaterial = materialServicio.findAll();
         material = new Material();
         RequestContext.getCurrentInstance().execute("PF('materialDialogo').hide()");

@@ -63,6 +63,7 @@ public class NavegacionControlador {
     private boolean logueado;
     private boolean menuAdmin;
     private boolean menuEquipo;
+    private boolean menuVolqueta;
 
     @EJB
     private UsuarioServicio usuarioServicio;
@@ -78,10 +79,7 @@ public class NavegacionControlador {
      * Creates a new instance of NavegacionControlador
      */
     public NavegacionControlador() {
-        System.out.println("Inicio Navegacion controlador");
-//        user = new Usuario();
         loginUsuario = new Login();
-
         paginaPrincipal = true;
     }
 
@@ -144,16 +142,19 @@ public class NavegacionControlador {
                     case "secretaria":
                         menuAdmin = true;
                         menuEquipo = false;
+                        menuVolqueta = false;
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/reportes/reporte_equipos_chofer.xhtml");
                         break;
                     case "volqueta":
-                        menuEquipo = true;
+                        menuEquipo = false;
                         menuAdmin = false;
+                        menuVolqueta = true;
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/formulario_volqueta.xhtml");
                         break;
                     case "equipo":
                         menuEquipo = true;
                         menuAdmin = false;
+                        menuVolqueta = false;
                         baseControlador.redirect(baseControlador.getContextName() + "/paginas/ingresos/ingreso_equipo.xhtml");
                         break;
                 }
@@ -350,7 +351,7 @@ public class NavegacionControlador {
         //context = FacesContext.getCurrentInstance();           
         Map<String, String> map = context.getExternalContext().getRequestParameterMap();
         String reporte = (String) map.get("reporte");
-        System.out.println("---->Pagina---" + reporte);
+        //System.out.println("---->Pagina---" + reporte);
         idReporte = reporte;
     }
 
@@ -600,6 +601,14 @@ public class NavegacionControlador {
 
     public void setMenuEquipo(boolean menuEquipo) {
         this.menuEquipo = menuEquipo;
+    }
+
+    public boolean isMenuVolqueta() {
+        return menuVolqueta;
+    }
+
+    public void setMenuVolqueta(boolean menuVolqueta) {
+        this.menuVolqueta = menuVolqueta;
     }
 
 }

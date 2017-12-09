@@ -4,14 +4,14 @@
       xmlns:h="http://java.sun.com/jsf/html"
       >
     <ui:composition>
-        <div id="menu">
-            <h:form id="frmMenuEqui" rendered="#{navegacionControlador.menuEquipo}">
+        <div id="menuVolq">
+            <h:form id="frmMenuVolq" rendered="#{navegacionControlador.menuVolqueta}">
                 <center>
                     <h:panelGrid  columns="1" style="font-size: 12px">
                         <p:stack icon="/imagenes/menu/stack.png" >
                             <p:menuitem value="Salir" icon="/imagenes/menu/salida.png" action="#{navegacionControlador.cerrarSesion()}" ajax="true"/>
-                            <p:menuitem value="Ayuda" icon="/imagenes/menu/pregunta.png" url="/paginas/manuales/ver_manual_equipo.xhtml"/>
-                            <p:menuitem value="Ingreso" icon="/imagenes/tractor.png" url="/paginas/ingresos/ingreso_equipo.xhtml"/>
+                            <p:menuitem value="Ayuda" icon="/imagenes/menu/pregunta.png" url="/paginas/manuales/ver_manual_volqueta.xhtml"/>
+                            <p:menuitem value="Ingreso" icon="/imagenes/volquete1.png" url="/paginas/ingresos/formulario_volqueta.xhtml"/>
                         </p:stack>
                     </h:panelGrid>
                 </center>

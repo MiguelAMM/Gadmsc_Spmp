@@ -58,15 +58,12 @@ public class BaseControlador implements Serializable {
     private UsuarioServicio usuarioServicio;
 
     public BaseControlador() {
-        System.out.println("Inicio Base controlador");
+        
     }
 
     @PostConstruct
     public void init() {
-        System.out.println("Inicio Base post controlador");
         usuarioActual = obtenerUsuarioAutenticado();
-        System.out.println("usuarioActual: " + usuarioActual);
-
     }
 
     /**

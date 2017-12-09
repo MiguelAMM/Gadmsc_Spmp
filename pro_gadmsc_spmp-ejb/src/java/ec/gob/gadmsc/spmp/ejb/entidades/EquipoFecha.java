@@ -52,7 +52,7 @@ public class EquipoFecha implements Serializable {
     private int eqFechaCombustible;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    //@Size(min = 1, max = 200)
     @Column(name = "eq_fecha_observacion")
     private String eqFechaObservacion;
     @Basic(optional = false)

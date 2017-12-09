@@ -50,24 +50,29 @@
                             </p:panel>
                         </center>
                     </p:panel>
-                    
+                    <!-- Panel para buscar por volqueta y quien es el chofer de la misma -->
                     <center>
                         <p:panel rendered="#{reporteControlador.maquinaria == 'Volqueta'}">
-                            <p:panelGrid id="gridBuscaVolq" columns="3">
-                                <h:outputText value="Buscar por volqueta"/>
-                                <p:selectOneMenu id="cmbBuscaVolq" value="#{reporteControlador.buscaVolqueta}">
-                                    <f:selectItem itemLabel="Seleccione.." itemValue="0"/>
-                                    <f:selectItems value="#{reporteControlador.listaVolquetas}" var="varVolq"
-                                                   itemLabel="#{varVolq}" itemValue="#{varVolq.usuCodigo}"/>
-                                </p:selectOneMenu>
-                                <p:commandButton id="btnBuscarVolq" icon="ui-icon-search" title="Buscar"
-                                                 process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
-                                                 update="tableCargaT tableEquipo"
-                                                 global="false"
-                                                 async="true"
-                                                 ajax="false" action="#{reporteControlador.obtenerCargaVolqueta()}">
-                                </p:commandButton>
-                            </p:panelGrid>
+                            <!-- Búsqueda por volqueta -->
+                            <div align="left">
+                                <h:panelGrid columns="4">
+                                    <h:outputText value="BUSCAR POR VOLQUETA :" style="font-family: Audiowide; font-size: medium"/>
+                                    <p:selectOneMenu id="cmbBuscaVolq" value="#{reporteControlador.buscaVolqueta}"
+                                                     style="font-family: Audiowide; font-size: medium">
+                                        <f:selectItem itemLabel="Seleccione..." itemValue="0"/>
+                                        <f:selectItems value="#{reporteControlador.listaVolquetas}" var="varVolq"
+                                                       itemLabel="#{varVolq}" itemValue="#{varVolq.usuCodigo}"/>
+                                    </p:selectOneMenu>
+                                    <font></font>
+                                    <p:commandLink id="linkBuscarvolq" title="Buscar"
+                                                   process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
+                                                   update="tableCargaT tableEquipo" global="false" async="true" ajax="false"
+                                                   action="#{reporteControlador.obtenerCargaVolqueta()}">
+                                        <p:graphicImage value="/imagenes/carpeta.png"/>
+                                    </p:commandLink>
+                                </h:panelGrid>
+                            </div>
+                            <!-- Muestra la tabla de resultados en la consulta requerida a la BD para la volqueta -->
                             <p:dataTable id="tableCargaT" value="#{reporteControlador.listaCargaTransportada}" 
                                          var="carga" 
                                          paginator="true" 
@@ -75,12 +80,13 @@
                                          scrollable="true"
                                          scrollHeight="450" 
                                          scrollWidth="98%"    
-                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                                                            {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          rowsPerPageTemplate="15,20,25"                                                                          
                                          styleClass="estiloListaCalibriPeq"
                                          widgetVar="tablaCarga"
                                          emptyMessage="#{etq.msg_seg_sinRegistros}">
-                                <p:column headerText="#{etq.lbl_volqueta}" width="40"  >
+                                <p:column headerText="#{etq.lbl_volqueta}" width="40">
                                     <h:outputText value="#{carga[0]}" />
                                 </p:column>                            
                                 <p:column headerText="#{etq.lbl_combustible}" width="160" filterBy="#{carga[1]}" 
@@ -126,33 +132,40 @@
                             </p:dataTable>
                             <p:spacer width="80" height="20"/>
                             <h:panelGrid columns="2">                        
-                                <h:outputLabel value="#{etq.lbl_descarga_excel}"/>                            
+                                <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>                            
                                 <h:commandLink>  
                                     <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
                                     <p:dataExporter type="xls" target="tableCargaT" fileName="reporte_volqueta_#{reporteControlador.horaActual}" 
                                                     postProcessor="#{reporteControlador.postProcessXLSCarga}"/>
                                 </h:commandLink>
-                            </h:panelGrid>
+                            </h:panelGrid>   
                         </p:panel>
                     </center>
-
+                    
+                    <!-- Panel para buscar por equipo caminero y quien es el chofer de la misma -->
                     <center>
                         <p:panel rendered="#{reporteControlador.maquinaria == 'Equipo Caminero'}">
-                            <p:panelGrid id="gridBuscaEqui" columns="3">
-                                <h:outputText value="Buscar por equipo"/>
-                                <p:selectOneMenu id="cmbBuscaEqui" value="#{reporteControlador.buscaEquipo}">
-                                    <f:selectItem itemLabel="Seleccione.." itemValue="0"/>
-                                    <f:selectItems value="#{reporteControlador.listaEquipos}" var="varEqui"
-                                                   itemLabel="#{varEqui}" itemValue="#{varEqui.eqCodigo}"/>
-                                </p:selectOneMenu>
-                                <p:commandButton id="btnBuscarEqui" icon="ui-icon-search" title="Buscar"
-                                                 process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
-                                                 update="tableCargaT tableEquipo"
-                                                 global="false"
-                                                 async="true"
-                                                 ajax="false" action="#{reporteControlador.obtenerCargaEqui()}">
-                                </p:commandButton>
-                            </p:panelGrid>
+                            <!-- Búsqueda por equipo caminero -->
+                            <div align="left">
+                                <h:panelGrid columns="4">
+                                    <h:outputText value="BUSCAR POR EQUIPO CAMINERO :" style="font-family: Audiowide; font-size: medium"/>
+                                    <p:selectOneMenu id="cmbBuscaEqui" value="#{reporteControlador.buscaEquipo}"
+                                                     style="font-family: Audiowide; font-size: medium">
+                                        <f:selectItem itemLabel="Seleccione..." itemValue="0"/>
+                                        <f:selectItems value="#{reporteControlador.listaEquipos}" var="varEqui"
+                                                       itemLabel="#{varEqui}" itemValue="#{varEqui.eqCodigo}"/>
+                                    </p:selectOneMenu>
+                                    <font></font>
+                                    <p:commandLink id="linkBuscarEqui" title="Buscar"
+                                                   process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
+                                                   update="tableCargaT tableEquipo" global="false" async="true" ajax="false"
+                                                   action="#{reporteControlador.obtenerCargaEqui()}">
+                                        <p:graphicImage value="/imagenes/carpeta.png"/>
+                                    </p:commandLink>
+                                </h:panelGrid>
+                            </div>
+                            
+                            <!-- Muestra la tabla de resultados en la consulta requerida a la BD para los equipos camineros -->
                             <p:dataTable id="tableEquipo" value="#{reporteControlador.listaEquipoFecha}" var="varEquipo" 
                                          paginator="true" 
                                          rows="25"  
@@ -188,7 +201,7 @@
                             </p:dataTable>
                             <p:spacer width="80" height="20"/>
                             <h:panelGrid columns="2">
-                                <h:outputLabel value="#{etq.lbl_descarga_excel}"/>
+                                <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>
                                 <h:commandLink>  
                                     <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
                                     <p:dataExporter type="xls" target="tableEquipo" fileName="reporte_equipo_#{reporteControlador.horaActual}" 

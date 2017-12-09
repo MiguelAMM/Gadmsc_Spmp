@@ -9,7 +9,7 @@
     <ui:composition template="./../../plantillas/spmp_plantilla.xhtml">
         <ui:define name="page-content">
             <h:form id="frmIngresoEq" styleClass="estilo-pagina">                
-                <p:growl id="msg" showDetail="true"/>
+                <p:growl id="msg" />
                 <p:outputPanel>
                     <p:panel id="pnlIngresoEq">
                         <center>
@@ -21,14 +21,14 @@
                                     <p:outputLabel value="#{frmSpmpControlador.fechaFormateada}"/>
                                     <p:outputLabel value="Hora entrada"/>
                                     <p:calendar id="calendarHoraE" value="#{frmSpmpControlador.equipoFecha.eqFechaHoraE}" 
-                                                pattern="HH:mm" timeOnly="true"/>
+                                                pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Ingrese la hora de entrada."/>
                                     <p:outputLabel value="Hora salida"/>
                                     <p:calendar id="calendarHoraS" value="#{frmSpmpControlador.equipoFecha.eqFechaHoraS}" 
-                                                pattern="HH:mm" timeOnly="true"/>
+                                                pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Ingrese la hora de salida."/>
                                     <p:outputLabel value="#{etq.lbl_equipo_combustible}: "/>
                                     <p:inputText value="#{frmSpmpControlador.equipoFecha.eqFechaCombustible}" onkeypress="return validarEnteros(event)"/>
                                     <p:outputLabel value="#{etq.lbl_equipo_observacion}: "/>
-                                    <p:inputTextarea rows="6" cols="33" value="#{frmSpmpControlador.equipoFecha.eqFechaObservacion}"/>
+                                    <p:inputTextarea rows="6" cols="33" value="#{frmSpmpControlador.equipoFecha.eqFechaObservacion}" required="true" requiredMessage="Se debe ingresar la observación."/>
                                     <p:commandButton id="btnIngresarEq" value="Ingresar" disabled="#{frmSpmpControlador.ingreso}" 
                                                      action="#{frmSpmpControlador.guardar()}" update="@form"/>
                                     <p:commandButton id="btnActualizarEq" value="Actualizar" disabled="#{frmSpmpControlador.actualiza}"

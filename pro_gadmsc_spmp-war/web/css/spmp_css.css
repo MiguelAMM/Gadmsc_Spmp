@@ -7,6 +7,13 @@
         Estilos para la presentacion del sistema CAB IPP-IPI.
 */
 
+@font-face {
+  font-family: 'Audiowide';
+  src: url('../fuentes/Audiowide-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 root { 
     display: block;
 }

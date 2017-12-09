@@ -132,7 +132,6 @@ public class ReporteControlador {
         listaTablaCargaResumen = new ArrayList<>();
         ingreso = false;
         actualiza = true;
-        System.out.println("Inicio Reporte controlador");
     }
     //</editor-fold>
 
@@ -146,7 +145,6 @@ public class ReporteControlador {
         listaChoferes = choferServicio.findAll();
         listarFechas();
         listaAnios = fechaTransporteServicio.listarAnios();
-        System.out.println("PostInicio Reporte controlador");
     }
     //</editor-fold>
 
@@ -1115,7 +1113,7 @@ rows = sheet.getLastRowNum();
         AgrupaVolquetas agVolq;
 //        List<AgrupaVolquetas> listaAgrupaVolq = new ArrayList<>();
         for (String rangos : listaFechasRango) {
-            System.out.println(rangos);
+            //System.out.println(rangos);
             agVolq = new AgrupaVolquetas(rangos);
             for (Object[] obj : listaCargaTransportada) {
                 if (obj[7].equals(rangos)) {
