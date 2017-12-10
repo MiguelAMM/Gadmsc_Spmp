@@ -54,87 +54,104 @@
                                             <h:panelGrid id="pnlGVolq">
                                                 <p:panel>
                                                     <center>
-                                                        <h:panelGrid id="pnlGIngresaVolq" columns="2" style="text-align: right">
-                                                            <p:outputLabel value="#{etq.lbl_combustible} : "
-                                                                           style="font-family: Audiowide; font-size: medium"/>
-                                                            <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaCombustible}" 
-                                                                           disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0"/>
-                                                            <p:outputLabel value="#{etq.lbl_kilometraje} : "
-                                                                           style="font-family: Audiowide; font-size: medium"/>
-                                                            <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaKm}" 
-                                                                           disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0" />
-                                                            <p:outputLabel value="#{etq.lbl_h_entrada} : "
-                                                                           style="font-family: Audiowide; font-size: medium"/>
-                                                            <p:calendar id="calendarHoraE" value="#{frmSpmpControlador.volquetaFecha.volqHoraE}" 
-                                                                        disabled="#{frmSpmpControlador.disableIngresoVolq}"
-                                                                        pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" 
-                                                                        requiredMessage="Ingrese la hora de entrada."/>
-                                                            <p:outputLabel value="#{etq.lbl_h_salida} : "
-                                                                           style="font-family: Audiowide; font-size: medium"/>
-                                                            <p:calendar id="calendarHoraS" value="#{frmSpmpControlador.volquetaFecha.volqHoraS}" 
-                                                                        disabled="#{frmSpmpControlador.disableIngresoVolq}"
-                                                                        pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" 
-                                                                        requiredMessage="Ingrese la hora de entrada."/>
-                                                        </h:panelGrid>
+                                                        <div align="center">
+                                                            <h:panelGrid id="pnlGIngresaVolq" columns="5" style="text-align: right">
+                                                                
+                                                                <p:outputLabel value="#{etq.lbl_combustible} : "
+                                                                               style="font-family: Audiowide; font-size: medium"/>
+                                                                <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaCombustible}" 
+                                                                               disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0"/>
+                                                                <p:spacer width="30" height="20"/>
+                                                                <p:outputLabel value="#{etq.lbl_h_entrada} : "
+                                                                               style="font-family: Audiowide; font-size: medium"/>
+                                                                <p:calendar id="calendarHoraE" value="#{frmSpmpControlador.volquetaFecha.volqHoraE}" 
+                                                                            disabled="#{frmSpmpControlador.disableIngresoVolq}"
+                                                                            pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" 
+                                                                            requiredMessage="Ingrese la hora de entrada."/>
+                                                                <p:outputLabel value="#{etq.lbl_kilometraje} : "
+                                                                               style="font-family: Audiowide; font-size: medium"/>
+                                                                <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaKm}" 
+                                                                               disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0" />
+                                                                <p:spacer width="30" height="20"/>
+                                                                <p:outputLabel value="#{etq.lbl_h_salida} : "
+                                                                               style="font-family: Audiowide; font-size: medium"/>
+                                                                <p:calendar id="calendarHoraS" value="#{frmSpmpControlador.volquetaFecha.volqHoraS}" 
+                                                                            disabled="#{frmSpmpControlador.disableIngresoVolq}"
+                                                                            pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" 
+                                                                            requiredMessage="Ingrese la hora de entrada."/>
+                                                            </h:panelGrid>
+                                                        </div>   
                                                     </center>                                        
                                                     <p:spacer height="20"/>
-                                                    <h:panelGrid id="pnlGIngresaCarga" columns="6"  >
-                                                        <p:outputLabel value="#{etq.lbl_material}: *"/>
-                                                        <p:selectOneMenu id="cmbMaterialId" 
-                                                                         style="width:200px;"
-                                                                         value="#{frmSpmpControlador.cargaTransportada.fkMatCodigo}"
-                                                                         converter="#{materialConverter}"                                                             
-                                                                         validatorMessage="Seleccione un material de la lista!!!"
-                                                                         disabled="#{frmSpmpControlador.disableVolq}">
-                                                            <f:selectItem itemLabel="#{etq.lbl_seleccione}.." 
-                                                                          itemValue="" />
-                                                            <f:selectItems value="#{frmSpmpControlador.listaMaterial}" 
-                                                                           var="_nomMaterial" 
-                                                                           itemLabel="#{_nomMaterial.matNombre}" 
-                                                                           itemValue="#{_nomMaterial}"/>
-                                                            <f:validateRequired/>
-                                                        </p:selectOneMenu>
-                                                        <p:spacer width="30" />
-                                                        <p:spacer width="30" />
-                                                        <h:outputLabel value="#{etq.lbl_numero_volqueta}: " />
-                                                        <p:spinner value="#{frmSpmpControlador.cargaTransportada.cargaTrViaje}" size="20" min="0"/>
-                                                        <h:outputLabel value="#{etq.lbl_comprobante}: " />
-                                                        <p:inputNumber id="iptComprobante" value="#{frmSpmpControlador.cargaTransportada.cargaTrComprobante}" decimalPlaces="0"/>
-                                                        <p:watermark for="iptComprobante" value="000000"/>
-                                                        <h:outputLabel value="" />
-                                                        <h:outputLabel value="#{etq.lbl_observacion}: *" />
-                                                        <p:inputTextarea id="inputTObsId" rows="6" cols="33" 
-                                                                         value="#{frmSpmpControlador.cargaTransportada.cargaTrObservacion}" 
-                                                                         required="true" requiredMessage="Se debe ingresar la observación."
-                                                                         disabled="#{frmSpmpControlador.disableVolq}"/>                                                                                        
-                                                    </h:panelGrid>
+                                                    <center>
+                                                        <div align="center">
+                                                            <h:panelGrid id="pnlGIngresaCarga" columns="2" style="text-align:  right">
+                                                                <p:outputLabel value="#{etq.lbl_material}: *"
+                                                                               style="font-family: Audiowide; font-size: medium"/>
+                                                                <p:selectOneMenu id="cmbMaterialId" 
+                                                                                 style="width:180px;"
+                                                                                 value="#{frmSpmpControlador.cargaTransportada.fkMatCodigo}"
+                                                                                 converter="#{materialConverter}"                                                             
+                                                                                 validatorMessage="Seleccione un material de la lista!!!"
+                                                                                 disabled="#{frmSpmpControlador.disableVolq}">
+                                                                    <f:selectItem itemLabel="#{etq.lbl_seleccione}.." 
+                                                                                  itemValue="" />
+                                                                    <f:selectItems value="#{frmSpmpControlador.listaMaterial}" 
+                                                                                   var="_nomMaterial" 
+                                                                                   itemLabel="#{_nomMaterial.matNombre}" 
+                                                                                   itemValue="#{_nomMaterial}"/>
+                                                                </p:selectOneMenu>
+                                                                <h:outputLabel value="#{etq.lbl_numero_volqueta}: " 
+                                                                               style="font-family: Audiowide; font-size: medium"/>
+                                                                <p:spinner value="#{frmSpmpControlador.cargaTransportada.cargaTrViaje}" size="29" min="0"/>
+                                                                <h:outputLabel value="#{etq.lbl_comprobante}: " 
+                                                                               style="font-family: Audiowide; font-size: medium"/>
+                                                                <p:inputNumber id="iptComprobante" value="#{frmSpmpControlador.cargaTransportada.cargaTrComprobante}" decimalPlaces="0"/>
+                                                                <p:watermark for="iptComprobante" value="000000"/>
+                                                                <h:outputLabel value="" />
+                                                                <h:outputLabel value="#{etq.lbl_observacion}: *" 
+                                                                               style="font-family: Audiowide; font-size: medium"/>
+                                                                <p:inputTextarea id="inputTObsId" rows="6" cols="30" 
+                                                                                 value="#{frmSpmpControlador.cargaTransportada.cargaTrObservacion}" 
+                                                                                 required="true" requiredMessage="Se debe ingresar la observación."
+                                                                                 disabled="#{frmSpmpControlador.disableVolq}"/>                                                                                        
+                                                        </h:panelGrid>
+                                                        </div>
+                                                    </center>
                                                 </p:panel>
                                             </h:panelGrid>
-                                            <p:spacer height="20"/>
-                                            <h:panelGrid id="pnlGBtnVal" columns="2">
-                                                <p:commandButton id="btnIngresoVolq" 
-                                                                 value="Ingresar" 
-                                                                 disabled="#{frmSpmpControlador.ingreso}" 
-                                                                 action="#{frmSpmpControlador.guardarVolq()}" 
-                                                                 onclick="this.onclick = function () {
-                                                                 alert('El ingreso ya se esta realizando!!!');
-                                                                 return false;
-                                                             }"
-                                                                 oncomplete="this.onclick=function(){return true;}"
-                                                                 process="pnlGVolq" 
-                                                                 update="pnlGVolq msgGrowl"
-                                                                 global="false"
-                                                                 async="true"
-                                                                 ajax="false"/>
-                                                <p:commandButton id="btnActualizarVolq" 
-                                                                 value="Actualizar" 
-                                                                 disabled="#{frmSpmpControlador.actualiza}"
-                                                                 action="#{frmSpmpControlador.actualizarPnlEditar()}" 
-                                                                 process="pnlGVolq" 
-                                                                 update="pnlGVolq msgGrowl"
-                                                                 global="false"
-                                                                 async="true"
-                                                                 ajax="false"/>
+                                            <br></br>
+                                            <h:panelGrid id="pnlGBtnVal">
+                                                <div align="center">
+                                                    <p:commandLink id="linkIngresoVolq" disabled="#{frmSpmpControlador.ingreso}" 
+                                                                   action="#{frmSpmpControlador.guardarVolq()}" 
+                                                                   onclick="this.onclick = function () {
+                                                                     alert('El ingreso ya se esta realizando!!!');
+                                                                     return false;
+                                                                 }"
+                                                                   oncomplete="this.onclick=function(){return true;}"
+                                                                   process="pnlGVolq" 
+                                                                   update="pnlGVolq msgGrowl"
+                                                                   global="false"
+                                                                   async="true"
+                                                                   ajax="false">
+                                                        <p:graphicImage value="/imagenes/ingresar.png"/>
+                                                    </p:commandLink>
+                                                    <p:spacer width="50" height="20"/>
+                                                    <p:commandLink id="linkActualizarVolq" disabled="#{frmSpmpControlador.actualiza}" 
+                                                                   action="#{frmSpmpControlador.actualizarPnlEditar()}" 
+                                                                   process="pnlGVolq" 
+                                                                   update="pnlGVolq msgGrowl"
+                                                                   global="false"
+                                                                   async="true"
+                                                                   ajax="false">
+                                                        <p:graphicImage value="/imagenes/modificar.png"/>
+                                                    </p:commandLink>
+                                                    <br></br>
+                                                    <h:outputLabel value="Ingresar" style="font: bold 12px Arial"/>
+                                                    <p:spacer width="50" height="20"/>
+                                                    <h:outputLabel value="Actualizar" style="font: bold 12px Arial"/>
+                                                </div>    
                                             </h:panelGrid>
                                             <p:spacer height="20"/>
                                         </p:panel>
