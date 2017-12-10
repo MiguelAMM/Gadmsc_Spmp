@@ -54,17 +54,27 @@
                                             <h:panelGrid id="pnlGVolq">
                                                 <p:panel>
                                                     <center>
-                                                        <h:panelGrid id="pnlGIngresaVolq" columns="2">
-                                                            <p:outputLabel value="#{etq.lbl_combustible}: "/>
-                                                            <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaCombustible}" disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0"/>
-                                                            <p:outputLabel value="#{etq.lbl_kilometraje}: "/>
-                                                            <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaKm}" disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0" />
-                                                            <p:outputLabel value="#{etq.lbl_h_entrada}: "/>
-                                                            <p:calendar id="calendarHoraE" value="#{frmSpmpControlador.volquetaFecha.volqHoraE}" disabled="#{frmSpmpControlador.disableIngresoVolq}"
-                                                                        pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" requiredMessage="Ingrese la hora de entrada."/>
-                                                            <p:outputLabel value="#{etq.lbl_h_salida}: "/>
-                                                            <p:calendar id="calendarHoraS" value="#{frmSpmpControlador.volquetaFecha.volqHoraS}" disabled="#{frmSpmpControlador.disableIngresoVolq}"
-                                                                        pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" requiredMessage="Ingrese la hora de entrada."/>
+                                                        <h:panelGrid id="pnlGIngresaVolq" columns="2" style="text-align: right">
+                                                            <p:outputLabel value="#{etq.lbl_combustible} : "
+                                                                           style="font-family: Audiowide; font-size: medium"/>
+                                                            <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaCombustible}" 
+                                                                           disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0"/>
+                                                            <p:outputLabel value="#{etq.lbl_kilometraje} : "
+                                                                           style="font-family: Audiowide; font-size: medium"/>
+                                                            <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaKm}" 
+                                                                           disabled="#{frmSpmpControlador.disableIngresoVolq}" decimalPlaces="0" />
+                                                            <p:outputLabel value="#{etq.lbl_h_entrada} : "
+                                                                           style="font-family: Audiowide; font-size: medium"/>
+                                                            <p:calendar id="calendarHoraE" value="#{frmSpmpControlador.volquetaFecha.volqHoraE}" 
+                                                                        disabled="#{frmSpmpControlador.disableIngresoVolq}"
+                                                                        pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" 
+                                                                        requiredMessage="Ingrese la hora de entrada."/>
+                                                            <p:outputLabel value="#{etq.lbl_h_salida} : "
+                                                                           style="font-family: Audiowide; font-size: medium"/>
+                                                            <p:calendar id="calendarHoraS" value="#{frmSpmpControlador.volquetaFecha.volqHoraS}" 
+                                                                        disabled="#{frmSpmpControlador.disableIngresoVolq}"
+                                                                        pattern="HH:mm" timeOnly="true" title="#{etq.lbl_h_entrada}" required="true" 
+                                                                        requiredMessage="Ingrese la hora de entrada."/>
                                                         </h:panelGrid>
                                                     </center>                                        
                                                     <p:spacer height="20"/>
