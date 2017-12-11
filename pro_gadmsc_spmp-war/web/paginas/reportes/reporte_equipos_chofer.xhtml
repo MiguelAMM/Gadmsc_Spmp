@@ -115,7 +115,8 @@
                                             <h:outputLabel value="#{etq.lbl_descarga_excel}" style="font: bold 12px Arial"/>                            
                                             <h:commandLink>  
                                                 <p:graphicImage value="/imagenes/Excel.png" width="32"/>  
-                                                <p:dataExporter type="xls" target="tableEq" fileName="equipos_#{reporteControlador.horaActual}" />
+                                                <p:dataExporter type="xls" target="tableEq" fileName="equipos_#{reporteControlador.horaActual}" 
+                                                                postProcessor="#{reporteControlador.postProcessXLSVolqueta}"/>
                                             </h:commandLink>
                                         </h:panelGrid>
                                     </p:tab>
