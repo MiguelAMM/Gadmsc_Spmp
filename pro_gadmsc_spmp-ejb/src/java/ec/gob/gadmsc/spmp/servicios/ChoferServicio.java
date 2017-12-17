@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author MiguelAngel
+ * @author Josue
  */
 @Local
 public interface ChoferServicio {

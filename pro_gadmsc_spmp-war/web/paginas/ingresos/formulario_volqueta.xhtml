@@ -47,8 +47,7 @@
                                             <p:outputLabel value="#{navegacionControlador.loginUsuario.u.usuCodigo}"
                                                            style="font-family: Audiowide; font-size: medium"/>
                                         </h:panelGrid>
-                                        
-                                        
+
                                         <p:panel id="pnlIngresoVolq">    
                                             <p:spacer height="20"/>
                                             <h:panelGrid id="pnlGVolq">
@@ -56,7 +55,7 @@
                                                     <center>
                                                         <div align="center">
                                                             <h:panelGrid id="pnlGIngresaVolq" columns="5" style="text-align: right">
-                                                                
+
                                                                 <p:outputLabel value="#{etq.lbl_combustible} : "
                                                                                style="font-family: Audiowide; font-size: medium"/>
                                                                 <p:inputNumber value="#{frmSpmpControlador.volquetaFecha.volqFechaCombustible}" 
@@ -107,16 +106,16 @@
                                                                 <p:spinner value="#{frmSpmpControlador.cargaTransportada.cargaTrViaje}" size="29" min="0"/>
                                                                 <h:outputLabel value="#{etq.lbl_comprobante}: " 
                                                                                style="font-family: Audiowide; font-size: medium"/>
-                                                                <p:inputNumber id="iptComprobante" value="#{frmSpmpControlador.cargaTransportada.cargaTrComprobante}" decimalPlaces="0"/>
+                                                                <p:inputText id="iptComprobante" value="#{frmSpmpControlador.cargaTransportada.cargaTrComprobante}"/>
                                                                 <p:watermark for="iptComprobante" value="000000"/>
                                                                 <h:outputLabel value="" />
-                                                                <h:outputLabel value="#{etq.lbl_observacion}: *" 
+                                                                <h:outputLabel value="#{etq.lbl_observacion}: *"
                                                                                style="font-family: Audiowide; font-size: medium"/>
                                                                 <p:inputTextarea id="inputTObsId" rows="6" cols="30" 
                                                                                  value="#{frmSpmpControlador.cargaTransportada.cargaTrObservacion}" 
                                                                                  required="true" requiredMessage="Se debe ingresar la observación."
-                                                                                 disabled="#{frmSpmpControlador.disableVolq}"/>                                                                                        
-                                                        </h:panelGrid>
+                                                                                 disabled="#{frmSpmpControlador.disableVolq}"/>
+                                                            </h:panelGrid>
                                                         </div>
                                                     </center>
                                                 </p:panel>
@@ -127,9 +126,9 @@
                                                     <p:commandLink id="linkIngresoVolq" disabled="#{frmSpmpControlador.ingreso}" 
                                                                    action="#{frmSpmpControlador.guardarVolq()}" 
                                                                    onclick="this.onclick = function () {
-                                                                     alert('El ingreso ya se esta realizando!!!');
-                                                                     return false;
-                                                                 }"
+                                                                               alert('El ingreso ya se esta realizando!!!');
+                                                                               return false;
+                                                                           }"
                                                                    oncomplete="this.onclick=function(){return true;}"
                                                                    process="pnlGVolq" 
                                                                    update="pnlGVolq msgGrowl"
@@ -168,14 +167,14 @@
                                                         <p:outputLabel value="#{frmSpmpControlador.volquetaFechaEditar.volqFechaCombustible}"
                                                                        style="font:  bold 14px Arial"/>
                                                         <p:spacer width="20" height="20"/>
-                                                        
+
                                                         <p:graphicImage  id="g2" value="/imagenes/combustible1.png"/> <font></font> 
                                                         <p:outputLabel value="#{etq.lbl_kilometraje}: "
                                                                        style="font:  bold 14px Arial"/>
                                                         <p:outputLabel value="#{frmSpmpControlador.volquetaFechaEditar.volqFechaKm}"
                                                                        style="font:  bold 14px Arial"/>
                                                         <p:spacer width="20" height="20"/>
-                                                        
+
                                                         <p:graphicImage  id="g3" value="/imagenes/despertador.png"/> <font></font> 
                                                         <p:outputLabel value="#{etq.lbl_h_entrada}: "
                                                                        style="font:  bold 14px Arial"/>
@@ -198,13 +197,9 @@
                                                             <p:graphicImage value="/imagenes/actualizar.png" width="40"/>
                                                             <f:param name="edita" value="v" />
                                                         </p:commandLink>
-                                                        <br></br>
-                                                        <p:spacer width="500" height="20"/>
-                                                        <p:spacer width="320" height="20"/>
-                                                        <h:outputLabel value="Editar" style="font: bold 12px Arial"/> 
                                                     </p:panel>
                                                 </h:panelGrid>
-                                                
+
                                                 <h:panelGrid id="pnlGVolqIngresadas" columns="2">
 
                                                     <p:dataTable id="lstDataTableViajes"
@@ -241,28 +236,28 @@
                                                                 <h:outputText value="#{vj.observacion}" />
                                                             </p:column>                                                
                                                             <p:column  width="40" styleClass="centeredColumn">  
-                                                                
+
                                                                 <p:commandLink id="linkEliminarP" process=":frmIngresoVolqueta:lstDataTableViajes" 
                                                                                action="#{frmSpmpControlador.eliminarCargaLista(vj)}"                                                                 
                                                                                update=":frmIngresoVolqueta:lstDataTableViajes :frmIngresoVolqueta:msgGrowl">
                                                                     <p:graphicImage value="/imagenes/basura.png" width="20" title="Eliminar"/>
                                                                     <p:confirm header="Atención" message="Está seguro de eliminar este viaje?" icon="ui-icon-alert" />
                                                                 </p:commandLink>
-                                                                
-                                                                
+
+
                                                                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                                                     <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                                                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                                                                 </p:confirmDialog>
                                                             </p:column> 
-                                                            
+
                                                             <p:column  width="40" styleClass="centeredColumn">  
-                                                                
+
                                                                 <p:commandLink id="linkEditarCargaId" process=":frmIngresoVolqueta:lstDataTableViajes" 
                                                                                update=":frmIngresoVolqueta:pnlGIngresaCarga :frmIngresoVolqueta:pnlGBtnVal" 
                                                                                action="#{frmSpmpControlador.recuperarCargaLista(vj)}"
                                                                                actionListener="#{frmSpmpControlador.parametro()}">
-                                                                    
+
                                                                     <p:graphicImage value="/imagenes/actualizar.png" width="20" title="Editar"/>
                                                                     <f:param name="edita" value="c" />
                                                                 </p:commandLink>

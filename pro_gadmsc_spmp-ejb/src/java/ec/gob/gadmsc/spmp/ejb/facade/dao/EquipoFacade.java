@@ -5,17 +5,16 @@
  */
 package ec.gob.gadmsc.spmp.ejb.facade.dao;
 
+import ec.gob.gadmsc.spmp.ejb.facade.dao.AbstractFacade;
 import ec.gob.gadmsc.spmp.ejb.entidades.Equipo;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import ec.gob.gadmsc.spmp.servicios.EquipoServicio;
-import java.util.List;
-import javax.persistence.Query;
 
 /**
  *
- * @author MiguelAngel
+ * @author Josue
  */
 @Stateless
 public class EquipoFacade extends AbstractFacade<Equipo> implements EquipoServicio {
@@ -31,14 +30,5 @@ public class EquipoFacade extends AbstractFacade<Equipo> implements EquipoServic
     public EquipoFacade() {
         super(Equipo.class);
     }
-
-    @Override
-    public List<Equipo> findAll() {
-        StringBuilder consulta = new StringBuilder();
-        consulta.append("SELECT e FROM Equipo e ORDER BY eqCodigo");
-        Query query = em.createQuery(consulta.toString());
-        List<Equipo> listaEquipos = query.getResultList();
-        return listaEquipos;
-    }
-
+    
 }

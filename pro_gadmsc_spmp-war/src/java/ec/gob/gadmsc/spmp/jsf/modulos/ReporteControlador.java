@@ -229,7 +229,7 @@ public class ReporteControlador {
 
         fuente.setFontHeightInPoints((short) 11);
         cellStyle.setFont(fuente);
-rows = sheet.getLastRowNum();
+        rows = sheet.getLastRowNum();
         hssfRowNew = sheet.createRow(rows + 1);
         cellNew = hssfRowNew.createCell(0);
         cellNew.setCellType(HSSFCell.CELL_TYPE_STRING);
@@ -1148,10 +1148,16 @@ rows = sheet.getLastRowNum();
     }
 
     public void actualizarVolqueta() {
+        String nombreChofer = chofer.getChoferNombre() + " " + chofer.getChoferApellido();
+        Chofer choferAux = chofer;
         if (idChoferVolq != 0) {
             chofer = choferServicio.find(idChoferVolq);
             volquetaSeleccionada.setFkChoferCodigo(chofer);
             usuarioServicio.edit(volquetaSeleccionada);
+            if (!nombreChofer.equals(chofer.getChoferNombre() + " " + chofer.getChoferApellido())) {
+                choferAux.setChoferAsignado("NO");
+            }
+            choferServicio.edit(choferAux);
             chofer.setChoferAsignado("SI");
             choferServicio.edit(chofer);
             baseControlador.addSuccessMessage("Actualización exitosa");
@@ -1183,10 +1189,16 @@ rows = sheet.getLastRowNum();
     }
 
     public void actualizarEquipo() {
+        String nombreChofer = chofer.getChoferNombre() + " " + chofer.getChoferApellido();
+        Chofer choferAux = chofer;
         if (idChoferEq != 0) {
             chofer = choferServicio.find(idChoferEq);
             equipoSeleccionado.setFkChoferCodigo(chofer);
             equipoServicio.edit(equipoSeleccionado);
+            if (!nombreChofer.equals(chofer.getChoferNombre() + " " + chofer.getChoferApellido())) {
+                choferAux.setChoferAsignado("NO");
+            }
+            choferServicio.edit(choferAux);
             chofer.setChoferAsignado("SI");
             choferServicio.edit(chofer);
             baseControlador.addSuccessMessage("Actualización exitosa");

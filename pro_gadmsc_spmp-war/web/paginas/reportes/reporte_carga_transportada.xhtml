@@ -42,7 +42,7 @@
                                 <p:commandLink id="linkBuscarCargaT" 
                                                process=":pnlCargaT:cbmDesde, :pnlCargaT:cbmHasta :pnlCargaT:radioCargaT"
                                                action="#{reporteControlador.obtenerCargaTransportada()}"
-                                               update="tableCargaT tableEquipo" global="false" async="true" ajax="false">
+                                               update="tableCargaT tableEquipo" global="true" async="true" ajax="false">
                                     <p:graphicImage value="/imagenes/carpeta.png"/>
                                 </p:commandLink>
                                 <br></br>
@@ -81,7 +81,7 @@
                                          scrollHeight="450" 
                                          scrollWidth="98%"    
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
-                                                            {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          rowsPerPageTemplate="15,20,25"                                                                          
                                          styleClass="estiloListaCalibriPeq"
                                          widgetVar="tablaCarga"
@@ -111,10 +111,12 @@
                                           filterFunction="#{reporteControlador.filtrarMayores}">
                                     <h:outputText value="#{carga[4]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_comprobante}" width="80">
+                                <p:column headerText="#{etq.lbl_comprobante}" filterMatchMode="contains" width="80"
+                                          filterBy="#{carga[5]}">
                                     <h:outputText value="#{carga[5]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_observacion}" width="80">
+                                <p:column headerText="#{etq.lbl_observacion}" filterMatchMode="contains" width="80"
+                                          filterBy="#{carga[6]}">
                                     <h:outputText value="#{carga[6]}" />
                                 </p:column>
                                 <p:column headerText="#{etq.lbl_fecha}" width="80" filterBy="#{carga[7]}"  
@@ -141,7 +143,7 @@
                             </h:panelGrid>   
                         </p:panel>
                     </center>
-                    
+
                     <!-- Panel para buscar por equipo caminero y quien es el chofer de la misma -->
                     <center>
                         <p:panel rendered="#{reporteControlador.maquinaria == 'Equipo Caminero'}">
@@ -164,7 +166,7 @@
                                     </p:commandLink>
                                 </h:panelGrid>
                             </div>
-                            
+
                             <!-- Muestra la tabla de resultados en la consulta requerida a la BD para los equipos camineros -->
                             <p:dataTable id="tableEquipo" value="#{reporteControlador.listaEquipoFecha}" var="varEquipo" 
                                          paginator="true" 
