@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Josue
+ * @author MiguelAngel
  */
 @Local
 public interface EquipoServicio {

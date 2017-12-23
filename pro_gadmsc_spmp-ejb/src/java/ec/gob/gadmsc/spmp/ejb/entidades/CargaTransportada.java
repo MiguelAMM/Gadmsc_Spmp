@@ -48,12 +48,12 @@ public class CargaTransportada implements Serializable {
     private int cargaTrViaje;
     @Basic(optional = false)
     @NotNull
-//    @Size(min = 1, max = 500)
+    @Size(max = 500)
     @Column(name = "carga_tr_observacion")
     private String cargaTrObservacion;
     @Basic(optional = false)
-    //@NotNull
-    //@Size(min = 1, max = 50)
+//    @NotNull
+    @Size(max = 50)
     @Column(name = "carga_tr_comprobante")
     private String cargaTrComprobante;
     @JoinColumn(name = "fk_mat_codigo", referencedColumnName = "mat_codigo")

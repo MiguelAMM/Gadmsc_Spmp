@@ -16,7 +16,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Josue
+ * @author MiguelAngel
  */
 @Stateless
 public class FechaTransporteFacade extends AbstractFacade<FechaTransporte> implements FechaTransporteServicio {

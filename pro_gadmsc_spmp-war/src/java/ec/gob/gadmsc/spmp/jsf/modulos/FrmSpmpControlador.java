@@ -22,7 +22,6 @@ import ec.gob.gadmsc.spmp.servicios.MaterialServicio;
 import ec.gob.gadmsc.spmp.tools.ManejoFechas;
 import ec.gob.gadmsc.spmp.tools.Materiales;
 import ec.gob.gadmsc.spmp.tools.Viajes;
-import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,9 +34,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.context.RequestContext;
 
 /**

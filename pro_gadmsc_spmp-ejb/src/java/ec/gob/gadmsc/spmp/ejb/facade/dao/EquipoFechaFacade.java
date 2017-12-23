@@ -16,7 +16,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Josue
+ * @author MiguelAngel
  */
 @Stateless
 public class EquipoFechaFacade extends AbstractFacade<EquipoFecha> implements EquipoFechaServicio {

@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Josue
+ * @author MiguelAngel
  */
 @Entity
 @Table(name = "equipo_fecha")
@@ -39,7 +39,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "EquipoFecha.findByEqFechaHoraE", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaHoraE = :eqFechaHoraE")
     , @NamedQuery(name = "EquipoFecha.findByEqFechaHoraS", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaHoraS = :eqFechaHoraS")
     , @NamedQuery(name = "EquipoFecha.findByEqFechaKmEntrada", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaKmEntrada = :eqFechaKmEntrada")
-    , @NamedQuery(name = "EquipoFecha.findByEqFechaKmSalida", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaKmSalida = :eqFechaKmSalida")})
+    , @NamedQuery(name = "EquipoFecha.findByEqFechaKmSalida", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaKmSalida = :eqFechaKmSalida")
+    , @NamedQuery(name = "EquipoFecha.findByEqFechaActividad", query = "SELECT e FROM EquipoFecha e WHERE e.eqFechaActividad = :eqFechaActividad")})
 public class EquipoFecha implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,9 +53,7 @@ public class EquipoFecha implements Serializable {
     @NotNull
     @Column(name = "eq_fecha_combustible")
     private int eqFechaCombustible;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "eq_fecha_observacion")
     private String eqFechaObservacion;
     @Basic(optional = false)
@@ -75,6 +74,9 @@ public class EquipoFecha implements Serializable {
     @NotNull
     @Column(name = "eq_fecha_km_salida")
     private int eqFechaKmSalida;
+    @Size(max = 200)
+    @Column(name = "eq_fecha_actividad")
+    private String eqFechaActividad;
     @JoinColumn(name = "fk_eq_codigo", referencedColumnName = "eq_codigo")
     @ManyToOne(optional = false)
     private Equipo fkEqCodigo;
@@ -89,10 +91,12 @@ public class EquipoFecha implements Serializable {
         this.eqFechaCodigo = eqFechaCodigo;
     }
 
-    public EquipoFecha(Integer eqFechaCodigo, int eqFechaCombustible, String eqFechaObservacion, Date eqFechaHoraE, Date eqFechaHoraS, int eqFechaKmEntrada, int eqFechaKmSalida) {
+    public EquipoFecha(Integer eqFechaCodigo, int eqFechaCombustible, Date eqFechaHoraE, Date eqFechaHoraS,
+            String observacion, String actividad, int eqFechaKmEntrada, int eqFechaKmSalida) {
         this.eqFechaCodigo = eqFechaCodigo;
         this.eqFechaCombustible = eqFechaCombustible;
-        this.eqFechaObservacion = eqFechaObservacion;
+        this.eqFechaObservacion = observacion;
+        this.eqFechaActividad = actividad;
         this.eqFechaHoraE = eqFechaHoraE;
         this.eqFechaHoraS = eqFechaHoraS;
         this.eqFechaKmEntrada = eqFechaKmEntrada;
@@ -155,6 +159,14 @@ public class EquipoFecha implements Serializable {
         this.eqFechaKmSalida = eqFechaKmSalida;
     }
 
+    public String getEqFechaActividad() {
+        return eqFechaActividad;
+    }
+
+    public void setEqFechaActividad(String eqFechaActividad) {
+        this.eqFechaActividad = eqFechaActividad;
+    }
+
     public Equipo getFkEqCodigo() {
         return fkEqCodigo;
     }
@@ -195,5 +207,5 @@ public class EquipoFecha implements Serializable {
     public String toString() {
         return "ec.gob.gadmsc.spmp.ejb.entidades.EquipoFecha[ eqFechaCodigo=" + eqFechaCodigo + " ]";
     }
-    
+
 }

@@ -15,7 +15,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Josue
+ * @author MiguelAngel
  */
 @Stateless
 public class ChoferFacade extends AbstractFacade<Chofer> implements ChoferServicio {

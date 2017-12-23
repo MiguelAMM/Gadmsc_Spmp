@@ -30,13 +30,23 @@
                                                    style="font-family: Audiowide; font-size: medium"/>
                                     <p:calendar id="calendarHoraS" value="#{frmSpmpControlador.equipoFecha.eqFechaHoraS}" 
                                                 pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Ingrese la hora de salida."/>
+                                    <p:outputLabel value="HOROMETRO ENTRADA : "
+                                                   style="font-family: Audiowide; font-size: medium"/>
+                                    <p:inputText value="#{frmSpmpControlador.equipoFecha.eqFechaKmEntrada}" onkeypress="return validarEnteros(event)"/>
+                                    <p:outputLabel value="HOROMETRO SALIDA : "
+                                                   style="font-family: Audiowide; font-size: medium"/>
+                                    <p:inputText value="#{frmSpmpControlador.equipoFecha.eqFechaKmSalida}" onkeypress="return validarEnteros(event)"/>
                                     <p:outputLabel value="#{etq.lbl_equipo_combustible} : "
                                                    style="font-family: Audiowide; font-size: medium"/>
                                     <p:inputText value="#{frmSpmpControlador.equipoFecha.eqFechaCombustible}" onkeypress="return validarEnteros(event)"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="4" style="text-align: right">
                                     <p:outputLabel value="#{etq.lbl_equipo_observacion} : "
                                                    style="font-family: Audiowide; font-size: medium"/>
-                                    <p:inputTextarea rows="6" cols="33" value="#{frmSpmpControlador.equipoFecha.eqFechaObservacion}" 
-                                                     required="true" requiredMessage="Se debe ingresar la observación."/>
+                                    <p:inputTextarea rows="6" cols="33" value="#{frmSpmpControlador.equipoFecha.eqFechaObservacion}"/>
+                                    <p:outputLabel value="ACTIVIDAD REALIZADA : "
+                                                   style="font-family: Audiowide; font-size: medium"/>
+                                    <p:inputTextarea rows="6" cols="33" value="#{frmSpmpControlador.equipoFecha.eqFechaActividad}"/>
                                 </h:panelGrid>
                                 <br></br>
                                 <div align="center">
@@ -71,14 +81,23 @@
                                     <p:column headerText="#{etq.lbl_equipo_combustible}" width="20">
                                         <h:outputText value="#{varEquipos.eqFechaCombustible}"/>
                                     </p:column>
+                                    <p:column headerText="HOROMETRO ENTRADA" width="20">
+                                        <h:outputText value="#{varEquipos.eqFechaKmEntrada}"/>
+                                    </p:column>
+                                    <p:column headerText="HOROMETRO SALIDA" width="20">
+                                        <h:outputText value="#{varEquipos.eqFechaKmSalida}"/>
+                                    </p:column>
                                     <p:column headerText="#{etq.lbl_observacion}" width="20">
                                         <h:outputText value="#{varEquipos.eqFechaObservacion}"/>
+                                    </p:column>
+                                    <p:column headerText="ACTIVIDAD REALIZADA" width="20">
+                                        <h:outputText value="#{varEquipos.eqFechaActividad}"/>
                                     </p:column>
                                     <p:column style="width:30px;text-align: center">
                                         <f:facet name="header">
                                             <h:outputText value="#{etq.lbl_opciones}"/>
                                         </f:facet>
-                                        
+
                                         <p:commandLink id="linkSeleccionEq" process="@this" update="@form" 
                                                        action="#{frmSpmpControlador.seleccionar()}">
                                             <p:graphicImage value="/imagenes/actualizar.png" width="20" title="Actualizar"/>
@@ -96,7 +115,7 @@
                     </p:panel>                       
                 </p:outputPanel>
             </h:form>
-            
+
             <p:dialog id="dlgEliminaEq" widgetVar="dialogo" header="ELIMINAR" modal="true"
                       style="font-family: Audiowide; font-size: medium; background: #EFEFFB">
                 <div align="center">
@@ -110,7 +129,7 @@
                     </h:form>
                 </div>   
             </p:dialog>
-            
+
         </ui:define>    
     </ui:composition>
 </html>

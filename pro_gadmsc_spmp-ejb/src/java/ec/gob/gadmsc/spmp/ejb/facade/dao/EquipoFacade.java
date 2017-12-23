@@ -5,7 +5,6 @@
  */
 package ec.gob.gadmsc.spmp.ejb.facade.dao;
 
-import ec.gob.gadmsc.spmp.ejb.facade.dao.AbstractFacade;
 import ec.gob.gadmsc.spmp.ejb.entidades.Equipo;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,7 +13,7 @@ import ec.gob.gadmsc.spmp.servicios.EquipoServicio;
 
 /**
  *
- * @author Josue
+ * @author MiguelAngel
  */
 @Stateless
 public class EquipoFacade extends AbstractFacade<Equipo> implements EquipoServicio {
@@ -30,5 +29,5 @@ public class EquipoFacade extends AbstractFacade<Equipo> implements EquipoServic
     public EquipoFacade() {
         super(Equipo.class);
     }
-    
+
 }
