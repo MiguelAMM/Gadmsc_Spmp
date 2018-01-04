@@ -185,11 +185,23 @@
                                           width="40" filterFunction="#{reporteControlador.filtrarMayores}">
                                     <h:outputText value="#{varEquipo[1]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_equipo_observacion}" filterStyle="width: 80px;" filterBy="#{varEquipo[2]}"  
-                                          filterMatchMode="exact" width="40"  >
+                                <p:column headerText="#{etq.lbl_equipo_horometro_entrada}" filterStyle="width: 80px;" filterBy="#{varEquipo[2]}" 
+                                          width="40" filterFunction="#{reporteControlador.filtrarMayores}">
                                     <h:outputText value="#{varEquipo[2]}" />
                                 </p:column>
-                                <p:column headerText="#{etq.lbl_fecha}" filterBy="#{varEquipo[3]}" filterMatchMode="contains" width="40">
+                                <p:column headerText="#{etq.lbl_equipo_horometro_salida}" filterStyle="width: 80px;" filterBy="#{varEquipo[3]}" 
+                                          width="40" filterFunction="#{reporteControlador.filtrarMayores}">
+                                    <h:outputText value="#{varEquipo[3]}" />
+                                </p:column>
+                                <p:column headerText="#{etq.lbl_equipo_observacion}" filterStyle="width: 80px;" filterBy="#{varEquipo[4]}"  
+                                          filterMatchMode="contains" width="40"  >
+                                    <h:outputText value="#{varEquipo[4]}" />
+                                </p:column>
+                                <p:column headerText="#{etq.lbl_equipo_actividad}" filterStyle="width: 80px;" filterBy="#{varEquipo[5]}"  
+                                          filterMatchMode="contains" width="40"  >
+                                    <h:outputText value="#{varEquipo[5]}" />
+                                </p:column>
+                                <p:column headerText="#{etq.lbl_fecha}" filterBy="#{varEquipo[6]}" filterMatchMode="contains" width="40">
                                     <f:facet name="filter">
                                         <f:facet name="filter">
                                             <p:selectOneMenu onchange="PF('tablaEquipo').filter()">
@@ -198,7 +210,7 @@
                                             </p:selectOneMenu>
                                         </f:facet>
                                     </f:facet>
-                                    <h:outputText value="#{varEquipo[3]}" />
+                                    <h:outputText value="#{varEquipo[6]}" />
                                 </p:column>
                             </p:dataTable>
                             <p:spacer width="80" height="20"/>
